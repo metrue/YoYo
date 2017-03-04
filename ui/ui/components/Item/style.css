@@ -1,0 +1,62 @@
+.itemContainer {
+  background-color: transparent;
+  color: white;
+  width: 590px;
+  margin: auto;
+}
+
+.itemContainer h1 {
+  font-size: 16px;
+  text-align: center;
+  background-color: #82655c;
+  border-radius: 2px;
+  padding: 20px;
+  color: white;
+}
+
+.sectionContainer {
+  font-size: 12px;
+  background-color: #82655c;
+  border-radius: 2px;
+  color: white;
+  padding: 10px 20px 10px 20px;
+  margin-top: 20px;
+}
+
+.sectionContainer h2 {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+@media only screen and (max-width: 480px), only screen and (max-device-width: 480px) {
+  .itemContainer {
+    background-color: transparent;
+    color: white;
+    max-width: 300px;
+    margin: auto;
+  }
+
+  .itemContainer h1 {
+    font-size: 16px;
+    text-align: center;
+    background-color: #82655c;
+    border-radius: 2px;
+    padding: 20px;
+    color: white;
+  }
+
+  .sectionContainer {
+    font-size: 12px;
+    background-color: #82655c;
+    color: white;
+    border-radius: 2px;
+    padding: 10px 20px 10px 20px;
+    margin-top: 20px;
+    max-width: 320px;
+  }
+
+  .sectionContainer h2 {
+    font-size: 14px;
+    font-weight: 700;
+  }
+}

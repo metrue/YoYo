@@ -1,0 +1,27 @@
+.entriesContainer {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  /* TODO why it's be 9px */
+  /* margin-left: 9px; */
+}
+
+.entryContainer {
+  padding-top: 10px;
+  color: white;
+  padding-left: 45px;
+  padding-right: 10px;
+  background-color: #82655C;
+  margin-top: 10px;
+}
+
+.locationContainer {
+  text-align: right;
+  font-size: 0.6em;
+  color: lightgray;
+}
+
+.entriesContainer a {
+  color: white;
+  text-decoration: none;
+}

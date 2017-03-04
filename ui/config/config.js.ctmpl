@@ -1,0 +1,1 @@
+export const API_HOST = 'https://workflow-server.{{key "config/env"}}.2nd.io';

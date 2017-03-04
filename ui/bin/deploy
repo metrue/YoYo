@@ -1,0 +1,6 @@
+#!/bin/sh
+
+cd /opt/app
+npm run build
+rm -rf /var/www/html/*
+cp -R ./public/* /var/www/html
