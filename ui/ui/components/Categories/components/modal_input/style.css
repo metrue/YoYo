@@ -1,0 +1,62 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.75);
+  box-shadow: none;
+  overflow:hidden;
+}
+
+.modalContent {
+  position: absolute;
+  top: 20%;
+  left: 20%;
+  right: auto;
+  bottom: auto;
+  background: #fff;
+  overflow:hidden;
+  width: 40%;
+  height: 40%;
+  border: 1px solid lightgrey;
+  box-shadow: none;
+  box-sizing: content-box;
+}
+
+.modalTitle {
+  text-align: center;
+  border: none;
+  border-bottom: dotted;
+  border-width: 1px;
+  border-color: grey;
+}
+
+.modalBody {
+  text-align: center;
+  height: 50%;
+}
+
+:global(.node rect) {
+  stroke: #666;
+  fill: #fff;
+  stroke-width: 1px;
+}
+
+:global(.node circle) {
+  stroke: #666;
+  fill: #fff;
+  stroke-width: 1px;
+}
+
+:global(.node ellipse) {
+  stroke: #666;
+  fill: #fff;
+  stroke-width: 1px;
+}
+
+:global(.edgePath path) {
+  stroke: #666;
+  fill: #fff;
+  stroke-width: 1px;
+}
