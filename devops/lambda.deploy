@@ -7,4 +7,4 @@ zip -r addOneComment .
 
 aws lambda create-function --function-name addOneComment --runtime nodejs4.3 --role arn:aws:iam::309968169905:role/service-role/basic-exec --handler index.handler --zip-file fileb://addOneComment.zip
 
-# cd .. && rm -rf ./tmp
+cd .. && rm -rf ./tmp
