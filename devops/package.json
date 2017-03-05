@@ -1,0 +1,14 @@
+{
+  "name": "devops",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Shiwen Luo <shiwen.l.ating@gmail.com> (https://github.com/pplam)",
+  "license": "MIT",
+  "dependencies": {
+    "request": "^2.80.0"
+  }
+}

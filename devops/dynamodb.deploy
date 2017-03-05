@@ -1,0 +1,9 @@
+#!/usr/bin/env node
+
+require('../lib/model').vogels.createTables(function(err) {
+  if (err) {
+    console.log('Error creating tables: ', err);
+  } else {
+    console.log('Tables has been created');
+  }
+});
