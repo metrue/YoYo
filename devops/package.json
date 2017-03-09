@@ -9,6 +9,6 @@
   "author": "Shiwen Luo <shiwen.l.ating@gmail.com> (https://github.com/pplam)",
   "license": "MIT",
   "dependencies": {
-    "request": "^2.80.0"
+    "aws-api-gateway-client": "^0.1.12"
   }
 }
