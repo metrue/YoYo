@@ -1,2 +1,2 @@
 test:
-	apex deploy && apex invoke echo
+	apex deploy && apex invoke hello
