@@ -1,6 +1,0 @@
-{
-  "name": "jquery_lib",
-  "content": {
-    "./node_modules/jquery/dist/jquery.js": 1
-  }
-}
