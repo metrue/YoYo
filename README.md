@@ -11,8 +11,8 @@ a comment service built on top of AWS lambda.
 * deploy lambda functions
 
 ```
-  cd server
-  make deploy
+  cd server/functions/create && npm install
+  cd ../../ && make deploy
 ```
 
 * migrate db
