@@ -9,7 +9,28 @@ class App extends React.Component {
 
     this.state = {
       value: '',
+      list: [],
     }
+  }
+
+  componentDidMount() {
+    api.fetch('https://minghe.me')
+      .then((res) => {
+        if (res.status === 200) {
+          const { errorMessage } = res.data
+          if (errorMessage) {
+            console.warn(errorMessage)
+          } else {
+            this.setState({
+              list: res.data && res.data.Items,
+            })
+          }
+        }
+        return new Error(`${res.statusText}`)
+      })
+      .catch((e) => {
+        console.warn(e)
+      })
   }
 
   change(e) {
@@ -43,8 +64,16 @@ class App extends React.Component {
   }
 
   render() {
+    const { list } = this.state
     return (
       <div>
+        <div className="CommentListContainer">
+          <ul>
+            {
+              list.map(c => <li> { c.content.S } - { c.date.S } </li>)
+            }
+          </ul>
+        </div>
         <textarea onChange={ ::this.change } />
         <button onClick={ ::this.submit }> Submit </button>
       </div>
