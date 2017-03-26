@@ -2,10 +2,9 @@ const clientFactory = require('aws-api-gateway-client')
 const config = require('../config.json')
 
 const client = clientFactory.newClient({
-  accessKey: config.accessKey,
-  secretKey: config.secretKey,
   region: config.region,
-  invokeUrl: config.invokeUrl
+  invokeUrl: config.invokeUrl,
+  apiKey: config.apiKey
 })
 
 client

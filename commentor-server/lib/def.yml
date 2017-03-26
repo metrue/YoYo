@@ -18,7 +18,7 @@ Resources:
     Type: AWS::DynamoDB::Table
   Create:
     Properties:
-      CodeUri: s3://luosw-projects/e5776c0758f4d74e32c7963109f72091
+      CodeUri: s3://luosw-projects/a90c14033a6120f51336e4e6b4d89e89
       Environment:
         Variables:
           TABLE_NAME:
@@ -35,7 +35,7 @@ Resources:
     Type: AWS::Serverless::Function
   Get:
     Properties:
-      CodeUri: s3://luosw-projects/e5776c0758f4d74e32c7963109f72091
+      CodeUri: s3://luosw-projects/a90c14033a6120f51336e4e6b4d89e89
       Environment:
         Variables:
           TABLE_NAME:

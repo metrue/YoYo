@@ -1,7 +1,7 @@
 const AWS = require('aws-sdk')
 const uuid = require('uuid/v1')
 
-const dynamodb = new AWS.DynamoDB()
+const dynamodb = new AWS.DynamoDB({region: 'us-east-1'})
 const TableName = process.env.TABLE_NAME
 
 function buildPayload(opt) {
@@ -29,13 +29,16 @@ function buildPayload(opt) {
 }
 
 exports.create = (event, ctx, cb) => {
-  cb(null, event)
-  const payload = buildPayload(event.body)
+  const body = event.body ? JSON.parse(event.body) : {}
+  const payload = buildPayload(body)
   dynamodb.putItem(payload, (err, data) => {
     if (err) {
-      return cb(null, 'put item err: '+ err +'\npayload: ' + JSON.stringify(payload))
+      return ctx.fail({
+        "statusCode": 500,
+        "body": `put item error: ${err}\npayload: ${JSON.stringify(payload, null, 2)}`
+      })
     }
-    cb(err, data)
+    cb(null, {"statusCode": 200, "body": JSON.stringify(data)})
   })
 }
 
@@ -52,12 +55,15 @@ function buildQuery(opt) {
 }
 
 exports.get = (event, ctx, cb) => {
-  cb(null, event)
-  const cond = buildQuery(event.queryStringParameters)
+  const queryParams = event.queryStringParameters || {}
+  const cond = buildQuery(queryParams)
   dynamodb.query(cond, (err, data) => {
     if (err) {
-      return cb(null, 'query error: ' + err +'\ncond: ' + JSON.stringify(cond))
+      return ctx.fail({
+        "statusCode": 500,
+        "body": `query error: ${err}\ncond: ${JSON.stringify(cond, null, 2)}`
+      })
     }
-    cb(err, data)
+    cb(null, {"statusCode": 200, "body": JSON.stringify(data)})
   })
 }

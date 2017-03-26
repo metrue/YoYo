@@ -2,29 +2,16 @@ const clientFactory = require('aws-api-gateway-client')
 const config = require('../config.json')
 
 const client = clientFactory.newClient({
-  accessKey: config.accessKey,
-  secretKey: config.secretKey,
   region: config.region,
-  invokeUrl: config.invokeUrl
+  invokeUrl: config.invokeUrl,
+  apiKey: config.apiKey
 })
 
 client
   .invokeApi(
     {
-      uri: 'https://test-uri.com''
-    },
-    '',
-    'GET',
-    {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      // queryParams: {
-      //   uri: 'https://minghe.me',
-      // }
-    },
-    {}
-  )
+      uri: 'https://test-uri.com'
+    }, '/?uri={uri}', 'GET', {}, {})
   .then((res) => {
     if (res.status === 200) {
       console.log('data got: ', JSON.stringify(res.data, null, 2))
