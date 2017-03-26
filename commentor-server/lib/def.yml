@@ -1,0 +1,53 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  Comments:
+    Properties:
+      AttributeDefinitions:
+      - AttributeName: uri
+        AttributeType: S
+      - AttributeName: date
+        AttributeType: S
+      KeySchema:
+      - AttributeName: uri
+        KeyType: HASH
+      - AttributeName: date
+        KeyType: RANGE
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+    Type: AWS::DynamoDB::Table
+  Create:
+    Properties:
+      CodeUri: s3://luosw-projects/e5776c0758f4d74e32c7963109f72091
+      Environment:
+        Variables:
+          TABLE_NAME:
+            Ref: Comments
+      Events:
+        CreateResource:
+          Properties:
+            Method: post
+            Path: /
+          Type: Api
+      Handler: index.create
+      Policies: AmazonDynamoDBFullAccess
+      Runtime: nodejs4.3
+    Type: AWS::Serverless::Function
+  Get:
+    Properties:
+      CodeUri: s3://luosw-projects/e5776c0758f4d74e32c7963109f72091
+      Environment:
+        Variables:
+          TABLE_NAME:
+            Ref: Comments
+      Events:
+        GetResource:
+          Properties:
+            Method: get
+            Path: /
+          Type: Api
+      Handler: index.get
+      Policies: AmazonDynamoDBReadOnlyAccess
+      Runtime: nodejs4.3
+    Type: AWS::Serverless::Function
+Transform: AWS::Serverless-2016-10-31
