@@ -35,6 +35,22 @@ You should get a response like this
 {"Items":[{"content":{"S":"test-content-2"},"uri":{"S":"https://twitter.com"},"user":{"S":"test-2"},"date":{"S":"2014-12-12"},"id":{"S":"78c6f170-0ba6-11e7-a815-2937ace0d942"}}],"Count":1,"ScannedCount":1}
 ```
 
+### Deploy server by cloudformation
+
+* deployment
+
+```
+  cd commentor-server
+  make deploy
+```
+
+* test the deployment
+
+First of all, you need to setup the config.json with infomations from deployment step properly, then:
+```
+  make test
+```
+
 ### Build comment box
 
 ```
