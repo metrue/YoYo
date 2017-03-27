@@ -1,5 +1,5 @@
 const clientFactory = require('aws-api-gateway-client')
-const config = require('../config.json')
+const config = require('./config.json')
 
 const client = clientFactory.newClient({
   region: config.region,
