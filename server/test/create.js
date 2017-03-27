@@ -1,16 +1,16 @@
 const clientFactory = require('aws-api-gateway-client')
+const config = require('./config.json')
 
 const client = clientFactory.newClient({
-  accessKey: 'AKIAIJLWH4IFCY5GBTTQ',
-  secretKey: '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',
-  region: 'us-west-2',
-  invokeUrl: 'https://4m84jkfe6e.execute-api.us-west-2.amazonaws.com/beta'
+  region: config.region,
+  invokeUrl: config.invokeUrl,
+  apiKey: config.apiKey
 })
 
 client
   .invokeApi({}, '', 'POST', {}, {
-    content: 'my test centent',
-    user: 'a nother test user',
+    content: 'test centent',
+    user: 'test user',
     uri: 'https://test-uri.com',
     date: (new Date).toISOString(),
   })
