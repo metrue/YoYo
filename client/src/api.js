@@ -9,6 +9,25 @@ class API {
     })
   }
 
+  fetch(uri) {
+    return this.client.invokeApi(
+      {
+        uri,
+      },
+      '',
+      'GET',
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        queryParams: {
+          uri,
+        },
+      },
+      {},
+    )
+  }
+
   submit(options) {
     return this.client.invokeApi(
       {},
