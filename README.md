@@ -37,17 +37,34 @@ You should get a response like this
 
 ### Deploy server by cloudformation
 
-First of all, you need to assign enough permission to current IAM user. In the aws IAM console, create a custom policy with bellow content:
+First of all, you need to assign enough permission to current IAM user. In the aws IAM console, as a minimal permission, create a custom policy with the following content:
 
 ```
 {
   "Version": "2012-10-17",
   "Statement": [
     {
-      "Sid": "Stmt1449904348000",
+      "Sid": "Stmt1490596765000",
       "Effect": "Allow",
       "Action": [
-        "iam:*",
+        "iam:GetRole",
+        "iam:CreateRole",
+        "iam:AttachRolePolicy",
+        "iam:DetachRolePolicy",
+        "iam:DeleteRole",
+        "iam:PassRole",
+        "s3:CreateBucket",
+        "s3:PutBucketAcl",
+        "s3:PutObject",
+        "s3:GetObject",
+        "apigateway:DELETE",
+        "apigateway:GET",
+        "apigateway:HEAD",
+        "apigateway:OPTIONS",
+        "apigateway:PATCH",
+        "apigateway:POST",
+        "apigateway:PUT",
+        "lambda:*",
         "cloudformation:*"
       ],
       "Resource": [
@@ -58,7 +75,7 @@ First of all, you need to assign enough permission to current IAM user. In the a
 }
 ```
 
-Then assign to the group of current IAM user.
+Then assign above custom policy and the 'AmazonDynamoDBFullAccess' policy to the group of current IAM user.
 
 * deployment
 
@@ -69,7 +86,7 @@ Then assign to the group of current IAM user.
 
 * test the deployment
 
- you need to setup the config.json with infomations from deployment step properly, then:
+ you need to setup the test/config.json with infomations from deployment step properly, then:
 ```
   make test
 ```

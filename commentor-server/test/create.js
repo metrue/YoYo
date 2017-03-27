@@ -8,7 +8,7 @@ const client = clientFactory.newClient({
 })
 
 client
-  .invokeApi({}, '', 'POST', {}, {
+  .invokeApi({}, '', 'POST', {headers: {}}, {
     content: 'test centent',
     user: 'test user',
     uri: 'https://test-uri.com',
