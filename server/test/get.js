@@ -11,7 +11,7 @@ client
   .invokeApi(
     {
       uri: 'https://test-uri.com'
-    }, '/?uri={uri}', 'GET', {}, {})
+    }, '/?uri={uri}', 'GET', {headers: {}}, {})
   .then((res) => {
     if (res.status === 200) {
       console.log('data got: ', JSON.stringify(res.data, null, 2))
