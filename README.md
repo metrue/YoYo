@@ -37,6 +37,29 @@ You should get a response like this
 
 ### Deploy server by cloudformation
 
+First of all, you need to assign enough permission to current IAM user. In the aws IAM console, create a custom policy with bellow content:
+
+```
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "Stmt1449904348000",
+      "Effect": "Allow",
+      "Action": [
+        "iam:*",
+        "cloudformation:*"
+      ],
+      "Resource": [
+        "*"
+      ]
+    }
+  ]
+}
+```
+
+Then assign to the group of current IAM user.
+
 * deployment
 
 ```
@@ -46,7 +69,7 @@ You should get a response like this
 
 * test the deployment
 
-First of all, you need to setup the config.json with infomations from deployment step properly, then:
+ you need to setup the config.json with infomations from deployment step properly, then:
 ```
   make test
 ```
