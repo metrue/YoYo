@@ -1,8 +1,0 @@
-{
-  "name": "yuyu",
-  "description": "yuyu",
-  "memory": 128,
-  "timeout": 5,
-  "role": "arn:aws:iam::735685238621:role/yuyu_lambda_function",
-  "environment": {}
-}

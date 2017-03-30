@@ -77,17 +77,15 @@ function generate_config {
   local api_key=$3
 
   DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-  echo "
-{
+  echo "{
   \"region\": \"${region}\",
   \"invoke_url\": \"${invoke_url}\",
   \"apiKey\": \"${api_key}\"
-}
-  " > ${DIR}/../test/config.json
+}" > ${DIR}/../test/config.json
 }
 
 function deploy {
-  S3_BUCKET_NAME='YoYo-spec'
+  S3_BUCKET_NAME='YoYo-luosw'
   REGION='us-east-1'
   STACK_NAME='YoYo-stack'
   API_KEY_NAME='YoYo-api-key'
