@@ -71,6 +71,21 @@ function get_invoke_url {
   echo "https://${api_id}.execute-api.us-east-1.amazonaws.com/${stage_name}"
 }
 
+function generate_config {
+  local region=$1
+  local invoke_url=$2
+  local api_key=$3
+
+  DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+  echo "
+{
+  \"region\": \"${region}\",
+  \"invoke_url\": \"${invoke_url}\",
+  \"apiKey\": \"${api_key}\"
+}
+  " > ${DIR}/../test/config.json
+}
+
 function deploy {
   S3_BUCKET_NAME='YoYo-spec'
   REGION='us-east-1'
@@ -84,6 +99,7 @@ function deploy {
   api_id=$(get_api_id ${REGION})
   api_key=$(create_api_key ${REGION} ${api_id} 'Stage' ${API_KEY_NAME})
   invoke_url=$(get_invoke_url ${api_id} 'Stage')
+  generate_config ${REGION} ${invoke_url} ${api_key}
   echo "==============================================================================="
   echo '----------------------------------- deploy done ok ----------------------------'
   echo "==============================================================================="
