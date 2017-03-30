@@ -1,0 +1,16 @@
+{
+  "name": "yoyo-serverless-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "deploy": "./bin/deploy.sh",
+    "test": "node test/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-api-gateway-client": "^0.1.12"
+  }
+}

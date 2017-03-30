@@ -1,0 +1,3 @@
+#!/usr/bin/env node
+
+console.log('https://' + process.argv[2] + '.execute-api.us-east-1.amazonaws.com/' + process.argv[3])
