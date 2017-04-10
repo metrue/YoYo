@@ -1,47 +1,26 @@
-import apigClientFactory from 'aws-api-gateway-client'
+import fetch from 'isomorphic-fetch'
+import { API_HOST } from '../config'
 
 class API {
-  constructor() {
-    this.client = apigClientFactory.newClient({
-      apiKey: '4E1FsTSmw72ivqJa6MZev9mKfMRYWQsv44szEXKc',
-      region: 'us-west-2',
-      invokeUrl: 'https://4m84jkfe6e.execute-api.us-west-2.amazonaws.com/beta',
-    })
+  async fetch(uri) {
+    const url = `${API_HOST}/comments?uri=${uri}`
+    return fetch(url)
   }
 
-  fetch(uri) {
-    return this.client.invokeApi(
-      {
-        uri,
+  async submit(options) {
+    const url = `${API_HOST}/comments`
+    const opt = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
       },
-      '',
-      'GET',
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        queryParams: {
-          uri,
-        },
-      },
-      {},
-    )
-  }
-
-  submit(options) {
-    return this.client.invokeApi(
-      {},
-      '',
-      'POST',
-      {
-        headers: {},
-      },
-      {
-        content: options.content,
+      body: JSON.stringify({
+        text: options.text,
         user: options.user,
         uri: options.uri,
-        date: options.date,
-      })
+      }),
+    }
+    return fetch(url, opt)
   }
 }
 

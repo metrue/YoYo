@@ -14,19 +14,15 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    api.fetch('https://minghe.me')
+    api.fetch(window.location.href)
       .then((res) => {
         if (res.status === 200) {
-          const { errorMessage } = res.data
-          if (errorMessage) {
-            console.warn(errorMessage)
-          } else {
-            this.setState({
-              list: res.data && res.data.Items,
-            })
-          }
+          return res.json()
         }
         return new Error(`${res.statusText}`)
+      })
+      .then((data) => {
+        this.setState({ list: data })
       })
       .catch((e) => {
         console.warn(e)
@@ -46,18 +42,15 @@ class App extends React.Component {
       user: 'test-user-1',
       date: (new Date()).toISOString(),
       uri: window.location.href,
-      content: value,
+      text: value,
     }).then((res) => {
       if (res.status === 200) {
-        const { errorMessage } = res.data
-        if (errorMessage) {
-          console.warn(errorMessage)
-        } else {
-          console.warn(res.data)
-        }
+        return res.json()
       }
       console.warn(`${res.status} - ${res.statusText}`)
       return new Error(`${res.statusText}`)
+    }).then((data) => {
+      console.log(data)
     }).catch((e) => {
       console.warn(e)
     })
@@ -65,12 +58,13 @@ class App extends React.Component {
 
   render() {
     const { list } = this.state
+    console.log(JSON.stringify(list, null, 2))
     return (
       <div>
         <div className="CommentListContainer">
           <ul>
             {
-              list.map(c => <li> { c.content.S } - { c.date.S } </li>)
+              list.map(c => <li> { c.text } - { c.date } </li>)
             }
           </ul>
         </div>
