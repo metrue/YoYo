@@ -1,0 +1,107 @@
+{
+    "links": [
+        {
+            "href": "/v1/app/report/0a4f3f78-8d45-4f2c-9ccb-8c1d96d3b5f7",
+            "rel": "self"
+        }
+    ],
+    "cloc": "       0 text files.\n       0 unique files.                              \n       1 file ignored.\n",
+    "reports": [
+        {
+            "app_name": "Splunk Add-on for Test",
+            "app_description": "Splunk Add-on for Test",
+            "summary": {
+                "skipped": 0,
+                "success": 0,
+                "not_applicable": 0,
+                "failure": 0,
+                "warning": 0,
+                "error": 1,
+                "manual_check": 1
+            },
+            "metrics": {
+                "start_time": "2017-01-15T02:18:02.465661",
+                "execution": 259.920512,
+                "end_time": "2017-01-15T02:19:22.386173"
+            },
+            "run_parameters": {
+                "version": null,
+                "appinspect_version": "1.4.0.86",
+                "splunk_version": null,
+                "splunkbase_id": "unknown",
+                "api_request_id": "d3b23a78-dac7-11e6-845c-02420aff000c",
+                "package_location": "d3b23a78-dac7-11e6-845c-02420aff000c-splunk_app_addon-builder-2.1.0-2119.spl",
+                "identity": "kyanite2016"
+            },
+            "groups": [
+                {
+                    "checks": [
+                        {
+                            "result": "error",
+                            "messages": [
+                                {
+                                    "result": "error",
+                                    "line": 443,
+                                    "code": "self.fun.__call__(*args)",
+                                    "message": "Container Id was not set.",
+                                    "filename": "/usr/local/lib/python2.7/dist-packages/splunk_appinspect/checks.py"
+                                }
+                            ],
+                            "description": "Check that any standalone application configurations are valid, using the Splunk btool command.",
+                            "name": "check_btool_standalone_results"
+                        }
+                    ],
+                    "name": "check_btool",
+                    "description": "Configurations that relate to running Splunk instances"
+                },
+                {
+                    "checks": [
+                        {
+                            "result": "manual_check",
+                            "messages": [
+                                {
+                                    "result": "manual_check",
+                                    "line": 22,
+                                    "code": "reporter.manual_check(\"App will be checked during code review.\")",
+                                    "message": "App will be checked during code review.",
+                                    "filename": "check_support_and_installation_standards.py"
+                                }
+                            ],
+                            "description": "Check that the app installs on all claimed target platforms.",
+                            "name": "check_install_on_claimed_targets"
+                        }
+                    ],
+                    "name": "check_support_and_installation_standards",
+                    "description": "Platform targets and claimed supported Splunk versions"
+                }
+            ],
+            "app_author": "Splunk",
+            "app_version": "1.0.0",
+            "app_hash": "d07f02167b5c389821a94cd599e25e3a"
+        }
+    ],
+    "summary": {
+        "skipped": 0,
+        "success": 0,
+        "not_applicable": 0,
+        "failure": 0,
+        "warning": 0,
+        "error": 1,
+        "manual_check": 1
+    },
+    "metrics": {
+        "start_time": "2017-01-15T02:18:02.395375",
+        "execution": 261.151356,
+        "end_time": "2017-01-15T02:19:22.546731"
+    },
+    "run_parameters": {
+        "version": null,
+        "appinspect_version": "1.4.0.86",
+        "splunk_version": null,
+        "splunkbase_id": "unknown",
+        "api_request_id": "d3b23a78-dac7-11e6-845c-02420aff000c",
+        "package_location": "d3b23a78-dac7-11e6-845c-02420aff000c-splunk_app_addon-builder-2.1.0-2119.spl",
+        "identity": "kyanite2016"
+    },
+    "request_id": "100012-8d45-109c-9ccb-8c1d96d38791"
+}
