@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack --config ./webpack.config.js",
     "build-prod": "webpack --optimize-minimize --define process.env.NODE_ENV='production' --config ./webpack.config.js",
-    "develop": "webpack-dev-server --config webpack.config.js"
+    "develop": "webpack-dev-server -d --config webpack.config.js"
   },
   "keywords": [],
   "author": "",
@@ -15,10 +15,14 @@
     "aws-api-gateway-client": "^0.1.12",
     "babel-loader": "^7.0.0-beta.1",
     "babel-polyfill": "^6.23.0",
+    "bootstrap": "^3.3.7",
     "draft-js": "^0.10.0",
+    "file-loader": "^0.11.1",
     "isomorphic-fetch": "^2.2.1",
+    "moment": "^2.18.1",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
+    "url-loader": "^0.5.8",
     "webpack": "^2.3.0"
   },
   "devDependencies": {

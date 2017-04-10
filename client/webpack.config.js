@@ -4,7 +4,7 @@ const path = require('path')
 const APP_ROOT = path.join(__dirname, '.')
 
 module.exports = {
-  devtool: 'source-map',
+  devtool: 'inline-source-map',
   entry: {
     index: [
       'babel-polyfill',

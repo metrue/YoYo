@@ -1,0 +1,21 @@
+.yoyoContainer {
+  padding: 10px;
+}
+.submitButtonContainer {
+  padding-top: 8px;
+  text-align: right;
+}
+
+.commentListContainer {
+ padding-top: 10px;
+}
+
+.commentContainer {
+  /* padding-bottom: 0px !important; */
+}
+
+.commentDateContainer {
+  font-size: 0.8em;
+  color: grey;
+  font-weight: lighter;
+}
