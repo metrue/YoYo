@@ -3,8 +3,13 @@ const path = require('path')
 
 const APP_ROOT = path.join(__dirname, '.')
 
+let devtool = 'inline-source-map'
+if (process.env.NODE_ENV === 'production') {
+  devtool = false
+}
+
 module.exports = {
-  devtool: 'inline-source-map',
+  devtool,
   entry: {
     index: [
       'babel-polyfill',
@@ -87,7 +92,7 @@ module.exports = {
             plugins: ['transform-decorators-legacy'],
             cacheDirectory: true,
           },
-        }
+        },
       },
       {
         test: /\.woff|\.woff2|\.svg|.eot|\.ttf/,
