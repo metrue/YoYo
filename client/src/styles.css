@@ -1,5 +1,7 @@
 .yoyoContainer {
   padding: 10px;
+  width: 80%;
+  max-width: 600px;
 }
 .submitButtonContainer {
   padding-top: 8px;
