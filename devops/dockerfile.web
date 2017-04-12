@@ -1,0 +1,11 @@
+FROM node:alpine
+
+WORKDIR /opt/appinspector/web
+COPY web/package.json .
+RUN npm install \
+ && npm cache clean
+
+COPY web .
+RUN npm run build-prod
+
+CMD ["sh", "-c", "mkdir -p /tmp/web/public && rm -rf /tmp/web/backup && mv /tmp/web/public /tmp/web/backup && cp -r public /tmp/web && nc -l -p 10000"]
