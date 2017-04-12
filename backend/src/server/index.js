@@ -1,10 +1,12 @@
 import Koa from 'koa'
+import serve from 'koa-static'
 import compress from 'koa-compress'
 import bodyParser from 'koa-bodyparser'
 import Router from 'koa-router'
 import logger from 'koa-logger'
 import cors from 'koa-cors'
 import koajwt from 'koa-jwt'
+import path from 'path'
 
 import routes from './routes'
 import Dal from './dal'
@@ -26,6 +28,7 @@ export default class {
     this.app.use(koajwt({ secret: opts.jwt.secret }).unless(this.isPublic))
 
     this.setupHandlers()
+    this.serveYo()
   }
 
   isPublic(ctx) {
@@ -48,6 +51,11 @@ export default class {
     }
 
     return false
+  }
+
+  serveYo() {
+    const YoPath = path.join(__dirname, '../../')
+    this.app.use(serve(YoPath))
   }
 
   setupHandlers() {
