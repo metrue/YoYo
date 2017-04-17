@@ -5,8 +5,6 @@ import moment from 'moment'
 import api from './api'
 import styles from './styles.css'
 
-require('bootstrap/dist/css/bootstrap.css')
-
 class App extends React.Component {
   constructor(props) {
     super(props)
@@ -67,36 +65,61 @@ class App extends React.Component {
     })
   }
 
+  follow(e) {
+    console.warn(e.target.checked)
+  }
+
   render() {
     const { list, value } = this.state
     return (
-      <div className={ `container ${styles.yoyoContainer}` }>
-        <div className={ styles.commentBoxContainer }>
-          <textarea
-            className="form-control"
-            value={ value }
-            onChange={ ::this.change }
-          />
-          <div className={ styles.submitButtonContainer }>
+      <div className={ styles.YoYoContainer }>
+        <div className={ styles.YoYoBoxContainer }>
+          <div className={ styles.YoYoInputArea }>
+            <textarea
+              className={ styles.YoYoComentTextArea }
+              value={ value }
+              onChange={ ::this.change }
+            />
+          </div>
+          <div className={ styles.YoYoUserAction }>
+            <input
+              className={ styles.YoYoEmailInput }
+              type="text"
+              placeholder="leave email to get updates"
+            />
+            {/* <button */}
+            {/*   className={ styles.YoYoWatchButton } */}
+            {/*   onClick={ ::this.follow } */}
+            {/* > */}
+            {/*   Watch */}
+            {/* </button> */}
             <button
-              className="btn btn-default"
+              className={ styles.YoYoCommentPublishButton }
               onClick={ ::this.submit }
             >
-              Submit
+              Publish
             </button>
           </div>
         </div>
-        <div className={ `list-group ${styles.commentListContainer}` }>
+        <div className={ styles.YoYoComentListContainer }>
           {
             list.map(c => (
-              <div className={ `list-group-item ${styles.commentContainer}` }>
-                <div className={ styles.commentDateContainer }>
-                  { c.user } - { moment(c.date).format('YYYY-MM-DD HH:MM') }
+              <div className={ styles.YoYoComentItemContainer }>
+                <div className={ styles.YoYoComentItemUserAndDate }>
+                  <div className={ styles.YoYoComentItemUser }>
+                    { c.user }
+                  </div>
+                  <div className={ styles.YoYoComentItemDate }>
+                    - { moment(c.date).format('YYYY-MM-DD HH:MM') }
+                  </div>
                 </div>
-                <div className={ styles.commentTextContainer }>
-                  <p className="list-group-item-text">
+                <div className={ styles.YoYoComentItemText }>
+                  <p>
                     { c.text }
                   </p>
+                </div>
+                <div>
+                  <div className={ styles.YoYoCommentItemBottomBorder } />
                 </div>
               </div>
             ))
