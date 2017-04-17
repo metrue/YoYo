@@ -4,13 +4,15 @@ import moment from 'moment'
 
 import api from './api'
 import styles from './styles.css'
+import { maybeEmailAddress } from './utils'
 
 class App extends React.Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      value: '',
+      text: '',
+      email: '',
       list: [],
     }
   }
@@ -35,50 +37,74 @@ class App extends React.Component {
       })
   }
 
-  change(e) {
+  commentEmailChange(e) {
     const value = e.target.value
     this.setState({
-      value,
+      email: value,
+    })
+  }
+
+  commentTextChange(e) {
+    const value = e.target.value
+    this.setState({
+      text: value,
     })
   }
 
   submit() {
-    const { value } = this.state
+    const {
+      text,
+      email,
+    } = this.state
+
     api.submit({
-      user: 'test-user-1',
+      user: email,
       date: (new Date()).toISOString(),
       uri: window.location.href,
-      text: value,
-    }).then((res) => {
-      if (res.status === 200) {
-        return res.json()
-      }
-      console.warn(`${res.status} - ${res.statusText}`)
-      return new Error(`${res.statusText}`)
-    }).then((data) => {
-      setTimeout(() => {
-        this.fetchCommentList()
-      }, 0)
-      this.setState({ value: '' })
-    }).catch((e) => {
-      console.warn(e)
+      text,
     })
+      .then((res) => {
+        if (res.status === 200) {
+          return res.json()
+        }
+        return new Error(`${res.statusText}`)
+      })
+      .then(() => {
+        setTimeout(() => {
+          this.fetchCommentList()
+        }, 0)
+        this.setState({ text: '' })
+      })
+      .catch((e) => {
+        console.error(`YoYo Got something wrong: ${e}, feedback to h.minghe@gmail.com would be great`)
+      })
   }
 
-  follow(e) {
-    console.warn(e.target.checked)
+  publish() {
+    const {
+      email,
+    } = this.state
+
+    if (!maybeEmailAddress(email)) {
+      alert(`${email} is not a valid email`)
+    } else {
+      this.submit()
+    }
   }
 
   render() {
-    const { list, value } = this.state
+    const {
+      list,
+      text,
+    } = this.state
     return (
       <div className={ styles.YoYoContainer }>
         <div className={ styles.YoYoBoxContainer }>
           <div className={ styles.YoYoInputArea }>
             <textarea
               className={ styles.YoYoComentTextArea }
-              value={ value }
-              onChange={ ::this.change }
+              value={ text }
+              onChange={ ::this.commentTextChange }
             />
           </div>
           <div className={ styles.YoYoUserAction }>
@@ -86,16 +112,11 @@ class App extends React.Component {
               className={ styles.YoYoEmailInput }
               type="text"
               placeholder="leave email to get updates"
+              onChange={ ::this.commentEmailChange }
             />
-            {/* <button */}
-            {/*   className={ styles.YoYoWatchButton } */}
-            {/*   onClick={ ::this.follow } */}
-            {/* > */}
-            {/*   Watch */}
-            {/* </button> */}
             <button
               className={ styles.YoYoCommentPublishButton }
-              onClick={ ::this.submit }
+              onClick={ ::this.publish }
             >
               Publish
             </button>
