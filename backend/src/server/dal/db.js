@@ -19,6 +19,14 @@ class Mongo {
     })
   }
 
+  isConnected() {
+    return this.db !== null
+  }
+
+  async collection(name) {
+    return await this.db.collection(name)
+  }
+
   async close() {
     await this.db.close()
     this.db = null

@@ -1,34 +1,29 @@
 import Dal from '../../lib/server/dal/dal'
 import { expect } from 'chai'
+import { mockAComment } from '../utils'
 
 describe('Dal', () => {
-  let dal = null
-  const name = 'test-col'
+  let commentDal = null
   before(() => {
     const config = {
       host: 'localhost',
       port: 27017,
       db: 'YoYo-dev',
+      collectionName: 'Comments-test',
     }
-    dal = new Dal(config)
+    commentDal = new Dal(config)
   })
 
-  it('get collection', async() => {
-    const col = await dal.collection(name)
-    expect(col.collectionName).to.equal(name)
-  })
-
-  it('save and find', async () => {
-    const obj = { message: 'hello world' }
-    await dal.save(name, obj)
-    const ret = await dal.find(name, {})
+  it('create and find', async () => {
+    const obj = mockAComment()
+    await commentDal.create(obj)
+    const ret = await commentDal.find({})
 
     expect(ret).to.be.an.instanceof(Array)
     expect(ret.length >= 1).to.equal(true)
-    expect(ret[ret.length - 1]).to.eql(obj)
-  })
-
-  after(async () => {
-    await dal.mongo.close()
+    const createdComment = ret[ret.length - 1]
+    expect(createdComment.user).to.eql(obj.user)
+    expect(createdComment.uri).to.eql(obj.uri)
+    expect(createdComment.text).to.eql(obj.text)
   })
 })

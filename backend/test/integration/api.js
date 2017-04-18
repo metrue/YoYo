@@ -2,16 +2,10 @@ import { expect } from 'chai'
 import CONFIG from '../config'
 import fetch from 'isomorphic-fetch'
 import Server from '../../src/server'
+import { mockAComment } from '../utils'
 
 const API_URL = `http://${CONFIG.host}:${CONFIG.port}/v1/api`
 
-const mockAComment = () => (
-  {
-    user: `test-user-${Math.random().toString(36).substring(7)}`,
-    url: `https://minghe.me/${Math.random().toString(36).substring(7)}.html`,
-    text: `test-content-${Math.random().toString(36).substring(20)}`,
-  }
-)
 
 describe('API', () => {
   let server

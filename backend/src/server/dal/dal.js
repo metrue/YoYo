@@ -2,24 +2,31 @@ import mongo from './db'
 
 export default class Dal {
   constructor(config) {
-    this.mongo = mongo
-    this.config = config
-  }
-
-  async collection(name) {
-    if (this.mongo.db === null) {
-      await this.mongo.connect(this.config)
+    if (!config.host ||
+      !config.port ||
+      !config.db ||
+      !config.collectionName) {
+      throw new Error('host, port, db, and collection name are required')
     }
-    return await this.mongo.db.collection(name)
+
+    this.config = config
+    this.collectionName = config.collectionName
   }
 
-  async save(collectionName, obj) {
-    const col = await this.collection(collectionName)
+  async collection() {
+    if (!mongo.isConnected()) {
+      await mongo.connect(this.config)
+    }
+    return await mongo.collection(this.collectionName)
+  }
+
+  async create(obj) {
+    const col = await this.collection(this.collectionName)
     return await col.insert(obj)
   }
 
-  async find(collectionName, query = {}) {
-    const col = await this.collection(collectionName)
+  async find(query = {}) {
+    const col = await this.collection(this.collectionName)
     return await col.find(query).toArray()
   }
 }

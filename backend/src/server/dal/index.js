@@ -1,7 +1,3 @@
-import Comments from './comments'
+import Dal from './dal'
 
-export default class Dal {
-  constructor(config) {
-    this.comments = new Comments(config)
-  }
-}
+export default Dal

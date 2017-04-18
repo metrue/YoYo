@@ -11,7 +11,7 @@ export default [
     method: 'GET',
     handler: async (ctx, dal) => {
       const query = ctx.query
-      const comments = await dal.comments.find(query)
+      const comments = await dal.find(query)
       ctx.body = comments
     },
   },
@@ -24,7 +24,7 @@ export default [
         uri,
         text,
       } = ctx.request.body
-      const ret = await dal.comments.create({
+      const ret = await dal.create({
         user,
         uri,
         text,

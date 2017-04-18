@@ -18,39 +18,16 @@ export default class {
     this.host = opts.host || 'localhost'
     this.port = opts.port || 5000
 
-    this.app = new Koa()
-    this.dal = new Dal(opts.mongo)
+    this.dals = this.createDals(opts.mongo)
 
+    this.app = new Koa()
     this.enableCORS()
     this.app.use(compress())
     this.app.use(logger())
     this.app.use(bodyParser())
-    this.app.use(koajwt({ secret: opts.jwt.secret }).unless(this.isPublic))
 
-    this.setupHandlers()
+    this.setupHandlers(opts)
     this.serveYo()
-  }
-
-  isPublic(ctx) {
-    return true
-
-    const request = ctx.request
-    if (request.method === 'GET') {
-      if (request.url.match(/\/jira\//)) {
-        return false
-      }
-      return true
-    }
-
-    if (request.method === 'POST') {
-      if (request.url.match(/\/login$/) ||
-          request.url.match(/\/reports$/)) {
-        return true
-      }
-      return false
-    }
-
-    return false
   }
 
   serveYo() {
@@ -58,22 +35,36 @@ export default class {
     this.app.use(serve(YoPath))
   }
 
+  createDals(options) {
+    return {
+      comments: new Dal({ ...options, collectionName: 'Comments' }),
+    }
+  }
+
   setupHandlers() {
     const router = new Router({ prefix: '/v1/api' })
 
+
     routes.forEach((route) => {
       const handler = async (ctx) => {
-        await route.handler(ctx, this.dal)
+        if (route.path && route.path.startsWith('/comments')) {
+          await route.handler(ctx, this.dals.comments)
+        }
       }
 
-      if (route.method === 'POST') {
-        router.post(route.path, handler)
-      } else if (route.method === 'PUT') {
-        router.put(route.path, handler)
-      } else if (route.method === 'DELETE') {
-        router.del(route.path, handler)
-      } else {
-        router.get(route.path, handler)
+      switch (route.method) {
+        case 'POST':
+          router.post(route.path, handler)
+          break
+        case 'PUT':
+          router.put(route.path, handler)
+          break
+        case 'DELETE':
+          router.del(route.path, handler)
+          break
+
+        default:
+          router.get(route.path, handler)
       }
     })
 
