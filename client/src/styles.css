@@ -6,8 +6,9 @@
 }
 
 .YoYoBoxContainer {
-  width: 100%;
-  /* border: 1px solid; */
+  border: 1px solid #F5F5F5;
+  padding: 16px;
+  border-radius: 2px;
 }
 
 .YoYoInputArea {
@@ -29,7 +30,6 @@
 .YoYoUserAction {
   width: 100%;
   text-align: right;
-  min-height: 60px;
 	margin-top: 10px;
 }
 
@@ -85,8 +85,11 @@
 }
 
 .YoYoComentListContainer {
-  width: 100%;
+  /* width: 100%; */
   /* border: 1px solid; */
+  border: 1px solid #F5F5F5;
+  padding: 16px;
+  border-radius: 2px;
 }
 
 .YoYoComentItemUserAndDate {
