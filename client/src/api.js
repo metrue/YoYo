@@ -3,7 +3,7 @@ import { API_HOST } from '../config'
 
 class API {
   async fetch(uri) {
-    const url = `${API_HOST}/comments?uri=${uri}`
+    const url = `${API_HOST}/comments?uri=${encodeURIComponent(uri)}`
     return fetch(url)
   }
 
