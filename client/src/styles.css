@@ -33,7 +33,7 @@
 	margin-top: 10px;
 }
 
-.YoYoEmailInput {
+.YoYoEmailInputBase {
 	display: inline-block;
 	padding: 6px 12px;
 	margin-bottom: 0;
@@ -54,7 +54,20 @@
 	border: 1px solid lightgrey;
 	border-radius: 2px;
 	margin-right: 10px;
+}
+
+.YoYoEmailInput {
+  composes: YoYoEmailInputBase;
+
 	min-width: 200px;
+}
+
+@media (max-width: 600px) {
+  .YoYoEmailInput {
+    composes: YoYoEmailInputBase;
+
+    min-width: 60%;
+  }
 }
 
 .YoYoWatchButton {
