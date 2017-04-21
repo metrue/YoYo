@@ -56,9 +56,6 @@ describe('API', () => {
           const resp = await fetch(url)
           data = await resp.json()
         } catch (e) {
-          console.log('++')
-          console.log(e)
-          console.log('++')
           error = e
         }
         expect(error).to.equal(null)
