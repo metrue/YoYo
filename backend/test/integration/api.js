@@ -62,6 +62,21 @@ describe('API', () => {
         expect(data).to.an.instanceof(Array)
         expect(data.length > 0).to.equal(true)
       })
+
+      it('list by page', async () => {
+        const url = `${API_URL}/comments?page=0&limit=2`
+        let error = null
+        let data = null
+        try {
+          const resp = await fetch(url)
+          data = await resp.json()
+        } catch (e) {
+          error = e
+        }
+        expect(error).to.equal(null)
+        expect(data).to.an.instanceof(Array)
+        expect(data.length).to.equal(2)
+      })
     })
   })
 })

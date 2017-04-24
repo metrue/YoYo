@@ -8,7 +8,7 @@
     "prepublish": "npm run transpile",
     "prestart": "npm run transpile",
     "start": "./bin/server",
-    "prestart-dev": "npm run migrate-up-dev",
+    "prestart-dev": "npm run transpile",
     "start-dev": "NODE_ENV=dev ./bin/server",
     "pretest": "npm run transpile",
     "test": "NODE_ENV=test mocha --ui bdd --compilers js:babel-core/register --require babel-polyfill --recursive --reporter spec --check-leaks test -t 50000",

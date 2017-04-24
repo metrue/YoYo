@@ -5,7 +5,7 @@ import bodyParser from 'koa-bodyparser'
 import Router from 'koa-router'
 import logger from 'koa-logger'
 import cors from 'koa-cors'
-import koajwt from 'koa-jwt'
+// import koajwt from 'koa-jwt'
 import path from 'path'
 
 import routes from './routes'
@@ -18,7 +18,7 @@ export default class {
     this.host = opts.host || 'localhost'
     this.port = opts.port || 5000
 
-    this.dals = this.createDals(opts.mongo)
+    this.dals = new Dal(opts.mongo)
 
     this.app = new Koa()
     this.enableCORS()
@@ -33,12 +33,6 @@ export default class {
   serveYo() {
     const YoPath = path.join(__dirname, '../../')
     this.app.use(serve(YoPath))
-  }
-
-  createDals(options) {
-    return {
-      comments: new Dal({ ...options, collectionName: 'Comments' }),
-    }
   }
 
   setupHandlers() {

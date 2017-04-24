@@ -5,8 +5,7 @@ class Mongo {
     this.db = null
   }
 
-  async connect(opts) {
-    const url = `mongodb://${opts.host}:${opts.port}/${opts.db}`
+  async connect(url) {
     return new Promise((resolve, reject) => {
       MongoClient.connect(url, (err, db) => {
         if (err) {
