@@ -151,3 +151,23 @@
   height: 0.5px;
   background-color: lightgray;
 }
+
+.YoYoOpenIcon {
+  display: flex;
+  flex: 1 1 auto;
+}
+
+.YoYoLabelTitleBase {
+  margin: auto;
+  flex: 1 1 auto;
+  font-size: 12px;
+  color: lightgrey;
+}
+
+.YoYoLabelTitle {
+  composes: YoYoLabelTitleBase;
+}
+
+.YoYoCloseIcon {
+  composes: YoYoOpenIcon;
+}
