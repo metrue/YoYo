@@ -11,6 +11,11 @@ Place the following code where you'd like YoYo to load:
 <script src="https://yoyo.minghe.me/dist/YoYo/index.js"></script>
 ```
 
+### Showcases
+
+* [https://minghe.me](https://minghe.me)
+* [https://asmalltalk.com](https://asmalltalk.com)
+
 ### LICENSE
 
 MIT
