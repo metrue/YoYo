@@ -129,9 +129,7 @@ class App extends React.Component {
                 <div className={ styles.YoYoComentItemUserAndDate }>
                   <div className={ styles.YoYoComentItemUser }>
                     { c.user }
-                  </div>
-                  <div className={ styles.YoYoComentItemDate }>
-                    - { moment(c.date).format('YYYY-MM-DD HH:MM') }
+                    <span className={ styles.YoYoComentItemDate }> - { moment(c.date).format('YYYY-MM-DD HH:MM') } </span>
                   </div>
                 </div>
                 <div className={ styles.YoYoComentItemText }>
