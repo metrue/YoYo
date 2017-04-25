@@ -8,8 +8,6 @@ services:
     build:
       context: ..
       dockerfile: devops/dockerfile.mongo
-    ports:
-      - '27017:27017'
     volumes:
       - /data/db:/data/db
   api:
