@@ -1,5 +1,6 @@
 node_modules
 lib
+dist
 config.json
 coverage
 *.swp

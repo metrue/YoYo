@@ -6,4 +6,4 @@ build-client:
 	cd client && npm run build-prod
 
 copy-artifacts:
-	cp client/public/dist/index.js backend/dist/Yo/index.js
+	cp client/public/dist/index.js backend/dist/YoYo/index.js
