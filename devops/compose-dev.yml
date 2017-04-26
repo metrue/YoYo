@@ -1,14 +1,12 @@
 version: '3.0'
 
-volumes:
-  dist:
-
 services:
   mongo:
     image: mongo
     volumes:
-      - /data/db:/data/db
+      - /Users/mhuang/Codes/YoYo/devops/db:/data/db
   api:
+    image: metrue/yoyo_api:latest
     build:
       context: ..
       dockerfile: devops/dockerfile.api
@@ -16,22 +14,14 @@ services:
       - '5002:5002'
     depends_on:
       - mongo
-  client:
-    build:
-      context: ..
-      dockerfile: devops/dockerfile.client
-    volumes:
-      - dist:/opt/YoYo/client/public/dist
   nginx:
     build:
       context: ..
       dockerfile: devops/dockerfile.nginx
     ports:
       - '80:80'
-      - '443:443'
     volumes:
-      - /etc/letsencrypt:/etc/letsencrypt
-      - dist:/data/dist/v0.1
+      - /Users/mhuang/Codes/YoYo/devops/letsencrypt:/etc/letsencrypt
+      - /Users/mhuang/Codes/YoYo/client/public/dist/index.js:/data//dist/v0.1/yoyo.js
     depends_on:
       - api
-      - client
