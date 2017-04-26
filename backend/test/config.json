@@ -1,0 +1,14 @@
+{
+  "host": "127.0.0.1",
+  "port": 5003,
+  "mongo": {
+    "host": "localhost",
+    "port": 27017,
+    "db": "YoYo-dev"
+  },
+  "jwt": {
+    "secret": "who are you?",
+    "expires_in": "7d",
+    "env_name": "JWT_SECRET"
+  }
+}

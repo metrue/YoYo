@@ -1,0 +1,13 @@
+FROM node:alpine
+
+RUN apk --no-cache add nodejs
+
+WORKDIR /opt/YoYo/client
+
+COPY client/package.json .
+RUN npm install \
+ && npm cache clean
+
+COPY client .
+
+CMD ["npm", "run", "build-prod"]
