@@ -1,7 +1,7 @@
 #!/bin/bash
 
 deploy_user='root'
-deploy_host='45.33.106.101'
+deploy_host='172.104.95.191'
 ssh ${deploy_user}@${deploy_host} <<END
   docker rm \$(docker stop \$(docker ps -a -q --filter ancestor=yoyo  --format="{{.ID}}"))
 
