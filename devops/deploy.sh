@@ -1,6 +1,8 @@
 #!/bin/bash
 
-ssh ${target_host} <<END
+deploy_user='root'
+deploy_host='45.33.106.101'
+ssh ${deploy_user}@${deploy_host} <<END
   docker rm \$(docker stop \$(docker ps -a -q --filter ancestor=yoyo  --format="{{.ID}}"))
 
   docker run --rm -p 80:80 -p 443:443 \
