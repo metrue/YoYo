@@ -23,11 +23,13 @@ export default [
         user,
         uri,
         text,
+        parent,
       } = ctx.request.body
       const ret = await dal.create({
         user,
         uri,
         text,
+        parent,
         date: (new Date()).toISOString(),
       })
       ctx.body = ret

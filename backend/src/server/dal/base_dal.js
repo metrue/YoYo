@@ -1,7 +1,7 @@
 import mongo from './db'
 
 function buidQuery(query = {}) {
-  const allowedFields = ['user', 'uri', 'text', 'date']
+  const allowedFields = ['user', 'uri', 'text', 'date', 'parent']
   const newQuery = {}
   for (const f of allowedFields) {
     if (allowedFields.indexOf(f) !== -1 && query[f] !== undefined) {
@@ -33,6 +33,11 @@ export default class BaseDal {
   async create(obj) {
     const col = await this.collection()
     return await col.insert(obj)
+  }
+
+  async findOne(query) {
+    const col = await this.collection()
+    return col.findOne(buidQuery(query))
   }
 
   async find(query = {}) {

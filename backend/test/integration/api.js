@@ -44,6 +44,7 @@ describe('API', () => {
         expect(createdComment.uri).to.equal(comment.uri)
         expect(createdComment.user).to.equal(comment.user)
         expect(createdComment.text).to.equal(comment.text)
+        expect(createdComment.parent).to.equal(undefined)
       })
     })
 
