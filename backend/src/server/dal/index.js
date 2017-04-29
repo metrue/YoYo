@@ -1,5 +1,5 @@
-import BaseDal from './base_dal'
+import Comments from './comments'
 
 export default function Dal(config) {
-  this.comments = new BaseDal({ ...config, collectionName: 'Comments' })
+  this.comments = new Comments({ ...config, collectionName: 'Comments' })
 }

@@ -1,7 +1,7 @@
 import mongo from './db'
 
 function buidQuery(query = {}) {
-  const allowedFields = ['user', 'uri', 'text', 'date', 'parent']
+  const allowedFields = ['_id', 'user', 'uri', 'text', 'date', 'parent']
   const newQuery = {}
   for (const f of allowedFields) {
     if (allowedFields.indexOf(f) !== -1 && query[f] !== undefined) {
