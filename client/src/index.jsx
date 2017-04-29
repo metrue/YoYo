@@ -10,6 +10,7 @@ const {
   array,
   string,
   func,
+  object,
 } = React.PropTypes
 
 const OpenIcon = ({ onClick }) => (
@@ -46,33 +47,48 @@ CloseIcon.propTypes = {
   onClick: func,
 }
 
-const YoYoCommentList = ({ list }) => (
+const Comment = ({ comment, onReply }) => {
+  const handleReply = () => onReply(comment)
+
+  return (
+    <div className={ styles.YoYoComentItemContainer }>
+      <div className={ styles.YoYoComentItemUserAndDate }>
+        <div className={ styles.YoYoComentItemUser }>
+          { comment.user }
+          <span className={ styles.YoYoComentItemDate }> - { moment(comment.date).format('YYYY-MM-DD HH:MM') } </span>
+        </div>
+      </div>
+      <div className={ styles.YoYoComentItemText }>
+        <p>
+          { comment.text }
+        </p>
+      </div>
+      <div className={ styles.YoYoReplyButtonContainer }>
+        <button className={ styles.YoYoReplyButton } onClick={ handleReply }> reply </button>
+      </div>
+      <div>
+        <div className={ styles.YoYoCommentItemBottomBorder } />
+      </div>
+    </div>
+  )
+}
+
+Comment.propTypes = {
+  comment: object,
+  onReply: func,
+}
+
+const YoYoCommentList = ({ list, onReply }) => (
   <div className={ styles.YoYoComentListContainer }>
     {
-      list.map(c => (
-        <div className={ styles.YoYoComentItemContainer }>
-          <div className={ styles.YoYoComentItemUserAndDate }>
-            <div className={ styles.YoYoComentItemUser }>
-              { c.user }
-              <span className={ styles.YoYoComentItemDate }> - { moment(c.date).format('YYYY-MM-DD HH:MM') } </span>
-            </div>
-          </div>
-          <div className={ styles.YoYoComentItemText }>
-            <p>
-              { c.text }
-            </p>
-          </div>
-          <div>
-            <div className={ styles.YoYoCommentItemBottomBorder } />
-          </div>
-        </div>
-      ))
+      list.map(c => <Comment comment={ c } onReply={ onReply } />)
     }
   </div>
 )
 
 YoYoCommentList.propTypes = {
   list: array,
+  onReply: func,
 }
 
 const YoYoCommentBox = ({ text, onCommentTextChange, onEmailChange, onPublish }) => (
@@ -117,6 +133,7 @@ class App extends React.Component {
       text: '',
       email: '',
       list: [],
+      parents: [],
     }
   }
 
@@ -158,12 +175,14 @@ class App extends React.Component {
     const {
       text,
       email,
+      parents,
     } = this.state
 
     api.submit({
       user: email,
       date: (new Date()).toISOString(),
       uri: window.location.href,
+      parents,
       text,
     })
       .then((res) => {
@@ -206,6 +225,18 @@ class App extends React.Component {
     this.setState({ open: false })
   }
 
+  reply(comment) {
+    const { _id, user } = comment
+    const { parents, text } = this.state
+
+    if (parents.indexOf(_id) === -1) {
+      this.setState({
+        parents: [...parents, _id],
+        text: `@${user} ${text}`,
+      })
+    }
+  }
+
   render() {
     const {
       list,
@@ -223,7 +254,10 @@ class App extends React.Component {
             onEmailChange={ ::this.commentEmailChange }
             onPublish={ ::this.publish }
           />
-          <YoYoCommentList list={ list } />
+          <YoYoCommentList
+            list={ list }
+            onReply={ ::this.reply }
+          />
         </div>
       )
     }
