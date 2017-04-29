@@ -23,16 +23,16 @@ export default [
         user,
         uri,
         text,
-        parent,
+        parents,
       } = ctx.request.body
-      const ret = await dal.create({
-        user,
-        uri,
-        text,
-        parent,
-        date: (new Date()).toISOString(),
-      })
-      ctx.body = ret
+      if (parents && parents.length > 0) {
+        parents.forEach(async (parent) => {
+          await dal.create({ user, uri, text, parent, date: (new Date()).toISOString() })
+        })
+      } else {
+        await dal.create({ user, uri, text, date: (new Date()).toISOString() })
+      }
+      ctx.status = 201
     },
   },
 ]

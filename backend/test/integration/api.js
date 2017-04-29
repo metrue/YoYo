@@ -32,19 +32,14 @@ describe('API', () => {
           body: JSON.stringify(comment),
         }
         let error = null
-        let data = null
+        let resp = null
         try {
-          const resp = await fetch(url, opts)
-          data = await resp.json()
+          resp = await fetch(url, opts)
         } catch (e) {
           error = e
         }
         expect(error).to.equal(null)
-        const createdComment = data.ops[0]
-        expect(createdComment.uri).to.equal(comment.uri)
-        expect(createdComment.user).to.equal(comment.user)
-        expect(createdComment.text).to.equal(comment.text)
-        expect(createdComment.parent).to.equal(undefined)
+        expect(resp.status).to.equal(201)
       })
     })
 
