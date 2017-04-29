@@ -4,7 +4,7 @@ import moment from 'moment'
 
 import api from './api'
 import styles from './styles.css'
-import { maybeEmailAddress } from './utils'
+import { maybeEmailAddress, validateComment } from './utils'
 
 const {
   array,
@@ -186,10 +186,13 @@ class App extends React.Component {
   publish() {
     const {
       email,
+      text,
     } = this.state
 
     if (!maybeEmailAddress(email)) {
-      alert(`${email} is not a valid email`)
+      alert(`'${email}' is not a valid email`)
+    } else if (!validateComment(text)) {
+      alert(`'${text}' is not a valid comment`)
     } else {
       this.submit()
     }
