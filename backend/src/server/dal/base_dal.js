@@ -20,7 +20,7 @@ export default class BaseDal {
     }
 
     this.url = `mongodb://${host}:${port}/${db}`
-    this.collectionName = config.collectionName
+    this.collectionName = collectionName
   }
 
   async collection() {
@@ -31,7 +31,7 @@ export default class BaseDal {
   }
 
   async create(obj) {
-    const col = await this.collection(this.collectionName)
+    const col = await this.collection()
     return await col.insert(obj)
   }
 
@@ -39,7 +39,7 @@ export default class BaseDal {
     const page = parseInt(query.page, 10) || 0
     const limit = parseInt(query.limit, 10) || 100
     const skip = page * limit
-    const col = await this.collection(this.collectionName)
+    const col = await this.collection()
     return col.find(buidQuery(query))
               .skip(skip)
               .limit(limit)
