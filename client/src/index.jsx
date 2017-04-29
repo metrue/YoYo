@@ -51,23 +51,20 @@ const Comment = ({ comment, onReply }) => {
   const handleReply = () => onReply(comment)
 
   return (
-    <div className={ styles.YoYoComentItemContainer }>
-      <div className={ styles.YoYoComentItemUserAndDate }>
-        <div className={ styles.YoYoComentItemUser }>
+    <div className={ styles.YoYoCommentItemContainer }>
+      <div className={ styles.YoYoCommentItemUserAndDate }>
+        <div className={ styles.YoYoCommentItemUser }>
           { comment.user }
-          <span className={ styles.YoYoComentItemDate }> - { moment(comment.date).format('YYYY-MM-DD HH:MM') } </span>
+          <span className={ styles.YoYoCommentItemDate }> - { moment(comment.date).format('YYYY-MM-DD HH:MM') } </span>
         </div>
       </div>
-      <div className={ styles.YoYoComentItemText }>
+      <div className={ styles.YoYoCommentItemText }>
         <p>
           { comment.text }
         </p>
       </div>
       <div className={ styles.YoYoReplyButtonContainer }>
         <button className={ styles.YoYoReplyButton } onClick={ handleReply }> reply </button>
-      </div>
-      <div>
-        <div className={ styles.YoYoCommentItemBottomBorder } />
       </div>
     </div>
   )
@@ -79,7 +76,7 @@ Comment.propTypes = {
 }
 
 const YoYoCommentList = ({ list, onReply }) => (
-  <div className={ styles.YoYoComentListContainer }>
+  <div className={ styles.YoYoCommentListContainer }>
     {
       list.map(c => <Comment comment={ c } onReply={ onReply } />)
     }
@@ -95,7 +92,7 @@ const YoYoCommentBox = ({ text, onCommentTextChange, onEmailChange, onPublish })
   <div className={ styles.YoYoBoxContainer }>
     <div className={ styles.YoYoInputArea }>
       <textarea
-        className={ styles.YoYoComentTextArea }
+        className={ styles.YoYoCommentTextArea }
         value={ text }
         onChange={ onCommentTextChange }
       />
