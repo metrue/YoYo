@@ -21,5 +21,5 @@ ssh ${deploy_user}@${deploy_host} <<END
   cd /tmp/YoYo
 
   docker-compose -p yoyo -f devops/compose.yml build && \
-  docker-compose -p yoyo -f devops/compose.yml up -d && \
+  docker-compose -p yoyo -f devops/compose.yml up -d
 END
