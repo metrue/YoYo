@@ -5,11 +5,12 @@ import { withMailer } from './utils'
 @withMailer
 export default class Comments extends BaseDal {
   async create(obj) {
-    const { parent, text } = obj
+    const { parent, text, uri } = obj
     // eslint-disable-next-line
     const item = await this.findOne({ _id: ObjectID(parent) })
     if (item && item.user) {
-      await this.mailer.send(item.user, text)
+      const appedUriText = `${text} - ${uri}`
+      await this.mailer.send(item.user, appedUriText)
     }
 
     return super.create(obj)
