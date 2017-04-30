@@ -88,7 +88,7 @@ YoYoCommentList.propTypes = {
   onReply: func,
 }
 
-const YoYoCommentBox = ({ text, onCommentTextChange, onEmailChange, onPublish }) => (
+const YoYoCommentBox = ({ text, email, onCommentTextChange, onEmailChange, onPublish }) => (
   <div className={ styles.YoYoBoxContainer }>
     <div className={ styles.YoYoInputArea }>
       <textarea
@@ -101,6 +101,7 @@ const YoYoCommentBox = ({ text, onCommentTextChange, onEmailChange, onPublish })
       <input
         className={ styles.YoYoEmailInput }
         type="text"
+        value={ email }
         placeholder="leave email to get updates"
         onChange={ onEmailChange }
       />
@@ -116,6 +117,7 @@ const YoYoCommentBox = ({ text, onCommentTextChange, onEmailChange, onPublish })
 
 YoYoCommentBox.propTypes = {
   text: string,
+  email: string,
   onCommentTextChange: func,
   onEmailChange: func,
   onPublish: func,
@@ -183,16 +185,13 @@ class App extends React.Component {
       text,
     })
       .then((res) => {
-        if (res.status === 200) {
-          return res.json()
+        if (res.status === 201) {
+          setTimeout(() => {
+            this.fetchCommentList()
+          }, 0)
+          this.setState({ text: '', email: '' })
         }
         return new Error(`${res.statusText}`)
-      })
-      .then(() => {
-        setTimeout(() => {
-          this.fetchCommentList()
-        }, 0)
-        this.setState({ text: '' })
       })
       .catch((e) => {
         console.error(`YoYo Got something wrong: ${e}, feedback to h.minghe@gmail.com would be great`)
@@ -238,6 +237,7 @@ class App extends React.Component {
     const {
       list,
       text,
+      email,
       open,
     } = this.state
 
@@ -247,6 +247,7 @@ class App extends React.Component {
           <CloseIcon onClick={ ::this.closeYoYo } />
           <YoYoCommentBox
             text={ text }
+            email={ email }
             onCommentTextChange={ ::this.commentTextChange }
             onEmailChange={ ::this.commentEmailChange }
             onPublish={ ::this.publish }
