@@ -15,14 +15,14 @@ const {
 
 const OpenIcon = ({ onClick }) => (
   <div onClick={ onClick } className={ styles.YoYoOpenIcon }>
-    <svg width="28" height="24" className="result-item-expando">
+    <svg width="28" height="24">
       <g transform="translate(14 12)">
         <g className="expando-glyph">
           <polygon points="-1.7,-5 3.3,0 -1.7,5 -2.9,3.8 1,0 -2.9,-3.8"></polygon>
         </g>
       </g>
     </svg>
-    <span className={ styles.YoYoLabelTitle }> 想说点什么? </span>
+    <span className={ styles.YoYoLabelTitle }> Write a response... </span>
   </div>
 )
 
@@ -32,14 +32,13 @@ OpenIcon.propTypes = {
 
 const CloseIcon = ({ onClick }) => (
   <div onClick={ onClick } className={ styles.YoYoCloseIcon }>
-    <svg width="28" height="24" className="result-item-expando expanded">
+    <svg width="28" height="24">
       <g transform="translate(14 12)">
         <g className="expando-glyph">
-          <polygon points="-1.7,-5 3.3,0 -1.7,5 -2.9,3.8 1,0 -2.9,-3.8"></polygon>
+          <polygon points="-1.7,-5 3.3,0 -1.7,5 -2.9,3.8 1,0 -2.9,-3.8" transform="rotate(90)"></polygon>
         </g>
       </g>
     </svg>
-    <span className={ styles.YoYoLabelTitle }> 收起评论 </span>
   </div>
 )
 
