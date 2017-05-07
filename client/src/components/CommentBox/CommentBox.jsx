@@ -8,7 +8,7 @@ import { fromJS } from 'immutable'
 
 import editorStyles from './styles.css'
 
-const mentionPlugin = createMentionPlugin()
+const mentionPlugin = createMentionPlugin({ mentionPrefix: '@' })
 const { MentionSuggestions } = mentionPlugin
 const plugins = [mentionPlugin]
 
