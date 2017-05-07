@@ -7,7 +7,7 @@ const CommentItem = ({ comment }) => (
   <div className={ styles.YoYoCommentItemContainer }>
     <div className={ styles.YoYoCommentItemUserAndDate }>
       <div className={ styles.YoYoCommentItemUser }>
-        { comment.user }
+        { comment.user.replace(/@.*$/, '') }
         <span className={ styles.YoYoCommentItemDate }> - { moment(comment.date).format('YYYY-MM-DD HH:MM') } </span>
       </div>
     </div>
