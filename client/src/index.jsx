@@ -5,6 +5,9 @@ import moment from 'moment'
 import api from './api'
 import styles from './styles.css'
 import { maybeEmailAddress, validateComment } from './utils'
+import CommentBox from './CommentBox'
+
+import 'draft-js-mention-plugin/lib/plugin.css'
 
 const {
   array,
@@ -46,28 +49,21 @@ CloseIcon.propTypes = {
   onClick: func,
 }
 
-const Comment = ({ comment, onReply }) => {
-  const handleReply = () => onReply(comment)
-
-  return (
-    <div className={ styles.YoYoCommentItemContainer }>
-      <div className={ styles.YoYoCommentItemUserAndDate }>
-        <div className={ styles.YoYoCommentItemUser }>
-          { comment.user }
-          <span className={ styles.YoYoCommentItemDate }> - { moment(comment.date).format('YYYY-MM-DD HH:MM') } </span>
-        </div>
-      </div>
-      <div className={ styles.YoYoCommentItemText }>
-        <p>
-          { comment.text }
-        </p>
-      </div>
-      <div className={ styles.YoYoReplyButtonContainer }>
-        <button className={ styles.YoYoReplyButton } onClick={ handleReply }> reply </button>
+const Comment = ({ comment }) => (
+  <div className={ styles.YoYoCommentItemContainer }>
+    <div className={ styles.YoYoCommentItemUserAndDate }>
+      <div className={ styles.YoYoCommentItemUser }>
+        { comment.user }
+        <span className={ styles.YoYoCommentItemDate }> - { moment(comment.date).format('YYYY-MM-DD HH:MM') } </span>
       </div>
     </div>
-  )
-}
+    <div className={ styles.YoYoCommentItemText }>
+      <p>
+        { comment.text }
+      </p>
+    </div>
+  </div>
+)
 
 Comment.propTypes = {
   comment: object,
@@ -87,15 +83,20 @@ YoYoCommentList.propTypes = {
   onReply: func,
 }
 
-const YoYoCommentBox = ({ text, email, onCommentTextChange, onEmailChange, onPublish }) => (
+const YoYoCommentBox = ({
+  email,
+  suggestions,
+  onCommentTextChange,
+  onReply,
+  onEmailChange,
+  onPublish,
+}) => (
   <div className={ styles.YoYoBoxContainer }>
-    <div className={ styles.YoYoInputArea }>
-      <textarea
-        className={ styles.YoYoCommentTextArea }
-        value={ text }
-        onChange={ onCommentTextChange }
-      />
-    </div>
+    <CommentBox
+      suggestions={ suggestions }
+      onContentChange={ onCommentTextChange }
+      onAddMention={ onReply }
+    />
     <div className={ styles.YoYoUserAction }>
       <input
         className={ styles.YoYoEmailInput }
@@ -116,8 +117,10 @@ const YoYoCommentBox = ({ text, email, onCommentTextChange, onEmailChange, onPub
 
 YoYoCommentBox.propTypes = {
   text: string,
+  suggestions: array,
   email: string,
   onCommentTextChange: func,
+  onReply: func,
   onEmailChange: func,
   onPublish: func,
 }
@@ -127,11 +130,12 @@ class App extends React.Component {
     super(props)
 
     this.state = {
-      open: false,
+      open: true,
       text: '',
       email: '',
       list: [],
       parents: [],
+      suggestions: [],
     }
   }
 
@@ -140,6 +144,15 @@ class App extends React.Component {
   }
 
   fetchCommentList() {
+    const commentToMention = (comment) => {
+      const { user, _id } = comment
+      const [name, link] = user.split('@')
+      if (name && link) {
+        return { name, link, avatar: '', _id }
+      }
+      return null
+    }
+
     api.fetch(window.location.href)
       .then((res) => {
         if (res.status === 200) {
@@ -148,7 +161,10 @@ class App extends React.Component {
         return new Error(`${res.statusText}`)
       })
       .then((data) => {
-        this.setState({ list: data })
+        this.setState({
+          list: data,
+          suggestions: data.map(commentToMention).filter((c) => c !== null),
+        })
       })
       .catch((e) => {
         console.warn(e)
@@ -162,10 +178,9 @@ class App extends React.Component {
     })
   }
 
-  commentTextChange(e) {
-    const value = e.target.value
+  commentTextChange(text) {
     this.setState({
-      text: value,
+      text,
     })
   }
 
@@ -220,14 +235,13 @@ class App extends React.Component {
     this.setState({ open: false })
   }
 
-  reply(comment) {
-    const { _id, user } = comment
-    const { parents, text } = this.state
+  reply(id) {
+    const { parents } = this.state
 
-    if (parents.indexOf(_id) === -1) {
+    if (parents.indexOf(id) === -1) {
       this.setState({
-        parents: [...parents, _id],
-        text: `@${user} ${text}`,
+        parents: [...parents, id],
+        // text: `@${user} ${text}`,
       })
     }
   }
@@ -238,6 +252,7 @@ class App extends React.Component {
       text,
       email,
       open,
+      suggestions,
     } = this.state
 
     if (open) {
@@ -246,8 +261,10 @@ class App extends React.Component {
           <CloseIcon onClick={ ::this.closeYoYo } />
           <YoYoCommentBox
             text={ text }
+            suggestions={ suggestions }
             email={ email }
             onCommentTextChange={ ::this.commentTextChange }
+            onReply={ ::this.reply }
             onEmailChange={ ::this.commentEmailChange }
             onPublish={ ::this.publish }
           />

@@ -115,9 +115,11 @@
 
 .YoYoCommentItemContainer {
 	/* border-bottom: 1px solid lightgrey; */
+  padding: 10px;
 }
 
 .YoYoCommentItemContainer:hover {
+  padding: 10px;
   background-color: #F5F5F5;
 }
 

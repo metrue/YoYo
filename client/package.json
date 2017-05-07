@@ -7,6 +7,7 @@
     "build": "webpack --config ./webpack.config.js",
     "build-prod": "NODE_ENV=production webpack --optimize-minimize --define process.env.NODE_ENV='production' --config ./webpack.config.js",
     "develop": "webpack-dev-server -d --config webpack.config.js",
+    "lint": "eslint --fix src",
     "test": "mocha --compilers js:babel-register --require babel-polyfill --require ./test/helpers.js --require ./test/dom.js --require ignore-styles --recursive"
   },
   "keywords": [],
@@ -67,6 +68,9 @@
   },
   "dependencies": {
     "chai": "^3.5.0",
+    "draft-js": "^0.10.0",
+    "draft-js-mention-plugin": "^2.0.0-beta10",
+    "draft-js-plugins-editor": "^2.0.0-beta10",
     "enzyme": "^2.8.0",
     "jsdom": "^9.12.0",
     "moment": "^2.17.1",
