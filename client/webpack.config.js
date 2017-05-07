@@ -44,7 +44,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        exclude: /site\.css$|react-select\.css|bootstrap\.css$|fixed-data-table\.min\.css$|rodal\.css$/,
+        exclude: /site\.css$|react-select\.css|bootstrap\.css$|fixed-data-table\.min\.css$|rodal\.css$|plugin\.css$/,
         use: [
           'style-loader',
           'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
@@ -52,6 +52,13 @@ module.exports = {
       },
       {
         test: /site\.css$|fixed-data-table\.min\.css$/,
+        use: [
+          'style-loader',
+          'css-loader',
+        ],
+      },
+      {
+        test: /plugin\.css$/,
         use: [
           'style-loader',
           'css-loader',

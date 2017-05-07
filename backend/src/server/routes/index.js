@@ -12,7 +12,8 @@ export default [
     handler: async (ctx, dal) => {
       const query = ctx.query
       const comments = await dal.find(query)
-      ctx.body = comments.map(c => ({ ...c, user: c.user.replace(/@.*$/, '') }))
+      ctx.body = comments
+      // ctx.body = comments.map(c => ({ ...c, user: c.user.replace(/@.*$/, '') }))
     },
   },
   {

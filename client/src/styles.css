@@ -113,44 +113,6 @@
 .YoYoCommentItemUserAndDate {
 }
 
-.YoYoCommentItemContainer {
-	/* border-bottom: 1px solid lightgrey; */
-}
-
-.YoYoCommentItemContainer:hover {
-  background-color: #F5F5F5;
-}
-
-.YoYoCommentItemUser {
-	padding-left: 15px;
-	padding-right: 15px;
-	font-size: 11.2px;
-	color: #000000;
-	line-height: 14.4px;
-  font-size: 14px;
-  line-height: 1.4;
-  text-rendering: auto;
-}
-
-.YoYoCommentItemDate {
-	font-size: 12px;
-	color: rgba(0,0,0,0.38);
-	line-height: 1.4;
-	padding-left: 15px;
-	padding-right: 15px;
-}
-
-.YoYoCommentItemText {
-	padding-left: 15px;
-	padding-right: 15px;
-}
-
-.YoYoCommentItemText p {
-	font-size: 16px;
-	line-height: 1.5;
-	word-wrap: break-word;
-  margin-bottom: 0px;
-}
 
 .YoYoOpenIcon {
   display: flex;
