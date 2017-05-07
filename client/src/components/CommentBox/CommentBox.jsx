@@ -5,15 +5,13 @@ import createMentionPlugin, {
   defaultSuggestionsFilter,
 } from 'draft-js-mention-plugin'
 import { fromJS } from 'immutable'
-import editorStyles from './editorStyles.css'
+
+import editorStyles from './styles.css'
 
 const mentionPlugin = createMentionPlugin()
 const { MentionSuggestions } = mentionPlugin
 const plugins = [mentionPlugin]
 
-
-// export default mentions
-//
 export default class CommentBox extends React.Component {
   constructor(props) {
     super(props)
@@ -54,7 +52,6 @@ export default class CommentBox extends React.Component {
 
   render() {
     const { suggestions } = this.props
-    // console.log(suggestions)
     return (
       <div className={ editorStyles.editor } onClick={ this.focus }>
         <Editor

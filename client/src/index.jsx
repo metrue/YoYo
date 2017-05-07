@@ -1,11 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import moment from 'moment'
 
 import api from './api'
 import styles from './styles.css'
 import { maybeEmailAddress, validateComment } from './utils'
-import CommentBox from './CommentBox'
+import CommentBox from './components/CommentBox'
+import CommentItem from './components/CommentItem'
 
 import 'draft-js-mention-plugin/lib/plugin.css'
 
@@ -13,7 +13,6 @@ const {
   array,
   string,
   func,
-  object,
 } = React.PropTypes
 
 const OpenIcon = ({ onClick }) => (
@@ -47,40 +46,6 @@ const CloseIcon = ({ onClick }) => (
 
 CloseIcon.propTypes = {
   onClick: func,
-}
-
-const Comment = ({ comment }) => (
-  <div className={ styles.YoYoCommentItemContainer }>
-    <div className={ styles.YoYoCommentItemUserAndDate }>
-      <div className={ styles.YoYoCommentItemUser }>
-        { comment.user }
-        <span className={ styles.YoYoCommentItemDate }> - { moment(comment.date).format('YYYY-MM-DD HH:MM') } </span>
-      </div>
-    </div>
-    <div className={ styles.YoYoCommentItemText }>
-      <p>
-        { comment.text }
-      </p>
-    </div>
-  </div>
-)
-
-Comment.propTypes = {
-  comment: object,
-  onReply: func,
-}
-
-const YoYoCommentList = ({ list, onReply }) => (
-  <div className={ styles.YoYoCommentListContainer }>
-    {
-      list.map(c => <Comment comment={ c } onReply={ onReply } />)
-    }
-  </div>
-)
-
-YoYoCommentList.propTypes = {
-  list: array,
-  onReply: func,
 }
 
 const YoYoCommentBox = ({
@@ -268,10 +233,11 @@ class App extends React.Component {
             onEmailChange={ ::this.commentEmailChange }
             onPublish={ ::this.publish }
           />
-          <YoYoCommentList
-            list={ list }
-            onReply={ ::this.reply }
-          />
+          <div className={ styles.YoYoCommentListContainer }>
+            {
+              list.map(c => <CommentItem comment={ c } />)
+            }
+          </div>
         </div>
       )
     }
