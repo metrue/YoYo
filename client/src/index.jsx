@@ -7,8 +7,6 @@ import { maybeEmailAddress, validateComment } from './utils'
 import CommentBox from './components/CommentBox'
 import CommentItem from './components/CommentItem'
 
-import 'draft-js-mention-plugin/lib/plugin.css'
-
 const {
   array,
   string,
