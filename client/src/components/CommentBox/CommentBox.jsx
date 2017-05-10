@@ -1,9 +1,7 @@
 import React from 'react'
 import { EditorState } from 'draft-js'
 import Editor from 'draft-js-plugins-editor'
-import createMentionPlugin, {
-  defaultSuggestionsFilter,
-} from 'draft-js-mention-plugin'
+import createMentionPlugin from 'draft-js-mention-plugin'
 import { fromJS } from 'immutable'
 
 import editorStyles from './styles.css'
@@ -15,6 +13,18 @@ const mentionPlugin = createMentionPlugin({
   mentionPrefix: '@',
 })
 
+const suggestionsFilter = (searchValue, suggestions) => {
+  const value = searchValue.toLowerCase()
+  const filteredSuggestions = suggestions.filter((suggestion) => (
+    !value || suggestion.get('name').toLowerCase().indexOf(value) > -1
+  ))
+
+  if (filteredSuggestions.size < 5) {
+    return filteredSuggestions
+  }
+  return filteredSuggestions.setSize(5)
+}
+
 const { MentionSuggestions } = mentionPlugin
 const plugins = [mentionPlugin]
 
@@ -24,6 +34,7 @@ export default class CommentBox extends React.Component {
 
     this.state = {
       editorState: EditorState.createEmpty(),
+      suggestions: fromJS(props.suggestions),
     }
   }
 
@@ -44,7 +55,7 @@ export default class CommentBox extends React.Component {
     const { suggestions } = this.props
     const mentions = fromJS(suggestions)
     this.setState({
-      suggestions: defaultSuggestionsFilter(value, mentions),
+      suggestions: suggestionsFilter(value, mentions),
     })
   };
 
@@ -57,7 +68,7 @@ export default class CommentBox extends React.Component {
   };
 
   render() {
-    const { suggestions } = this.props
+    const { suggestions } = this.state
     return (
       <div className={ editorStyles.editor } onClick={ this.focus }>
         <Editor
