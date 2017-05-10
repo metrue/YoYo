@@ -10,6 +10,7 @@ import editorStyles from './styles.css'
 import mentionsStyles from './mentionsStyles.css'
 
 const mentionPlugin = createMentionPlugin({
+  entityMutability: 'IMMUTABLE',
   theme: mentionsStyles,
   mentionPrefix: '@',
 })

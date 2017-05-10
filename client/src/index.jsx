@@ -116,6 +116,18 @@ class App extends React.Component {
       return null
     }
 
+    const uniqueMentionsByUser = (arr) => {
+      const mentions = []
+      const flag = {}
+      for (const m of arr) {
+        if (!flag[`${m.name}${m.link}`]) {
+          mentions.push(m)
+        }
+        flag[`${m.name}${m.link}`] = true
+      }
+      return mentions
+    }
+
     api.fetch(window.location.href)
       .then((res) => {
         if (res.status === 200) {
@@ -126,7 +138,7 @@ class App extends React.Component {
       .then((data) => {
         this.setState({
           list: data,
-          suggestions: data.map(commentToMention).filter((c) => c !== null),
+          suggestions: uniqueMentionsByUser(data.map(commentToMention).filter((c) => c !== null)),
         })
       })
       .catch((e) => {
