@@ -28,6 +28,33 @@ const suggestionsFilter = (searchValue, suggestions) => {
 const { MentionSuggestions } = mentionPlugin
 const plugins = [mentionPlugin]
 
+const Entry = (props) => {
+  const {
+    mention,
+    theme,
+    searchValue, // eslint-disable-line no-unused-vars
+    ...parentProps,
+  } = props
+
+  return (
+    <div { ...parentProps }>
+      <div className={ theme.mentionSuggestionsEntryContainer }>
+        <div className={ theme.mentionSuggestionsEntryContainerRight }>
+          <div className={ theme.mentionSuggestionsEntryText }>
+            { mention.get('name') }
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+Entry.propTypes = {
+  mention: React.PropTypes.object,
+  theme: React.PropTypes.object,
+  searchValue: React.PropTypes.string,
+}
+
 export default class CommentBox extends React.Component {
   constructor(props) {
     super(props)
@@ -81,6 +108,7 @@ export default class CommentBox extends React.Component {
           onSearchChange={ this.onSearchChange }
           suggestions={ fromJS(suggestions) }
           onAddMention={ this.onAddMention }
+          entryComponent={ Entry }
         />
       </div>
     )
