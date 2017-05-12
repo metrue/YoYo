@@ -1,17 +1,16 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { EditorState, ContentState } from 'draft-js'
+import { fromJS } from 'immutable'
 
 import api from './api'
 import styles from './styles.css'
 import { maybeEmailAddress, validateComment } from './utils'
 import CommentBox from './components/CommentBox'
 import CommentItem from './components/CommentItem'
+import SubmitButton from './components/SubmitButton'
 
-const {
-  array,
-  string,
-  func,
-} = React.PropTypes
+const { func } = React.PropTypes
 
 const OpenIcon = ({ onClick }) => (
   <div onClick={ onClick } className={ styles.YoYoOpenIcon }>
@@ -46,59 +45,17 @@ CloseIcon.propTypes = {
   onClick: func,
 }
 
-const YoYoCommentBox = ({
-  email,
-  suggestions,
-  onCommentTextChange,
-  onReply,
-  onEmailChange,
-  onPublish,
-}) => (
-  <div className={ styles.YoYoBoxContainer }>
-    <CommentBox
-      suggestions={ suggestions }
-      onContentChange={ onCommentTextChange }
-      onAddMention={ onReply }
-    />
-    <div className={ styles.YoYoUserAction }>
-      <input
-        className={ styles.YoYoEmailInput }
-        type="text"
-        value={ email }
-        placeholder="leave email to get updates"
-        onChange={ onEmailChange }
-      />
-      <button
-        className={ styles.YoYoCommentPublishButton }
-        onClick={ onPublish }
-      >
-        Publish
-      </button>
-    </div>
-  </div>
-)
-
-YoYoCommentBox.propTypes = {
-  text: string,
-  suggestions: array,
-  email: string,
-  onCommentTextChange: func,
-  onReply: func,
-  onEmailChange: func,
-  onPublish: func,
-}
-
 class App extends React.Component {
   constructor(props) {
     super(props)
 
     this.state = {
       open: true,
-      text: '',
       email: '',
       list: [],
       parents: [],
       suggestions: [],
+      editorState: EditorState.createEmpty(),
     }
   }
 
@@ -153,18 +110,14 @@ class App extends React.Component {
     })
   }
 
-  commentTextChange(text) {
-    this.setState({
-      text,
-    })
-  }
-
   submit() {
     const {
-      text,
       email,
       parents,
+      editorState,
     } = this.state
+
+    const text = editorState.getCurrentContent().getPlainText()
 
     api.submit({
       user: email,
@@ -178,7 +131,7 @@ class App extends React.Component {
           setTimeout(() => {
             this.fetchCommentList()
           }, 0)
-          this.setState({ text: '', email: '' })
+          this.reset()
         }
         return new Error(`${res.statusText}`)
       })
@@ -187,12 +140,18 @@ class App extends React.Component {
       })
   }
 
+  reset() {
+    const editorState = EditorState.push(this.state.editorState, ContentState.createFromText(''))
+    this.setState({ editorState })
+  }
+
   publish() {
     const {
       email,
-      text,
+      editorState,
     } = this.state
 
+    const text = editorState.getCurrentContent().getPlainText()
     if (!maybeEmailAddress(email)) {
       alert(`'${email}' is not a valid email`)
     } else if (!validateComment(text)) {
@@ -214,35 +173,48 @@ class App extends React.Component {
     const { parents } = this.state
 
     if (parents.indexOf(id) === -1) {
-      this.setState({
-        parents: [...parents, id],
-        // text: `@${user} ${text}`,
-      })
+      this.setState({ parents: [...parents, id] })
     }
+  }
+
+  editorStateChange(editorState) {
+    this.setState({ editorState })
+  }
+
+  resetEditorState() {
+    const editorState = EditorState.createWithContent(ContentState.createFromText(''))
+    this.setState({ editorState })
   }
 
   render() {
     const {
       list,
-      text,
       email,
       open,
       suggestions,
+      editorState,
     } = this.state
+
+    const immutabaleSuggestions = fromJS(suggestions)
 
     if (open) {
       return (
         <div className={ styles.YoYoContainer }>
           <CloseIcon onClick={ ::this.closeYoYo } />
-          <YoYoCommentBox
-            text={ text }
-            suggestions={ suggestions }
-            email={ email }
-            onCommentTextChange={ ::this.commentTextChange }
-            onReply={ ::this.reply }
-            onEmailChange={ ::this.commentEmailChange }
-            onPublish={ ::this.publish }
-          />
+          <div className={ styles.YoYoBoxContainer }>
+            <CommentBox
+              editorState={ editorState }
+              onEditorStateChange={ ::this.editorStateChange }
+              suggestions={ immutabaleSuggestions }
+              onAddMention={ ::this.reply }
+            />
+            <SubmitButton
+              email={ email }
+              onEmailChange={ ::this.commentEmailChange }
+              onPublish={ ::this.publish }
+            />
+          </div>
+
           <div className={ styles.YoYoCommentListContainer }>
             {
               list.map(c => <CommentItem comment={ c } />)

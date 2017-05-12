@@ -1,8 +1,6 @@
 import React from 'react'
-import { EditorState } from 'draft-js'
 import Editor from 'draft-js-plugins-editor'
 import createMentionPlugin from 'draft-js-mention-plugin'
-import { fromJS } from 'immutable'
 
 import editorStyles from './styles.css'
 import mentionsStyles from './mentionsStyles.css'
@@ -60,29 +58,14 @@ export default class CommentBox extends React.Component {
     super(props)
 
     this.state = {
-      editorState: EditorState.createEmpty(),
-      suggestions: fromJS(props.suggestions),
+      suggestions: props.suggestions,
     }
   }
 
-  onChange = (editorState) => {
-    const { onContentChange } = this.props
-    onContentChange(
-      editorState
-      .getCurrentContent()
-      .getPlainText()
-    )
-
-    this.setState({
-      editorState,
-    })
-  };
-
   onSearchChange = ({ value }) => {
     const { suggestions } = this.props
-    const mentions = fromJS(suggestions)
     this.setState({
-      suggestions: suggestionsFilter(value, mentions),
+      suggestions: suggestionsFilter(value, suggestions),
     })
   };
 
@@ -95,18 +78,17 @@ export default class CommentBox extends React.Component {
   };
 
   render() {
-    const { suggestions } = this.state
     return (
       <div className={ editorStyles.editor } onClick={ this.focus }>
         <Editor
-          editorState={ this.state.editorState }
-          onChange={ this.onChange }
+          editorState={ this.props.editorState }
+          onChange={ this.props.onEditorStateChange }
           plugins={ plugins }
           ref={ (element) => { this.editor = element } }
         />
         <MentionSuggestions
           onSearchChange={ this.onSearchChange }
-          suggestions={ fromJS(suggestions) }
+          suggestions={ this.state.suggestions }
           onAddMention={ this.onAddMention }
           entryComponent={ Entry }
         />
@@ -116,6 +98,8 @@ export default class CommentBox extends React.Component {
 }
 
 CommentBox.propTypes = {
+  editorState: React.PropTypes.object,
+  onEditorStateChange: React.PropTypes.func,
   suggestions: React.PropTypes.array,
   onAddMention: React.PropTypes.func,
   onContentChange: React.PropTypes.func,
