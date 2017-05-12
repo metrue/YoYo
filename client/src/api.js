@@ -2,7 +2,7 @@ import fetch from 'isomorphic-fetch'
 import { API_HOST } from '../config'
 
 class API {
-  async fetch(uri) {
+  async query(uri) {
     const url = `${API_HOST}/comments?uri=${encodeURIComponent(uri)}`
     return fetch(url)
   }

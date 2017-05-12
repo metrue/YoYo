@@ -5,87 +5,31 @@ import { fromJS } from 'immutable'
 
 import api from './api'
 import styles from './styles.css'
-import { maybeEmailAddress, validateComment } from './utils'
 import CommentBox from './components/CommentBox'
 import CommentItem from './components/CommentItem'
 import SubmitButton from './components/SubmitButton'
-
-const { func } = React.PropTypes
-
-const OpenIcon = ({ onClick }) => (
-  <div onClick={ onClick } className={ styles.YoYoOpenIcon }>
-    <svg width="28" height="24">
-      <g transform="translate(14 12)">
-        <g className="expando-glyph">
-          <polygon points="-1.7,-5 3.3,0 -1.7,5 -2.9,3.8 1,0 -2.9,-3.8"></polygon>
-        </g>
-      </g>
-    </svg>
-    <span className={ styles.YoYoLabelTitle }> Write a response... </span>
-  </div>
-)
-
-OpenIcon.propTypes = {
-  onClick: func,
-}
-
-const CloseIcon = ({ onClick }) => (
-  <div onClick={ onClick } className={ styles.YoYoCloseIcon }>
-    <svg width="28" height="24">
-      <g transform="translate(14 12)">
-        <g className="expando-glyph">
-          <polygon points="-1.7,-5 3.3,0 -1.7,5 -2.9,3.8 1,0 -2.9,-3.8" transform="rotate(90)"></polygon>
-        </g>
-      </g>
-    </svg>
-  </div>
-)
-
-CloseIcon.propTypes = {
-  onClick: func,
-}
+import {
+  maybeEmailAddress,
+  validateComment,
+  commentToMention,
+  uniqueMentionsByUser,
+} from './utils'
 
 class App extends React.Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      open: true,
-      email: '',
-      list: [],
-      parents: [],
-      suggestions: [],
-      editorState: EditorState.createEmpty(),
-    }
+  state = {
+    email: '',
+    list: [],
+    parents: [],
+    suggestions: [],
+    editorState: EditorState.createEmpty(),
   }
 
-  componentDidMount() {
+  componentDidMount = () => {
     this.fetchCommentList()
   }
 
-  fetchCommentList() {
-    const commentToMention = (comment) => {
-      const { user, _id } = comment
-      const [name, link] = user.split('@')
-      if (name && link) {
-        return { name, link, avatar: '', _id }
-      }
-      return null
-    }
-
-    const uniqueMentionsByUser = (arr) => {
-      const mentions = []
-      const flag = {}
-      for (const m of arr) {
-        if (!flag[`${m.name}${m.link}`]) {
-          mentions.push(m)
-        }
-        flag[`${m.name}${m.link}`] = true
-      }
-      return mentions
-    }
-
-    api.fetch(window.location.href)
+  fetchCommentList = () => {
+    api.query(window.location.href)
       .then((res) => {
         if (res.status === 200) {
           return res.json()
@@ -103,14 +47,14 @@ class App extends React.Component {
       })
   }
 
-  commentEmailChange(e) {
+  commentEmailChange = (e) => {
     const value = e.target.value
     this.setState({
       email: value,
     })
   }
 
-  submit() {
+  submit = () => {
     const {
       email,
       parents,
@@ -140,12 +84,12 @@ class App extends React.Component {
       })
   }
 
-  reset() {
+  reset = () => {
     const editorState = EditorState.push(this.state.editorState, ContentState.createFromText(''))
     this.setState({ editorState })
   }
 
-  publish() {
+  publish = () => {
     const {
       email,
       editorState,
@@ -161,15 +105,7 @@ class App extends React.Component {
     }
   }
 
-  openYoYo() {
-    this.setState({ open: true })
-  }
-
-  closeYoYo() {
-    this.setState({ open: false })
-  }
-
-  reply(id) {
+  mention = (id) => {
     const { parents } = this.state
 
     if (parents.indexOf(id) === -1) {
@@ -177,12 +113,7 @@ class App extends React.Component {
     }
   }
 
-  editorStateChange(editorState) {
-    this.setState({ editorState })
-  }
-
-  resetEditorState() {
-    const editorState = EditorState.createWithContent(ContentState.createFromText(''))
+  editorStateChange = (editorState) => {
     this.setState({ editorState })
   }
 
@@ -190,42 +121,33 @@ class App extends React.Component {
     const {
       list,
       email,
-      open,
       suggestions,
       editorState,
     } = this.state
 
     const immutabaleSuggestions = fromJS(suggestions)
 
-    if (open) {
-      return (
-        <div className={ styles.YoYoContainer }>
-          <CloseIcon onClick={ ::this.closeYoYo } />
-          <div className={ styles.YoYoBoxContainer }>
-            <CommentBox
-              editorState={ editorState }
-              onEditorStateChange={ ::this.editorStateChange }
-              suggestions={ immutabaleSuggestions }
-              onAddMention={ ::this.reply }
-            />
-            <SubmitButton
-              email={ email }
-              onEmailChange={ ::this.commentEmailChange }
-              onPublish={ ::this.publish }
-            />
-          </div>
-
-          <div className={ styles.YoYoCommentListContainer }>
-            {
-              list.map(c => <CommentItem comment={ c } />)
-            }
-          </div>
-        </div>
-      )
-    }
     return (
       <div className={ styles.YoYoContainer }>
-        <OpenIcon onClick={ ::this.openYoYo } />
+        <div className={ styles.YoYoBoxContainer }>
+          <CommentBox
+            editorState={ editorState }
+            onEditorStateChange={ this.editorStateChange }
+            suggestions={ immutabaleSuggestions }
+            onAddMention={ this.mention }
+          />
+          <SubmitButton
+            email={ email }
+            onEmailChange={ this.commentEmailChange }
+            onPublish={ this.publish }
+          />
+        </div>
+
+        <div className={ styles.YoYoCommentListContainer }>
+          {
+            list.map(c => <CommentItem comment={ c } />)
+          }
+        </div>
       </div>
     )
   }
