@@ -1,8 +1,10 @@
 ## YoYo
 
-![CircleCI](https://circleci.com/gh/metrue/YoYo.svg?&style=shield&circle-token=964ea66301703e4612ad72ec839ba2d4fa2f98b4)
-![CodeCov](https://codecov.io/github/metrue/YoYo/coverage.svg?branch=master)
-![License:MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+<p align="center">
+<img src="https://circleci.com/gh/metrue/YoYo.svg?&style=shield&circle-token=964ea66301703e4612ad72ec839ba2d4fa2f98b4"></img>
+<img src="https://codecov.io/github/metrue/YoYo/coverage.svg?branch=master"></img>
+<img src="https://img.shields.io/badge/License-MIT-yellow.svg"></img>
+</p>
 
 A comment service that never disturbs reading.
 
