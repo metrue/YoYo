@@ -1,0 +1,11 @@
+machine:
+  node:
+    version: 7.9.0
+
+dependencies:
+  override:
+    - cd client && npm install
+
+test:
+  override:
+    - cd client && npm run test
