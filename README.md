@@ -5,7 +5,7 @@
 A dead simple, dead lightweight comment engine alternative to Disqus.
 
 <p align="center">
-  <img src="https://github.com/metrue/YoYo/raw/master/screenshot.png"></img>
+  <img src="https://github.com/metrue/YoYo/raw/master/screenshot.png" width='100'></img>
 </p>
 
 ---
