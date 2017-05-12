@@ -8,6 +8,7 @@ machine:
     - sudo apt-get update
     - sudo apt-get install -y mongodb-org
     - sudo service mongod restart
+    - npm install -g codecov
 
 dependencies:
   override:
@@ -18,3 +19,4 @@ test:
   override:
     - cd client && npm run test
     - cd backend && npm run test
+    - cd backend && npm run coverage
