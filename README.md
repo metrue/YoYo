@@ -4,7 +4,8 @@
 
 A dead simple, dead lightweight comment engine alternative to Disqus.
 
-![demo]("blob:https://vimeo.com/480c7afb-e0ff-4604-a5b8-c80f0a660f8a")
+<iframe src="https://player.vimeo.com/video/217139846" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+<p><a href="https://vimeo.com/217139846">YoYo, a nice comment service for you website.</a> from <a href="https://vimeo.com/user44904425">黄明和</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
 
 ---
 
