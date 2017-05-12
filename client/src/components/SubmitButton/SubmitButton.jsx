@@ -1,5 +1,7 @@
 import React from 'react'
+
 import styles from './styles.css'
+import INTL_TEXT from '../../intl_text'
 
 const SubmitButton = ({ email, onEmailChange, onPublish }) => (
   <div className={ styles.YoYoUserAction }>
@@ -7,14 +9,14 @@ const SubmitButton = ({ email, onEmailChange, onPublish }) => (
       className={ styles.YoYoEmailInput }
       type="text"
       value={ email }
-      placeholder="leave email to get updates"
+      placeholder={ INTL_TEXT.emailPlaceholderText }
       onChange={ onEmailChange }
     />
     <button
       className={ styles.YoYoCommentPublishButton }
       onClick={ onPublish }
     >
-      Publish
+      { INTL_TEXT.publlishButtonTitleText }
     </button>
   </div>
 )
