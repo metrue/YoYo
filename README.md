@@ -4,6 +4,8 @@
 
 A dead simple, dead lightweight comment engine alternative to Disqus.
 
+<video preload="" src="blob:https://vimeo.com/480c7afb-e0ff-4604-a5b8-c80f0a660f8a"></video>
+
 ---
 
 <p align="center">
