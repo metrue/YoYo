@@ -1,4 +1,7 @@
-## YoYo
+<p align="center">
+  <img src="https://github.com/metrue/YoYo/raw/master/YoYo.png"></img>
+</p>
+
 
 YoYo 是我尝试打造的一个评论服务，我希望她最终可以成为这样的一个作品:
 
