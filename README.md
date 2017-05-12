@@ -13,6 +13,7 @@ A dead simple, dead lightweight comment engine alternative to Disqus.
 </p>
 <p align="center">
   <img src="https://github.com/metrue/YoYo/raw/master/screenshot.png" width='200'></img>
+  <img src="https://github.com/metrue/YoYo/raw/master/screenshot-zh.png" width='200'></img>
 </p>
 
 ### Usage
