@@ -1,4 +1,4 @@
-## YoYo
+<h1 align="center"> YoYo</h1>
 
 <p align="center">
 <img src="https://circleci.com/gh/metrue/YoYo.svg?&style=shield&circle-token=964ea66301703e4612ad72ec839ba2d4fa2f98b4"></img>
