@@ -5,7 +5,7 @@ machine:
   cache_directories:
     - mongodb-linux-x86_64-ubuntu1404-3.4.4
   pre:
-    - if [[ ! -d mongodb-linux-x86_64-ubuntu1404-3.4.4 ]]; then wget https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-ubuntu1404-3.4.4.tgz && tar xvzf mongodb-linux-x86_64-ubuntu1404-3.4.4; fi
+    - if [[ ! -d mongodb-linux-x86_64-ubuntu1404-3.4.4 ]]; then wget https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-ubuntu1404-3.4.4.tgz && tar xvzf mongodb-linux-x86_64-ubuntu1404-3.4.4.tgz; fi
     - sudo /etc/init.d/mongodb stop
     - sudo cp mongodb-linux-x86_64-ubuntu1404-3.4.4/bin/* /usr/bin
     - sudo /etc/init.d/mongodb start
