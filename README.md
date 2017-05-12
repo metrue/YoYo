@@ -4,10 +4,6 @@
 
 A dead simple, dead lightweight comment engine alternative to Disqus.
 
-<p align="center">
-  <img src="https://github.com/metrue/YoYo/raw/master/screenshot.png" width='200'></img>
-</p>
-
 ---
 
 <p align="center">
@@ -15,7 +11,9 @@ A dead simple, dead lightweight comment engine alternative to Disqus.
   <img src="https://codecov.io/github/metrue/YoYo/coverage.svg?branch=master"></img>
   <img src="https://img.shields.io/badge/License-MIT-yellow.svg"></img>
 </p>
-
+<p align="center">
+  <img src="https://github.com/metrue/YoYo/raw/master/screenshot.png" width='200'></img>
+</p>
 
 ### Usage
 
