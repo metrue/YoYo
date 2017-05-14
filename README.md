@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/metrue/YoYo/raw/master/YoYo.png"></img>
+  <img src="https://github.com/metrue/YoYo/raw/master/YoYo.png"/>
 </p>
 
 A dead simple, dead lightweight comment engine alternative to Disqus.
