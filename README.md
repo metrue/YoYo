@@ -12,8 +12,8 @@ A dead simple, dead lightweight comment engine alternative to Disqus.
   <img src="https://img.shields.io/badge/License-MIT-yellow.svg"/>
 </p>
 <p align="center">
-  <img src="https://github.com/metrue/YoYo/raw/master/screenshot.png" width='200' style="border: solid lightgrey 1px;"/>
-  <img src="https://github.com/metrue/YoYo/raw/master/screenshot-zh.png" width='200' style="border: solid lightgrey 1px;"/>
+  <img src="https://github.com/metrue/YoYo/raw/master/screenshot.png" width='200' height='352' style="border: solid lightgrey 1px;"/>
+  <img src="https://github.com/metrue/YoYo/raw/master/screenshot-zh.png" width='200' height='352' style="border: solid lightgrey 1px;"/>
 </p>
 
 ### Usage
