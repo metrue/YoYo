@@ -7,13 +7,13 @@ A dead simple, dead lightweight comment engine alternative to Disqus.
 ---
 
 <p align="center">
-  <img src="https://circleci.com/gh/metrue/YoYo.svg?&style=shield&circle-token=964ea66301703e4612ad72ec839ba2d4fa2f98b4"></img>
-  <img src="https://codecov.io/github/metrue/YoYo/coverage.svg?branch=master"></img>
-  <img src="https://img.shields.io/badge/License-MIT-yellow.svg"></img>
+  <img src="https://circleci.com/gh/metrue/YoYo.svg?&style=shield&circle-token=964ea66301703e4612ad72ec839ba2d4fa2f98b4"/>
+  <img src="https://codecov.io/github/metrue/YoYo/coverage.svg?branch=master"/>
+  <img src="https://img.shields.io/badge/License-MIT-yellow.svg"/>
 </p>
 <p align="center">
-  <img src="https://github.com/metrue/YoYo/raw/master/screenshot.png" width='200'></img>
-  <img src="https://github.com/metrue/YoYo/raw/master/screenshot-zh.png" width='200'></img>
+  <img src="https://github.com/metrue/YoYo/raw/master/screenshot.png" width='200'/>
+  <img src="https://github.com/metrue/YoYo/raw/master/screenshot-zh.png" width='200'/>
 </p>
 
 ### Usage
