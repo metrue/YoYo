@@ -1,4 +1,5 @@
 import mongo from './db'
+import { ObjectID } from 'mongodb'
 
 function buidQuery(query = {}) {
   const allowedFields = ['_id', 'user', 'uri', 'text', 'date', 'parent']
@@ -33,6 +34,12 @@ export default class BaseDal {
   async create(obj) {
     const col = await this.collection()
     return await col.insert(obj)
+  }
+
+  async deleteOne(id) {
+    const col = await this.collection()
+    // eslint-disable-next-line
+    return await col.deleteOne({ _id: ObjectID(id) })
   }
 
   async findOne(query) {

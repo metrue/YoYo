@@ -36,4 +36,22 @@ export default [
       ctx.status = 201
     },
   },
+  {
+    path: '/admin/comments',
+    method: 'GET',
+    handler: async (ctx, dal) => {
+      const query = ctx.query
+      const comments = await dal.queryWithUri(query)
+      ctx.body = comments
+    },
+  },
+  {
+    path: '/admin/comments/:id',
+    method: 'DELETE',
+    handler: async (ctx, dal) => {
+      const id = ctx.params.id
+      await dal.deleteOne(id)
+      ctx.status = 204
+    },
+  },
 ]

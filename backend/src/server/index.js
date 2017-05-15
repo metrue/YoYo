@@ -43,6 +43,8 @@ export default class {
       const handler = async (ctx) => {
         if (route.path && route.path.startsWith('/comments')) {
           await route.handler(ctx, this.dals.comments)
+        } else if (route.path && route.path.startsWith('/admin/comments')) {
+          await route.handler(ctx, this.dals.comments)
         }
       }
 
