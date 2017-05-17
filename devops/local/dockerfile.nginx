@@ -1,5 +1,0 @@
-FROM nginx:alpine
-
-COPY devops/local/nginx.conf /etc/nginx/nginx.conf
-
-EXPOSE 80

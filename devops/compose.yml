@@ -7,10 +7,10 @@ services:
   mongo:
     image: mongo
     volumes:
-      - /data/db:/data/db
+      - ${PWD}/data/db:/data/db
   api:
     build:
-      context: ..
+      context: ../../
       dockerfile: devops/dockerfile.api
     ports:
       - '5002:5002'
@@ -18,20 +18,30 @@ services:
       - mongo
   client:
     build:
-      context: ..
+      context: ../../
       dockerfile: devops/dockerfile.client
-    volumes:
-      - dist:/opt/YoYo/client/public/dist
+    ports:
+      - '9090:80'
+    depends_on:
+      - api
+  admin:
+    build:
+      context: ../../
+      dockerfile: devops/dockerfile.admin
+    ports:
+      - '8080:80'
+    depends_on:
+      - api
   nginx:
     build:
-      context: ..
+      context: ../../
       dockerfile: devops/dockerfile.nginx
-    ports:
-      - '80:80'
-      - '443:443'
     volumes:
       - /etc/letsencrypt:/etc/letsencrypt
       - dist:/data/dist/v0.1
+    ports:
+      - '80:80'
+      - '443:443'
     depends_on:
-      - api
       - client
+      - admin
