@@ -29,24 +29,6 @@ services:
       - '8080:80'
     depends_on:
       - api
-  letsencrypt-auth:
-    image: quay.io/letsencrypt/letsencrypt
-    volumes:
-      - /etc/letsencrypt:/etc/letsencrypt
-    command: [auto, --standalone, -m, h.minghe@gmail.com, --agree-tos, -d, yoyo.minghe.me]
-    ports:
-      - '80:80'
-      - '443:443'
-  letsencrypt-renew:
-    image: quay.io/letsencrypt/letsencrypt
-    volumes:
-      - /etc/letsencrypt:/etc/letsencrypt
-    command: [renew, --standalone]
-    ports:
-      - '80:80'
-      - '443:443'
-    depends_on:
-      - letsencrypt-auth
   nginx:
     build:
       context: ../../
