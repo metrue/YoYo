@@ -2,7 +2,7 @@ FROM alpine:latest
 
 RUN apk --no-cache add nginx nodejs
 
-COPY devops/local/admin.nginx.conf /etc/nginx/nginx.conf
+COPY devops/admin.nginx.conf /etc/nginx/nginx.conf
 
 WORKDIR /opt/YoYo/admin
 
