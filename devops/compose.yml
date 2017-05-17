@@ -10,7 +10,7 @@ services:
       - ${PWD}/data/db:/data/db
   api:
     build:
-      context: ../../
+      context: ..
       dockerfile: devops/dockerfile.api
     ports:
       - '5002:5002'
@@ -18,7 +18,7 @@ services:
       - mongo
   client:
     build:
-      context: ../../
+      context: ..
       dockerfile: devops/dockerfile.client
     ports:
       - '9090:80'
@@ -26,7 +26,7 @@ services:
       - api
   admin:
     build:
-      context: ../../
+      context: ..
       dockerfile: devops/dockerfile.admin
     ports:
       - '8080:80'
@@ -34,7 +34,7 @@ services:
       - api
   nginx:
     build:
-      context: ../../
+      context: ..
       dockerfile: devops/dockerfile.nginx
     volumes:
       - /etc/letsencrypt:/etc/letsencrypt
