@@ -1,5 +1,8 @@
 version: '3.0'
 
+volumes:
+  dist:
+
 services:
   mongo:
     image: mongo
@@ -33,6 +36,9 @@ services:
     build:
       context: ../../
       dockerfile: devops/local/dockerfile.nginx
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt
+      - dist:/data/dist/v0.1
     ports:
       - '80:80'
       - '443:443'
