@@ -1,0 +1,59 @@
+version: '3.0'
+
+services:
+  mongo:
+    image: mongo
+    volumes:
+      - ${PWD}/data/db:/data/db
+  api:
+    build:
+      context: ../../
+      dockerfile: devops/local/dockerfile.api
+    ports:
+      - '5002:5002'
+    depends_on:
+      - mongo
+  client:
+    build:
+      context: ../../
+      dockerfile: devops/local/dockerfile.client
+    ports:
+      - '9090:80'
+    depends_on:
+      - api
+  admin:
+    build:
+      context: ../../
+      dockerfile: devops/local/dockerfile.admin
+    ports:
+      - '8080:80'
+    depends_on:
+      - api
+  letsencrypt-auth:
+    image: quay.io/letsencrypt/letsencrypt
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt
+    command: [auto, --standalone, -m, h.minghe@gmail.com, --agree-tos, -d, yoyo.minghe.me]
+    ports:
+      - '80:80'
+      - '443:443'
+  letsencrypt-renew:
+    image: quay.io/letsencrypt/letsencrypt
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt
+    command: [renew, --standalone]
+    ports:
+      - '80:80'
+      - '443:443'
+    depends_on:
+      - letsencrypt-auth
+  nginx:
+    build:
+      context: ../../
+      dockerfile: devops/local/dockerfile.nginx
+    ports:
+      - '80:80'
+      - '443:443'
+    depends_on:
+      - client
+      - admin

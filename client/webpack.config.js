@@ -23,6 +23,8 @@ module.exports = {
     hotOnly: false,
     inline: true,
     historyApiFallback: true,
+    host: '0.0.0.0',
+    port: 80,
   },
 
   output: {
