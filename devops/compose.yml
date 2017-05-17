@@ -7,7 +7,7 @@ services:
   mongo:
     image: mongo
     volumes:
-      - ${PWD}/data/db:/data/db
+      - /data/db:/data/db
   api:
     build:
       context: ..
