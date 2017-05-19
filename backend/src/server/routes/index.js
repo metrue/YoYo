@@ -66,6 +66,7 @@ export default [
       const { username, password } = ctx.request.body
       if (username === YOYO_ADMIN_USERNAME && password === YOYO_ADMIN_PASSWORD) {
         const token = auth.sign(username, password)
+        ctx.cookies.set('yoyo_admin_token', token)
         ctx.body = { token }
       } else {
         ctx.status = 401
