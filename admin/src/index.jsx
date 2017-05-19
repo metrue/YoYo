@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { EditorState, ContentState } from 'draft-js'
 import { fromJS } from 'immutable'
+import Cookies from 'js-cookie'
 
 import api from './api'
 import styles from './styles.css'
@@ -17,6 +18,10 @@ import {
 
 class App extends React.Component {
   state = {
+    authed: false,
+    username: '',
+    password: '',
+    token: '',
     email: '',
     list: [],
     parents: [],
@@ -130,13 +135,59 @@ class App extends React.Component {
       })
   }
 
+  usernameChange = (e) => {
+    const username = e.target.value
+    this.setState({
+      username,
+    })
+  }
+
+  passwordChange = (e) => {
+    const password = e.target.value
+    this.setState({
+      password,
+    })
+  }
+
+  login = () => {
+    const { username, password } = this.state
+    api.login(username, password)
+      .then((resp) => {
+        if (resp.status === 200) {
+          return resp.json()
+        }
+        throw new Error('login failed')
+      })
+      .then((data) => {
+        const { token } = data
+        Cookies.set('yoyo_admin_token', token)
+        this.setState({ token, authed: true })
+      })
+      .catch((e) => {
+        console.warn(e)
+      })
+  }
+
   render() {
     const {
+      authed,
       list,
       email,
       suggestions,
       editorState,
     } = this.state
+
+    if (!authed) {
+      return (
+        <div>
+          <label> password </label>
+          <input onChange={ this.usernameChange } />
+          <label> password </label>
+          <input onChange={ this.passwordChange } />
+          <button onClick={ this.login }> Login </button>
+        </div>
+      )
+    }
 
     const immutabaleSuggestions = fromJS(suggestions)
 
