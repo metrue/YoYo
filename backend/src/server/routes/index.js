@@ -1,3 +1,10 @@
+import auth from '../auth'
+
+const {
+  YOYO_ADMIN_USERNAME,
+  YOYO_ADMIN_PASSWORD,
+} = process.env
+
 export default [
   {
     path: '/health',
@@ -49,6 +56,20 @@ export default [
       } else {
         ctx.status = 500
         ctx.message = `comment created met some errors: ${error}`
+      }
+    },
+  },
+  {
+    path: '/admin/login',
+    method: 'POST',
+    handler: async (ctx) => {
+      const { username, password } = ctx.request.body
+      if (username === YOYO_ADMIN_USERNAME && password === YOYO_ADMIN_PASSWORD) {
+        const token = auth.sign(username, password)
+        ctx.body = { token }
+      } else {
+        ctx.status = 401
+        ctx.message = 'invalid username or password'
       }
     },
   },
