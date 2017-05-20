@@ -15,4 +15,16 @@ export default class Comments extends BaseDal {
       await this.mailer.send(item.user, appedUriText)
     }
   }
+
+  async queryWithUri(q = {}) {
+    const page = parseInt(q.page, 10) || 0
+    const limit = parseInt(q.limit, 10) || 100
+    const skip = page * limit
+
+    const col = await this.collection()
+    return col.find({ uri: { $regex: `${q.uri}` } })
+              .skip(skip)
+              .limit(limit)
+              .toArray()
+  }
 }

@@ -1,3 +1,10 @@
+import auth from '../auth'
+
+const {
+  YOYO_ADMIN_USERNAME,
+  YOYO_ADMIN_PASSWORD,
+} = process.env
+
 export default [
   {
     path: '/health',
@@ -26,14 +33,63 @@ export default [
         text,
         parents,
       } = ctx.request.body
+
+      let error = null
       if (parents && parents.length > 0) {
-        parents.forEach(async (parent) => {
-          await dal.create({ user, uri, text, parent, date: (new Date()).toISOString() })
-        })
+        for (const parent of parents) {
+          try {
+            await dal.create({ user, uri, text, parent, date: (new Date()).toISOString() })
+          } catch (e) {
+            error = e
+          }
+        }
       } else {
-        await dal.create({ user, uri, text, date: (new Date()).toISOString() })
+        try {
+          await dal.create({ user, uri, text, date: (new Date()).toISOString() })
+        } catch (e) {
+          error = e
+        }
       }
-      ctx.status = 201
+
+      if (error === null) {
+        ctx.status = 201
+      } else {
+        ctx.status = 500
+        ctx.message = `comment created met some errors: ${error}`
+      }
+    },
+  },
+  {
+    path: '/admin/login',
+    method: 'POST',
+    handler: async (ctx) => {
+      const { username, password } = ctx.request.body
+      if (username === YOYO_ADMIN_USERNAME && password === YOYO_ADMIN_PASSWORD) {
+        const token = auth.sign(username, password)
+        ctx.cookies.set('yoyo_admin_token', token)
+        ctx.body = { token }
+      } else {
+        ctx.status = 401
+        ctx.message = 'invalid username or password'
+      }
+    },
+  },
+  {
+    path: '/admin/comments',
+    method: 'GET',
+    handler: async (ctx, dal) => {
+      const query = ctx.query
+      const comments = await dal.queryWithUri(query)
+      ctx.body = comments
+    },
+  },
+  {
+    path: '/admin/comments/:id',
+    method: 'DELETE',
+    handler: async (ctx, dal) => {
+      const id = ctx.params.id
+      await dal.deleteOne(id)
+      ctx.status = 204
     },
   },
 ]

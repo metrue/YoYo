@@ -5,13 +5,37 @@ import bodyParser from 'koa-bodyparser'
 import Router from 'koa-router'
 import logger from 'koa-logger'
 import cors from 'koa-cors'
-// import koajwt from 'koa-jwt'
 import path from 'path'
 
 import routes from './routes'
+import auth from './auth'
 import Dal from './dal'
 
 import CONFIG from '../../config.json'
+
+function getToken(header) {
+  if (header && header.authorization) {
+    const parts = header.authorization.split(' ')
+    return parts[1]
+  }
+  return null
+}
+
+const authMiddleware = async (ctx, next) => {
+  const req = ctx.request
+  const shouldAuth = req.url.startsWith('/v1/api/admin') && req.url !== '/v1/api/admin/login'
+  if (shouldAuth) {
+    const token = getToken(req.header)
+    try {
+      auth.verify(token)
+    } catch (e) {
+      ctx.status = 401
+      ctx.message = 'invalid token'
+      return
+    }
+  }
+  await next()
+}
 
 export default class {
   constructor(opts = CONFIG) {
@@ -25,6 +49,7 @@ export default class {
     this.app.use(compress())
     this.app.use(logger())
     this.app.use(bodyParser())
+    this.app.use(authMiddleware)
 
     this.setupHandlers(opts)
     this.serveYo()
@@ -42,6 +67,8 @@ export default class {
     routes.forEach((route) => {
       const handler = async (ctx) => {
         if (route.path && route.path.startsWith('/comments')) {
+          await route.handler(ctx, this.dals.comments)
+        } else if (route.path && route.path.startsWith('/admin')) {
           await route.handler(ctx, this.dals.comments)
         }
       }
@@ -83,11 +110,6 @@ export default class {
   }
 
   async stop() {
-    // try {
-    //   await this.dal.comments.dal.mongo.close()
-    // } catch (e) {
-    //   console.warn(e.stack)
-    // }
     await this._server.close()
   }
 }
