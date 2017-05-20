@@ -11,7 +11,7 @@
     "prestart-dev": "npm run transpile",
     "start-dev": "NODE_ENV=dev ./bin/server",
     "pretest": "npm run transpile",
-    "test": "source ./bin/env.sh && NODE_ENV=test mocha --ui bdd --compilers js:babel-core/register --require babel-polyfill --recursive --reporter spec --check-leaks test -t 50000",
+    "test": "YOYO_JWT_SECRET=YOYO_JWT_SECRET YOYO_JWT_EXPIRES_IN=1d YOYO_ADMIN_USERNAME=admin YOYO_ADMIN_PASSWORD=admin NODE_ENV=test mocha --ui bdd --compilers js:babel-core/register --require babel-polyfill --recursive --reporter spec --check-leaks test -t 50000",
     "precoverage": "npm run transpile",
     "coverage": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha -- --ui bdd --compilers js:babel-core/register --require babel-polyfill --recursive --reporter spec --check-leaks test -t 10000 | codecov -t d46b64da-89d9-43ed-8ea7-54f98b1b9586",
     "eslint": "./node_modules/.bin/eslint src || exit 0"

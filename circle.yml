@@ -1,6 +1,11 @@
 machine:
   node:
     version: 7.9.0
+  environment:
+    YOYO_JWT_SECRET: 'YOYO_JWT_SECRET'
+    YOYO_JWT_EXPIRES_IN: '1d'
+    YOYO_ADMIN_USERNAME: 'admin'
+    YOYO_ADMIN_PASSWORD: 'admin'
   pre:
     - sudo apt-get purge mongodb-org*
     - sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6
