@@ -25,31 +25,13 @@ Place the following code where you'd like YoYo to load:
 <script src="https://client.yiqie.me/dist/index.js"></script>
 ```
 
-### Installation
+### How to
 
-* clone YoYo
+check out the documents of backend, client and admin dashboard
 
-```
-$ git clone https://github.com/metrue/YoYo
-```
-
-* start YoYo API Server
-
-YoYo server is using [MongoDB](https://docs.mongodb.com/manual/) as database server, so you need to start your MongoDB server install first.
-
-```
-$ mongod
-$ cd YoYo/backend && npm run start
-```
-
-* start YoYo client
-
-```
-$ cd YoYo/client && npm run develop
-```
-
-then YoYo is running on https://localhost:8080
-
+* [docs](https://github.com/metrue/YoYo/blob/master/backend/README.md) of YoYo backend
+* [docs](https://github.com/metrue/YoYo/blob/master/client/README.md) of YoYo client
+* [docs](https://github.com/metrue/YoYo/blob/master/admin/README.md) of YoYo admin dashboard
 
 ### Showcases
 
