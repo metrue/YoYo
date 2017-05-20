@@ -1,0 +1,73 @@
+.container {
+  height: 100%;
+  width: 100%;
+}
+
+.boxContainer {
+  border: 1px solid #ddd;
+  padding: 20px 16px;
+  margin: auto;
+  margin-top: 20%;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.42857143;
+}
+
+@media (min-width: 600px) {
+  .boxContainer {
+    max-width: 400px;
+  }
+}
+
+.inputContainer {
+  text-align: center;
+  padding-bottom: 10px;
+}
+
+.inputContainer input {
+	display: inline-block;
+	margin-bottom: 0;
+	font-weight: 400;
+	line-height: 1.42857143;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	-ms-touch-action: manipulation;
+	touch-action: manipulation;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	background-image: none;
+	border: 1px solid lightgrey;
+	border-radius: 2px;
+	background: transparent;
+  width: 80%;
+  padding: 4px;
+}
+
+.buttonContainer {
+  text-align: center;
+}
+
+.buttonContainer button {
+	display: inline-block;
+	margin-bottom: 0;
+	font-weight: 400;
+	line-height: 1.42857143;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	-ms-touch-action: manipulation;
+	touch-action: manipulation;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	background-image: none;
+	border: 1px solid lightgrey;
+	border-radius: 2px;
+	background: transparent;
+}

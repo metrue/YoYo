@@ -9,6 +9,8 @@ import styles from './styles.css'
 import CommentBox from './components/CommentBox'
 import CommentItem from './components/CommentItem'
 import SubmitButton from './components/SubmitButton'
+import LoginBox from './components/LoginBox'
+
 import {
   maybeEmailAddress,
   validateComment,
@@ -179,13 +181,11 @@ class App extends React.Component {
 
     if (!authed) {
       return (
-        <div>
-          <label> password </label>
-          <input onChange={ this.usernameChange } />
-          <label> password </label>
-          <input onChange={ this.passwordChange } />
-          <button onClick={ this.login }> Login </button>
-        </div>
+        <LoginBox
+          usernameChange={ this.usernameChange }
+          passwordChange={ this.passwordChange }
+          login={ this.login }
+        />
       )
     }
 
