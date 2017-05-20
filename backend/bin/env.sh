@@ -1,4 +1,0 @@
-export YOYO_JWT_SECRET='YOYO_JWT_SECRET'
-export YOYO_JWT_EXPIRES_IN='1d'
-export YOYO_ADMIN_USERNAME='admin'
-export YOYO_ADMIN_PASSWORD='admin'
