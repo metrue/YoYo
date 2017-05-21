@@ -1,11 +1,19 @@
 .YoYoCommentItemContainer {
 	/* border-bottom: 1px solid lightgrey; */
   padding: 10px;
+  margin: auto;
+  overflow: hidden;
 }
 
 .YoYoCommentItemContainer:hover {
   padding: 10px;
   background-color: #F5F5F5;
+}
+
+@media (min-width: 801px) {
+  .YoYoCommentItemContainer {
+    max-width: 600px;
+  }
 }
 
 .YoYoCommentItemUser {
@@ -25,6 +33,11 @@
 	line-height: 1.4;
 	padding-left: 15px;
 	padding-right: 15px;
+  word-break: break-all;
+}
+
+.YoYoCommentItemDate a {
+  text-decoration: none;
 }
 
 .YoYoCommentItemText {
@@ -62,4 +75,5 @@
 	border: 1px solid lightgrey;
 	border-radius: 2px;
 	background: transparent;
+  color: red;
 }

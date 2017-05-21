@@ -8,7 +8,7 @@ const CommentItem = ({ comment, onDelete }) => (
     <div className={ styles.YoYoCommentItemUserAndDate }>
       <div className={ styles.YoYoCommentItemUser }>
         { comment.user }
-        <span className={ styles.YoYoCommentItemDate }> - { moment(comment.date).format('YYYY-MM-DD HH:MM') } - { comment.uri } </span>
+        <span className={ styles.YoYoCommentItemDate }> - { moment(comment.date).format('YYYY-MM-DD HH:MM') } - <a href={ comment.uri }> orign link </a></span>
       </div>
     </div>
     <div className={ styles.YoYoCommentItemText }>
