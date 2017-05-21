@@ -12,12 +12,13 @@ import {
   uniqueMentionsByUser,
 } from './utils'
 
+const YOYO_ADMIN_TOKEN_NAME = 'YOYO_ADMIN_TOKEN_NAME'
+
 class App extends React.Component {
   state = {
-    authed: false,
     username: '',
     password: '',
-    token: '',
+    token: Cookies.get(YOYO_ADMIN_TOKEN_NAME),
     list: [],
   }
 
@@ -82,8 +83,8 @@ class App extends React.Component {
       })
       .then((data) => {
         const { token } = data
-        Cookies.set('yoyo_admin_token', token)
-        this.setState({ token, authed: true })
+        Cookies.set(YOYO_ADMIN_TOKEN_NAME, token, { expires: 30 })
+        this.setState({ token })
       })
       .catch((e) => {
         console.warn(e)
@@ -92,11 +93,11 @@ class App extends React.Component {
 
   render() {
     const {
-      authed,
+      token,
       list,
     } = this.state
 
-    if (!authed) {
+    if (!token) {
       return (
         <LoginBox
           usernameChange={ this.usernameChange }
