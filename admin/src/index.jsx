@@ -18,6 +18,7 @@ class App extends React.Component {
   state = {
     username: '',
     password: '',
+    domain: null,
     token: Cookies.get(YOYO_ADMIN_TOKEN_NAME),
     list: [],
   }
@@ -26,7 +27,8 @@ class App extends React.Component {
     this.fetchCommentList()
   }
 
-  fetchCommentList = (domain) => {
+  fetchCommentList = () => {
+    const { domain } = this.state
     api.query(domain)
       .then((res) => {
         if (res.status === 200) {
@@ -74,7 +76,7 @@ class App extends React.Component {
 
   domainChange = (e) => {
     const domain = e.target.value
-    this.fetchCommentList(domain)
+    this.setState({ domain })
   }
 
   login = () => {
@@ -119,6 +121,7 @@ class App extends React.Component {
             placeholder="domain"
             onChange={ this.domainChange }
           ></input>
+          <button onClick={ this.fetchCommentList }> Submit </button>
         </div>
         <div className={ styles.YoYoCommentListContainer }>
           {

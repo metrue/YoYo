@@ -17,7 +17,7 @@ const withTokenFetch = (url, options) => {
 
 class API {
   async query(domain = DOMAIN) {
-    const url = `${API_HOST}/admin/comments?uri=${encodeURIComponent(domain)}`
+    const url = `${API_HOST}/admin/comments?uri=${encodeURIComponent(domain || DOMAIN)}`
     return withTokenFetch(url)
   }
 
