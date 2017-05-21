@@ -1,6 +1,5 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { EditorState, ContentState } from 'draft-js'
 import Cookies from 'js-cookie'
 
 import api from './api'
@@ -9,8 +8,6 @@ import CommentItem from './components/CommentItem'
 import LoginBox from './components/LoginBox'
 
 import {
-  maybeEmailAddress,
-  validateComment,
   commentToMention,
   uniqueMentionsByUser,
 } from './utils'

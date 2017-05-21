@@ -26,8 +26,8 @@
     "mocha/no-exclusive-tests": 2,
     "no-console": ["error", { "allow": ["warn", "error"] }],
     "react/jsx-no-bind":[2, {
-      "allowArrowFunctions": "true",
-      "allowBind": "true",
+      "allowArrowFunctions": true,
+      "allowBind": true,
     }],
   }
 }

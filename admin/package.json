@@ -68,22 +68,13 @@
   },
   "dependencies": {
     "chai": "^3.5.0",
-    "draft-js": "^0.10.0",
-    "draft-js-mention-plugin": "^2.0.0-beta10",
-    "draft-js-plugins-editor": "^2.0.0-beta10",
     "enzyme": "^2.8.0",
     "js-cookie": "^2.1.4",
     "jsdom": "^9.12.0",
     "moment": "^2.17.1",
-    "qs": "^6.2.0",
-    "randomcolor": "^0.4.4",
     "react-cookie": "^1.0.4",
-    "react-router": "^3.0.2",
-    "react-router-redux": "^4.0.8",
     "react-syntax-highlighter": "^5.0.0",
-    "sinon": "^2.1.0",
-    "uuid": "^3.0.1",
-    "xml2js": "^0.4.17"
+    "sinon": "^2.1.0"
   },
   "babel": {
     "presets": [
