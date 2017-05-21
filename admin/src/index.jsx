@@ -26,8 +26,8 @@ class App extends React.Component {
     this.fetchCommentList()
   }
 
-  fetchCommentList = () => {
-    api.query()
+  fetchCommentList = (domain) => {
+    api.query(domain)
       .then((res) => {
         if (res.status === 200) {
           return res.json()
@@ -72,6 +72,11 @@ class App extends React.Component {
     })
   }
 
+  domainChange = (e) => {
+    const domain = e.target.value
+    this.fetchCommentList(domain)
+  }
+
   login = () => {
     const { username, password } = this.state
     api.login(username, password)
@@ -109,6 +114,12 @@ class App extends React.Component {
 
     return (
       <div className={ styles.YoYoContainer }>
+        <div className={ styles.YoYoSiteDomainInputContainer }>
+          <input
+            placeholder="domain"
+            onChange={ this.domainChange }
+          ></input>
+        </div>
         <div className={ styles.YoYoCommentListContainer }>
           {
             list.map(c => <CommentItem comment={ c } onDelete={ this.delete } />)
