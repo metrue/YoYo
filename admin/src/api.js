@@ -4,13 +4,14 @@ import { API_HOST, DOMAIN } from '../config'
 class API {
   async query(domain = DOMAIN) {
     const url = `${API_HOST}/admin/comments?uri=${encodeURIComponent(domain || DOMAIN)}`
-    return fetch(url)
+    return fetch(url, { credentials: 'include' })
   }
 
   async delete(id) {
     const url = `${API_HOST}/admin/comments/${id}`
     const opt = {
       method: 'DELETE',
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -22,6 +23,7 @@ class API {
     const url = `${API_HOST}/comments`
     const opt = {
       method: 'POST',
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -34,6 +36,7 @@ class API {
     const url = `${API_HOST}/admin/login`
     const opt = {
       method: 'POST',
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
       },
