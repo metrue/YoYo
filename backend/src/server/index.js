@@ -15,11 +15,18 @@ import { getToken } from './token'
 import CONFIG from '../../config.json'
 
 const updateOriginMiddleware = async (ctx, next) => {
-  const allowedOrigins = ['https://admin.yiqie.me', 'https://client.yiqie.me']
+  const allowedOrigins = ['https://admin.yiqie.me', 'https://client.yiqie.me', 'https://minghe.me']
   const origin = ctx.request.headers.origin
-  if (allowedOrigins.indexOf(origin) > -1) {
-    ctx.response.set('Access-Control-Allow-Origin', origin)
+  console.log('---->', origin)
+  const opt = {
+    origin: '*',
+    credentials: true,
   }
+  if (allowedOrigins.indexOf(origin) > -1) {
+    opt.origin = origin
+  }
+  await cors(opt)
+  console.log('---> header', ctx.response.header)
   await next()
 }
 
@@ -29,6 +36,7 @@ const authMiddleware = async (ctx, next) => {
                      req.url !== '/v1/api/admin/login'
   if (shouldAuth) {
     const token = getToken(ctx)
+console.log(token, '---*****---')
     try {
       auth.verify(token)
     } catch (e) {
@@ -49,11 +57,10 @@ export default class {
 
     this.app = new Koa()
     this.enableCORS()
+    this.app.use(authMiddleware)
     this.app.use(compress())
     this.app.use(logger())
     this.app.use(bodyParser())
-    this.app.use(authMiddleware)
-    this.app.use(updateOriginMiddleware)
 
     this.setupHandlers(opts)
 
@@ -100,7 +107,14 @@ export default class {
 
   enableCORS() {
     const options = {
-      origin: '*',
+      origin: function (ctx) {
+	  const allowedOrigins = ['https://admin.yiqie.me', 'https://client.yiqie.me', 'https://minghe.me']
+	  const origin = ctx.headers.origin
+	  console.log('---->', ctx.headers)
+	  if (allowedOrigins.indexOf(origin) > -1) {
+	    return origin
+	  }
+      },
       credentials: true,
     }
     this.app.use(cors(options))
