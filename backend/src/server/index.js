@@ -1,11 +1,9 @@
 import Koa from 'koa'
-import serve from 'koa-static'
 import compress from 'koa-compress'
 import bodyParser from 'koa-bodyparser'
 import Router from 'koa-router'
 import logger from 'koa-logger'
 import cors from 'koa-cors'
-import path from 'path'
 
 import routes from './routes'
 import auth from './auth'
@@ -14,29 +12,12 @@ import { getToken } from './token'
 
 import CONFIG from '../../config.json'
 
-const updateOriginMiddleware = async (ctx, next) => {
-  const allowedOrigins = ['https://admin.yiqie.me', 'https://client.yiqie.me', 'https://minghe.me']
-  const origin = ctx.request.headers.origin
-  console.log('---->', origin)
-  const opt = {
-    origin: '*',
-    credentials: true,
-  }
-  if (allowedOrigins.indexOf(origin) > -1) {
-    opt.origin = origin
-  }
-  await cors(opt)
-  console.log('---> header', ctx.response.header)
-  await next()
-}
-
 const authMiddleware = async (ctx, next) => {
   const req = ctx.request
   const shouldAuth = req.url.startsWith('/v1/api/admin') &&
                      req.url !== '/v1/api/admin/login'
   if (shouldAuth) {
     const token = getToken(ctx)
-console.log(token, '---*****---')
     try {
       auth.verify(token)
     } catch (e) {
@@ -63,13 +44,6 @@ export default class {
     this.app.use(bodyParser())
 
     this.setupHandlers(opts)
-
-    this.serveYo()
-  }
-
-  serveYo() {
-    const YoPath = path.join(__dirname, '../../')
-    this.app.use(serve(YoPath))
   }
 
   setupHandlers() {
@@ -107,13 +81,16 @@ export default class {
 
   enableCORS() {
     const options = {
-      origin: function (ctx) {
-	  const allowedOrigins = ['https://admin.yiqie.me', 'https://client.yiqie.me', 'https://minghe.me']
-	  const origin = ctx.headers.origin
-	  console.log('---->', ctx.headers)
-	  if (allowedOrigins.indexOf(origin) > -1) {
-	    return origin
-	  }
+      origin: (ctx) => {
+        const origin = ctx.headers.origin
+        //
+        // if request with credentials, origin cannot be '*',
+        // origin should be exactly the request origin
+        //
+        if (CONFIG.origins.indexOf(origin) > -1) {
+          return origin
+        }
+        return '*'
       },
       credentials: true,
     }

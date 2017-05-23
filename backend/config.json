@@ -2,7 +2,7 @@
   "host": "127.0.0.1",
   "port": 5002,
   "mongo": {
-    "host": "mongo",
+    "host": "localhost",
     "port": 27017,
     "db": "YoYo"
   },
@@ -10,5 +10,6 @@
     "service": "",
     "user": "",
     "pass": ""
-  }
+  },
+  "origins": []
 }
