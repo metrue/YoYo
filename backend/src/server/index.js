@@ -10,22 +10,16 @@ import path from 'path'
 import routes from './routes'
 import auth from './auth'
 import Dal from './dal'
+import { getToken } from './token'
 
 import CONFIG from '../../config.json'
 
-function getToken(header) {
-  if (header && header.authorization) {
-    const parts = header.authorization.split(' ')
-    return parts[1]
-  }
-  return null
-}
-
 const authMiddleware = async (ctx, next) => {
   const req = ctx.request
-  const shouldAuth = req.url.startsWith('/v1/api/admin') && req.url !== '/v1/api/admin/login'
+  const shouldAuth = req.url.startsWith('/v1/api/admin') &&
+                     req.url !== '/v1/api/admin/login'
   if (shouldAuth) {
-    const token = getToken(req.header)
+    const token = getToken(ctx)
     try {
       auth.verify(token)
     } catch (e) {
@@ -52,6 +46,7 @@ export default class {
     this.app.use(authMiddleware)
 
     this.setupHandlers(opts)
+
     this.serveYo()
   }
 
@@ -62,7 +57,6 @@ export default class {
 
   setupHandlers() {
     const router = new Router({ prefix: '/v1/api' })
-
 
     routes.forEach((route) => {
       const handler = async (ctx) => {

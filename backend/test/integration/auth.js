@@ -5,7 +5,7 @@ import CONFIG from '../config'
 
 const API_URL = `http://${CONFIG.host}:${CONFIG.port}/v1/api`
 
-describe.only('Auth', () => {
+describe.skip('Auth', () => {
   let server
   before(async () => {
     server = new Server(CONFIG)

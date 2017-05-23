@@ -1,4 +1,5 @@
 import auth from '../auth'
+import { setToken } from '../token'
 
 const {
   YOYO_ADMIN_USERNAME,
@@ -66,14 +67,7 @@ export default [
       const { username, password } = ctx.request.body
       if (username === YOYO_ADMIN_USERNAME && password === YOYO_ADMIN_PASSWORD) {
         const token = auth.sign(username, password)
-
-        const expiresDate = new Date()
-        expiresDate.setDate(expiresDate.getDate() + 30)
-
-        ctx.cookies.set('yoyo_admin_token', token, {
-          httpOnly: false,
-          expires: expiresDate,
-        })
+        setToken(ctx, token)
         ctx.body = { token }
       } else {
         ctx.status = 401
