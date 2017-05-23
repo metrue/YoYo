@@ -14,6 +14,15 @@ import { getToken } from './token'
 
 import CONFIG from '../../config.json'
 
+const updateOriginMiddleware = async (ctx, next) => {
+  const allowedOrigins = ['https://admin.yiqie.me', 'https://client.yiqie.me']
+  const origin = ctx.request.headers.origin
+  if (allowedOrigins.indexOf(origin) > -1) {
+    ctx.response.set('Access-Control-Allow-Origin', origin)
+  }
+  await next()
+}
+
 const authMiddleware = async (ctx, next) => {
   const req = ctx.request
   const shouldAuth = req.url.startsWith('/v1/api/admin') &&
@@ -44,6 +53,7 @@ export default class {
     this.app.use(logger())
     this.app.use(bodyParser())
     this.app.use(authMiddleware)
+    this.app.use(updateOriginMiddleware)
 
     this.setupHandlers(opts)
 
