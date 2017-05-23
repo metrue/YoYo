@@ -1,6 +1,5 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Cookies from 'js-cookie'
 
 import api from './api'
 import styles from './styles.css'
@@ -12,14 +11,12 @@ import {
   uniqueMentionsByUser,
 } from './utils'
 
-const YOYO_ADMIN_TOKEN_NAME = 'YOYO_ADMIN_TOKEN_NAME'
-
 class App extends React.Component {
   state = {
     username: '',
     password: '',
+    authed: true,
     domain: null,
-    token: Cookies.get(YOYO_ADMIN_TOKEN_NAME),
     list: [],
   }
 
@@ -33,6 +30,8 @@ class App extends React.Component {
       .then((res) => {
         if (res.status === 200) {
           return res.json()
+        } else if (res.status === 401) {
+          this.setState({ authed: false })
         }
         return new Error(`${res.statusText}`)
       })
@@ -54,6 +53,8 @@ class App extends React.Component {
           setTimeout(() => {
             this.fetchCommentList()
           }, 0)
+        } else if (resp.status === 201) {
+          this.setState({ authed: false })
         } else {
           alert(resp.statusText)
         }
@@ -85,13 +86,10 @@ class App extends React.Component {
       .then((resp) => {
         if (resp.status === 200) {
           return resp.json()
+        } else if (resp.status === 201) {
+          this.setState({ authed: false })
         }
         throw new Error('login failed')
-      })
-      .then((data) => {
-        const { token } = data
-        Cookies.set(YOYO_ADMIN_TOKEN_NAME, token, { expires: 30 })
-        this.setState({ token })
       })
       .catch((e) => {
         console.warn(e)
@@ -99,12 +97,9 @@ class App extends React.Component {
   }
 
   render() {
-    const {
-      token,
-      list,
-    } = this.state
+    const { list, authed } = this.state
 
-    if (!token) {
+    if (!authed) {
       return (
         <LoginBox
           usernameChange={ this.usernameChange }
