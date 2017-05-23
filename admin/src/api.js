@@ -1,24 +1,10 @@
 import fetch from 'isomorphic-fetch'
 import { API_HOST, DOMAIN } from '../config'
-import Cookies from 'js-cookie'
-
-const withTokenFetch = (url, options) => {
-  const token = Cookies.get('yoyo_admin_token')
-  const opts = Object.assign({}, options)
-  if (!opts.method) {
-    opts.method = 'GET'
-  }
-  if (!opts.headers) {
-    opts.headers = {}
-  }
-  if (token) opts.headers.Authorization = `Bearer ${token}`
-  return fetch(url, opts)
-}
 
 class API {
   async query(domain = DOMAIN) {
     const url = `${API_HOST}/admin/comments?uri=${encodeURIComponent(domain || DOMAIN)}`
-    return withTokenFetch(url)
+    return fetch(url)
   }
 
   async delete(id) {
@@ -29,7 +15,7 @@ class API {
         'Content-Type': 'application/json',
       },
     }
-    return withTokenFetch(url, opt)
+    return fetch(url, opt)
   }
 
   async submit(payload) {
@@ -41,7 +27,7 @@ class API {
       },
       body: JSON.stringify(payload),
     }
-    return withTokenFetch(url, opt)
+    return fetch(url, opt)
   }
 
   async login(username, password) {
@@ -56,7 +42,7 @@ class API {
         password,
       }),
     }
-    return withTokenFetch(url, opt)
+    return fetch(url, opt)
   }
 }
 
