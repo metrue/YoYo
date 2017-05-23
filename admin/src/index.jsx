@@ -6,11 +6,6 @@ import styles from './styles.css'
 import CommentItem from './components/CommentItem'
 import LoginBox from './components/LoginBox'
 
-import {
-  commentToMention,
-  uniqueMentionsByUser,
-} from './utils'
-
 class App extends React.Component {
   state = {
     username: '',
@@ -36,10 +31,7 @@ class App extends React.Component {
         return new Error(`${res.statusText}`)
       })
       .then((data) => {
-        this.setState({
-          list: data,
-          suggestions: uniqueMentionsByUser(data.map(commentToMention).filter((c) => c !== null)),
-        })
+        this.setState({ list: data })
       })
       .catch((e) => {
         console.warn(e)
