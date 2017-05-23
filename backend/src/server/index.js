@@ -91,6 +91,7 @@ export default class {
   enableCORS() {
     const options = {
       origin: '*',
+      credentials: true,
     }
     this.app.use(cors(options))
   }
