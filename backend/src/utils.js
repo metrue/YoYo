@@ -14,18 +14,19 @@ export const uniqueNames = (emails) => {
 
 export const appendUniqueName = (comments) => {
   const ret = []
-  const isUnique = (name) => {
+  const isUnique = (name, domain) => {
     for (const comment of ret) {
-      if (comment.name === name) return false
+      const dm = comment.user.split('@')[1]
+      if (comment.name === name && dm !== domain) return false
     }
     return true
   }
 
   for (const comment of comments) {
-    const [name] = comment.user.split('@')
+    const [name, domain] = comment.user.split('@')
     let suffix = 1
     let newName = name
-    while (!isUnique(newName)) {
+    while (!isUnique(newName, domain)) {
       newName = `${name}${suffix}`
       suffix += 1
     }
