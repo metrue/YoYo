@@ -16,19 +16,20 @@ export const appendUniqueName = (comments) => {
   const ret = []
   const isUnique = (name) => {
     for (const comment of ret) {
-      if (comment.user.split('@')[0] === name) return false
+      if (comment.name === name) return false
     }
     return true
   }
 
   for (const comment of comments) {
-    let [name] = comment.user.split('@')
+    const [name] = comment.user.split('@')
     let suffix = 1
-    while (!isUnique(name)) {
-      name = `${name}${suffix}`
+    let newName = name
+    while (!isUnique(newName)) {
+      newName = `${name}${suffix}`
       suffix += 1
     }
-    ret.push({ ...comment, name })
+    ret.push({ ...comment, name: newName })
   }
   return ret
 }

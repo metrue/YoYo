@@ -25,6 +25,10 @@ describe('utils', () => {
       user: 'a@b.com',
       uri: 'https://a.com/2',
       text: 'text-2',
+    }, {
+      user: 'a@a.com',
+      uri: 'https://a.com/1',
+      text: 'text-1',
     }]
     const nameAppendedComments = appendUniqueName(comments)
     expect(nameAppendedComments).to.eql([{
@@ -42,6 +46,11 @@ describe('utils', () => {
       name: 'a1',
       uri: 'https://a.com/2',
       text: 'text-2',
+    }, {
+      user: 'a@a.com',
+      name: 'a2',
+      uri: 'https://a.com/1',
+      text: 'text-1',
     }])
   })
 })
