@@ -11,8 +11,6 @@ import SubmitButton from './components/SubmitButton'
 import {
   maybeEmailAddress,
   validateComment,
-  commentToMention,
-  uniqueMentionsByUser,
 } from './utils'
 
 class App extends React.Component {
@@ -37,9 +35,10 @@ class App extends React.Component {
         return new Error(`${res.statusText}`)
       })
       .then((data) => {
+        const commentToMention = (c) => ({ name: c.name, avatar: '', _id: c._id })
         this.setState({
           list: data,
-          suggestions: uniqueMentionsByUser(data.map(commentToMention).filter((c) => c !== null)),
+          suggestions: data.map(commentToMention).filter((c) => c !== null),
         })
       })
       .catch((e) => {

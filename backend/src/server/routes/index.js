@@ -1,4 +1,6 @@
 import auth from '../auth'
+import { setToken } from '../token'
+import { appendUniqueName } from '../../utils'
 
 const {
   YOYO_ADMIN_USERNAME,
@@ -19,8 +21,7 @@ export default [
     handler: async (ctx, dal) => {
       const query = ctx.query
       const comments = await dal.find(query)
-      ctx.body = comments
-      // ctx.body = comments.map(c => ({ ...c, user: c.user.replace(/@.*$/, '') }))
+      ctx.body = appendUniqueName(comments)
     },
   },
   {
@@ -66,7 +67,7 @@ export default [
       const { username, password } = ctx.request.body
       if (username === YOYO_ADMIN_USERNAME && password === YOYO_ADMIN_PASSWORD) {
         const token = auth.sign(username, password)
-        ctx.cookies.set('yoyo_admin_token', token)
+        setToken(ctx, token)
         ctx.body = { token }
       } else {
         ctx.status = 401
