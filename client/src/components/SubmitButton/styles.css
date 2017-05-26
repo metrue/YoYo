@@ -17,10 +17,6 @@
 	-ms-touch-action: manipulation;
 	touch-action: manipulation;
 	cursor: pointer;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
 	background-image: none;
 	border: 1px solid lightgrey;
 	border-radius: 2px;
@@ -30,19 +26,18 @@
 .YoYoEmailInput {
   composes: YoYoEmailInputBase;
 
+  font-size: 2vmin;
 	min-width: 200px;
+
 }
 
 @media (max-width: 600px) {
   .YoYoEmailInput {
     composes: YoYoEmailInputBase;
 
+    font-size: 3.2vmin;
     min-width: 60%;
   }
-}
-
-.YoYoWatchButton {
-
 }
 
 .YoYoButtonBase {
@@ -69,6 +64,15 @@
 
 .YoYoCommentPublishButton {
   composes: YoYoButtonBase;
+
 	padding: 6px 12px;
-	font-size: 14px;
+	font-size: 2vmin;
+}
+
+@media (max-width: 600px) {
+  .YoYoCommentPublishButton {
+    composes: YoYoButtonBase;
+
+    font-size: 3.2vmin !important;
+  }
 }

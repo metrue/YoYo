@@ -1,5 +1,6 @@
 const webpack = require('webpack')
 const path = require('path')
+const BrowserSyncPlugin = require('browser-sync-webpack-plugin')
 
 const APP_ROOT = path.join(__dirname, '.')
 
@@ -23,8 +24,8 @@ module.exports = {
     hotOnly: false,
     inline: true,
     historyApiFallback: true,
-    host: '0.0.0.0',
-    port: 80,
+    host: 'localhost',
+    port: 8080,
   },
 
   output: {
@@ -117,6 +118,13 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.optimize.UglifyJsPlugin({
       sourceMap: true,
+    }),
+    new BrowserSyncPlugin({
+      host: 'localhost',
+      port: 3000,
+      proxy: 'http://localhost:8080/',
+    }, {
+      reload: false,
     }),
   ],
 }
