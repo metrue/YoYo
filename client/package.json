@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack --config ./webpack.config.js",
     "build-prod": "NODE_ENV=production webpack --optimize-minimize --define process.env.NODE_ENV='production' --config ./webpack.config.js",
-    "develop": "webpack-dev-server -d --config webpack.config.js",
+    "develop": "webpack-dev-server -d --watch --config webpack.config.js",
     "lint": "eslint --fix src",
     "test": "mocha --compilers js:babel-register --require babel-polyfill --require ./test/helpers.js --require ./test/dom.js --require ignore-styles --recursive"
   },
@@ -27,6 +27,8 @@
     "babel-regenerator-runtime": "^6.5.0",
     "babel-runtime": "^6.6.1",
     "bootstrap": "^3.3.6",
+    "browser-sync": "^2.18.12",
+    "browser-sync-webpack-plugin": "^1.1.4",
     "classnames": "^2.2.3",
     "css-loader": "^0.27.3",
     "enzyme": "^2.8.0",
