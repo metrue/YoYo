@@ -4,6 +4,7 @@ import bodyParser from 'koa-bodyparser'
 import Router from 'koa-router'
 import logger from 'koa-logger'
 import cors from 'koa-cors'
+import serve from 'koa-static'
 
 import routes from './routes'
 import auth from './auth'
@@ -44,6 +45,9 @@ export default class {
     this.app.use(bodyParser())
 
     this.setupHandlers(opts)
+
+    const staticRoot = `${__dirname}/../../public`
+    this.app.use(serve(staticRoot))
   }
 
   setupHandlers() {
