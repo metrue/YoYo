@@ -27,7 +27,12 @@ Place the following code where you'd like YoYo to load:
 
 ### How to
 
-check out the documents of backend, client and admin dashboard
+```
+make start
+```
+one command and all set.
+
+For more details you can check out the documents of backend, client and admin dashboard
 
 * [docs](https://github.com/metrue/YoYo/blob/master/backend/README.md) of YoYo backend
 * [docs](https://github.com/metrue/YoYo/blob/master/client/README.md) of YoYo client
