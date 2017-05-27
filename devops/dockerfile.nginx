@@ -1,0 +1,10 @@
+FROM nginx:alpine
+
+# COPY static assets and bundled JS
+# following paths are consistent with the root paths defined in nginx.conf
+COPY client/public /var/www/html/client
+COPY admin/public /var/www/html/admin
+
+COPY devops/dev.nginx.conf /etc/nginx/nginx.conf
+
+EXPOSE 80
