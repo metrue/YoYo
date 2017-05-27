@@ -1,13 +1,20 @@
 import { ObjectID } from 'mongodb'
 import BaseDal from './base_dal'
 import { withMailer } from './utils'
+import CONFIG from '../../../config.json'
 
 @withMailer
 export default class Comments extends BaseDal {
   async create(obj) {
     await super.create(obj)
 
-    const { parent, text, uri } = obj
+    const { parent, text, user, uri } = obj
+
+    if (CONFIG.adminEmail) {
+      const content = `@${user}: ${text} - ${uri}`
+      await this.mailer.send(CONFIG.adminEmail, content)
+    }
+
     // eslint-disable-next-line
     const item = await this.findOne({ _id: ObjectID(parent) })
     if (item && item.user) {

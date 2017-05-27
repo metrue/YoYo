@@ -1,31 +1,24 @@
 import Koa from 'koa'
-import serve from 'koa-static'
 import compress from 'koa-compress'
 import bodyParser from 'koa-bodyparser'
 import Router from 'koa-router'
 import logger from 'koa-logger'
 import cors from 'koa-cors'
-import path from 'path'
+import serve from 'koa-static'
 
 import routes from './routes'
 import auth from './auth'
 import Dal from './dal'
+import { getToken } from './token'
 
 import CONFIG from '../../config.json'
 
-function getToken(header) {
-  if (header && header.authorization) {
-    const parts = header.authorization.split(' ')
-    return parts[1]
-  }
-  return null
-}
-
 const authMiddleware = async (ctx, next) => {
   const req = ctx.request
-  const shouldAuth = req.url.startsWith('/v1/api/admin') && req.url !== '/v1/api/admin/login'
+  const shouldAuth = req.url.startsWith('/v1/api/admin') &&
+                     req.url !== '/v1/api/admin/login'
   if (shouldAuth) {
-    const token = getToken(req.header)
+    const token = getToken(ctx)
     try {
       auth.verify(token)
     } catch (e) {
@@ -46,23 +39,19 @@ export default class {
 
     this.app = new Koa()
     this.enableCORS()
+    this.app.use(authMiddleware)
     this.app.use(compress())
     this.app.use(logger())
     this.app.use(bodyParser())
-    this.app.use(authMiddleware)
 
     this.setupHandlers(opts)
-    this.serveYo()
-  }
 
-  serveYo() {
-    const YoPath = path.join(__dirname, '../../')
-    this.app.use(serve(YoPath))
+    const staticRoot = `${__dirname}/../../public`
+    this.app.use(serve(staticRoot))
   }
 
   setupHandlers() {
     const router = new Router({ prefix: '/v1/api' })
-
 
     routes.forEach((route) => {
       const handler = async (ctx) => {
@@ -96,7 +85,18 @@ export default class {
 
   enableCORS() {
     const options = {
-      origin: '*',
+      origin: (ctx) => {
+        const origin = ctx.headers.origin
+        //
+        // if request with credentials, origin cannot be '*',
+        // origin should be exactly the request origin
+        //
+        if (CONFIG.origins.indexOf(origin) > -1) {
+          return origin
+        }
+        return '*'
+      },
+      credentials: true,
     }
     this.app.use(cors(options))
   }

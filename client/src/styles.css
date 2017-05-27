@@ -11,22 +11,6 @@
   border-radius: 2px;
 }
 
-.YoYoInputArea {
-  width: 100%;
-  text-align: center;
-}
-
-.YoYoCommentTextArea {
-  border-radius: 2px;
-	border: 1px solid lightgrey;
-  font-size: 9.6px;
-  line-height: 14.4px;
-  width: 100%;
-  min-height: 80px;
-  text-align: left;
-	font-size: 14px;
-}
-
 .YoYoCommentListContainer {
   /* width: 100%; */
   /* border: 1px solid; */
@@ -39,12 +23,6 @@
 }
 
 
-.YoYoOpenIcon {
-  display: flex;
-  flex: 1 1 auto;
-  margin: auto;
-}
-
 .YoYoLabelTitleBase {
   margin: auto;
   flex: 1 1 auto;
@@ -54,10 +32,6 @@
 
 .YoYoLabelTitle {
   composes: YoYoLabelTitleBase;
-}
-
-.YoYoCloseIcon {
-  composes: YoYoOpenIcon;
 }
 
 .YoYoReplyButtonContainer {

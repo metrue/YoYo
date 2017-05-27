@@ -11,13 +11,12 @@ import SubmitButton from './components/SubmitButton'
 import {
   maybeEmailAddress,
   validateComment,
-  commentToMention,
-  uniqueMentionsByUser,
 } from './utils'
 
 class App extends React.Component {
   state = {
     email: '',
+    publishing: false,
     list: [],
     parents: [],
     suggestions: [],
@@ -37,9 +36,10 @@ class App extends React.Component {
         return new Error(`${res.statusText}`)
       })
       .then((data) => {
+        const commentToMention = (c) => ({ name: c.name, avatar: '', _id: c._id })
         this.setState({
           list: data,
-          suggestions: uniqueMentionsByUser(data.map(commentToMention).filter((c) => c !== null)),
+          suggestions: data.map(commentToMention).filter((c) => c !== null),
         })
       })
       .catch((e) => {
@@ -86,22 +86,27 @@ class App extends React.Component {
 
   reset = () => {
     const editorState = EditorState.push(this.state.editorState, ContentState.createFromText(''))
-    this.setState({ editorState })
+    this.setState({ editorState, publishing: false })
   }
 
   publish = () => {
     const {
       email,
       editorState,
+      publishing,
     } = this.state
 
-    const text = editorState.getCurrentContent().getPlainText()
-    if (!maybeEmailAddress(email)) {
-      alert(`'${email}' is not a valid email`)
-    } else if (!validateComment(text)) {
-      alert(`'${text}' is not a valid comment`)
-    } else {
-      this.submit()
+    if (!publishing) {
+      const text = editorState.getCurrentContent().getPlainText()
+      if (!maybeEmailAddress(email)) {
+        alert(`'${email}' is not a valid email`)
+      } else if (!validateComment(text)) {
+        alert(`'${text}' is not a valid comment`)
+      } else {
+        this.setState({ publishing: true }, () => {
+          this.submit()
+        })
+      }
     }
   }
 

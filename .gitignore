@@ -1,3 +1,7 @@
 node_modules/
 *.swp
 data
+client/public/dist
+admin/public/dist
+backend/public/admin/public/dist
+backend/public/client/public/dist
