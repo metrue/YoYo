@@ -14,10 +14,6 @@ start:
 	make build-admin && make build-client && make copy-assets
 	cd backend && \
 	npm install && \
-	YOYO_JWT_SECRET='soooocoooool' \
-	YOYO_JWT_EXPIRES_IN='10d' \
-	YOYO_ADMIN_USERNAME='admin' \
-	YOYO_ADMIN_PASSWORD='admin' \
 	npm start
 
 deploy:
