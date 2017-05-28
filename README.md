@@ -27,10 +27,16 @@ Place the following code where you'd like YoYo to load:
 
 ### How to
 
+Make sure you have a MongoDB running on your host, then
+
 ```
 make start
 ```
 one command and all set.
+
+* [http://localhost:5002/client](http://localhost:5002/client) is the comment box of YoYo
+* [http://localhost:5002/admin](http://localhost:5002/admin) is the comment management dashbord of YoYo
+* [http://localhost:5002/v1/api](http://localhost:5002/v1/api) is the backend api service
 
 For more details you can check out the documents of backend, client and admin dashboard
 

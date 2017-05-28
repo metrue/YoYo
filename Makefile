@@ -1,8 +1,8 @@
 build-admin:
-	cd admin && npm run build-prod
+	cd admin && npm install && npm run build-prod
 
 build-client:
-	cd client && npm run build-prod
+	cd client && npm install && npm run build-prod
 
 copy-assets:
 	mkdir -p backend/public/admin
@@ -13,6 +13,7 @@ copy-assets:
 start:
 	make build-admin && make build-client && make copy-assets
 	cd backend && \
+	npm install && \
 	YOYO_JWT_SECRET='soooocoooool' \
 	YOYO_JWT_EXPIRES_IN='10d' \
 	YOYO_ADMIN_USERNAME='admin' \
