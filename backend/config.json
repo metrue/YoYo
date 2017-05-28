@@ -11,6 +11,6 @@
     "user": "",
     "pass": ""
   },
-  "origins": [],
+  "origins": ["http://localhost:8080"],
   "adminEmail": ""
 }

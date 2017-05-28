@@ -83,6 +83,9 @@ class App extends React.Component {
         }
         throw new Error('login failed')
       })
+      .then(() => {
+        this.fetchCommentList()
+      })
       .catch((e) => {
         console.warn(e)
       })

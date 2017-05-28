@@ -7,7 +7,7 @@
     "transpile": "rm -rf lib && [ -d src ] && babel src --out-dir lib || true",
     "prepublish": "npm run transpile",
     "prestart": "npm run transpile",
-    "start": "./bin/server",
+    "start": "YOYO_JWT_SECRET=YOYO_JWT_SECRET YOYO_JWT_EXPIRES_IN=1d YOYO_ADMIN_USERNAME=admin YOYO_ADMIN_PASSWORD=admin ./bin/server",
     "pretest": "npm run transpile",
     "test": "YOYO_JWT_SECRET=YOYO_JWT_SECRET YOYO_JWT_EXPIRES_IN=1d YOYO_ADMIN_USERNAME=admin YOYO_ADMIN_PASSWORD=admin NODE_ENV=test mocha --ui bdd --compilers js:babel-core/register --require babel-polyfill --recursive --reporter spec --check-leaks test -t 50000",
     "precoverage": "npm run transpile",
