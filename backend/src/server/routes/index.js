@@ -1,11 +1,10 @@
 import auth from '../auth'
 import { setToken } from '../token'
 import { appendUniqueName } from '../../utils'
+import CONFIG from '../../../config.json'
 
-const {
-  YOYO_ADMIN_USERNAME,
-  YOYO_ADMIN_PASSWORD,
-} = process.env
+const YOYO_ADMIN_USERNAME = process.env.YOYO_ADMIN_USERNAME || CONFIG.env.YOYO_ADMIN_USERNAME
+const YOYO_ADMIN_PASSWORD = process.env.YOYO_ADMIN_PASSWORD || CONFIG.env.YOYO_ADMIN_PASSWORD
 
 export default [
   {

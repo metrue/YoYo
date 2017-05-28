@@ -1,10 +1,9 @@
 import jwt from 'jsonwebtoken'
 import crypto from 'crypto'
+import CONFIG from '../../config.json'
 
-const {
-  YOYO_JWT_SECRET,
-  YOYO_JWT_EXPIRES_IN,
-} = process.env
+const YOYO_JWT_SECRET = process.env.YOYO_JWT_SECRET || CONFIG.env.YOYO_JWT_SECRET
+const YOYO_JWT_EXPIRES_IN = process.env.YOYO_JWT_EXPIRES_IN || CONFIG.env.YOYO_JWT_EXPIRES_IN
 
 const encrypt = (text) => {
   const cipher = crypto.createCipher('aes-256-ctr', YOYO_JWT_SECRET)

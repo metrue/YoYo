@@ -11,6 +11,12 @@
     "user": "",
     "pass": ""
   },
+  "env": {
+    "YOYO_JWT_SECRET": "YOYO_JWT_SECRET",
+    "YOYO_JWT_EXPIRES_IN": "1d",
+    "YOYO_ADMIN_USERNAME": "admin",
+    "YOYO_ADMIN_PASSWORD": "admin"
+  },
   "origins": ["http://localhost:8080"],
   "adminEmail": ""
 }

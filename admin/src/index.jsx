@@ -28,7 +28,7 @@ class App extends React.Component {
         } else if (res.status === 401) {
           this.setState({ authed: false })
         }
-        return new Error(`${res.statusText}`)
+        throw new Error(`${res.statusText}`)
       })
       .then((data) => {
         this.setState({ list: data })
@@ -84,7 +84,9 @@ class App extends React.Component {
         throw new Error('login failed')
       })
       .then(() => {
-        this.fetchCommentList()
+        this.setState({ authed: true }, () => {
+          this.fetchCommentList()
+        })
       })
       .catch((e) => {
         console.warn(e)
