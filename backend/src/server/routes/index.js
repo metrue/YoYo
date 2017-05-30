@@ -27,12 +27,7 @@ export default [
     path: '/comments',
     method: 'POST',
     handler: async (ctx, dal) => {
-      const {
-        user,
-        uri,
-        text,
-        parents,
-      } = ctx.request.body
+      const { user, uri, text, parents } = ctx.request.body
 
       let error = null
       if (parents && parents.length > 0) {

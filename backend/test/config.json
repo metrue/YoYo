@@ -6,9 +6,11 @@
     "port": 27017,
     "db": "YoYo-dev"
   },
-  "jwt": {
-    "secret": "who are you?",
-    "expires_in": "7d",
-    "env_name": "JWT_SECRET"
-  }
+  "mail": {
+    "service": "163",
+    "user": "hitminghe@163.com",
+    "pass": "19881114"
+  },
+  "origins": ["http://localhost:8080"],
+  "adminEmail": "hitminghe@163.com"
 }

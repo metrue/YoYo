@@ -41,6 +41,42 @@ describe('API', () => {
         expect(error).to.equal(null)
         expect(resp.status).to.equal(201)
       })
+
+      it('mod', async () => {
+        const comment = mockAComment()
+        const modComment = { ...comment, user: CONFIG.adminEmail }
+        const url = `${API_URL}/comments`
+        const opts = {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            // Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(modComment),
+        }
+        let error = null
+        let resp = null
+        try {
+          resp = await fetch(url, opts)
+        } catch (e) {
+          error = e
+        }
+        expect(error).to.equal(null)
+        expect(resp.status).to.equal(201)
+
+        const queryUrl = `${API_URL}/comments?uri=${modComment.uri}`
+        let data = null
+        try {
+          const rsp = await fetch(queryUrl)
+          data = await rsp.json()
+        } catch (e) {
+          error = e
+        }
+        expect(error).to.equal(null)
+        expect(data).to.an.instanceof(Array)
+        expect(data.length === 1).to.equal(true)
+        expect(data[0].mod).to.equal(true)
+      })
     })
 
     describe('List', () => {

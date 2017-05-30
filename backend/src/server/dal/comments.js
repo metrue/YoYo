@@ -3,12 +3,18 @@ import BaseDal from './base_dal'
 import { withMailer } from './utils'
 import CONFIG from '../../../config.json'
 
+const fromMod = (comment) => comment.user === CONFIG.adminEmail
+
 @withMailer
 export default class Comments extends BaseDal {
   async create(obj) {
-    await super.create(obj)
+    const comment = { ...obj, mod: false }
+    if (fromMod) {
+      comment.mod = true
+    }
+    await super.create(comment)
 
-    const { parent, text, user, uri } = obj
+    const { parent, text, user, uri } = comment
 
     if (CONFIG.adminEmail) {
       const content = `@${user}: ${text} - ${uri}`
