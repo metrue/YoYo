@@ -6,6 +6,14 @@ import CONFIG from '../../../config.json'
 const YOYO_ADMIN_USERNAME = process.env.YOYO_ADMIN_USERNAME || CONFIG.env.YOYO_ADMIN_USERNAME
 const YOYO_ADMIN_PASSWORD = process.env.YOYO_ADMIN_PASSWORD || CONFIG.env.YOYO_ADMIN_PASSWORD
 
+const appendModFlag = (comment) => {
+  if (comment.user === CONFIG.adminEmail) {
+    return { ...comment, mod: true }
+  }
+
+  return { ...comment, mod: false }
+}
+
 export default [
   {
     path: '/health',
@@ -20,7 +28,7 @@ export default [
     handler: async (ctx, dal) => {
       const query = ctx.query
       const comments = await dal.find(query)
-      ctx.body = appendUniqueName(comments)
+      ctx.body = appendUniqueName(comments).map(appendModFlag)
     },
   },
   {

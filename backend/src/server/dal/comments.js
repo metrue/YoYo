@@ -9,7 +9,7 @@ const fromMod = (comment) => comment.user === CONFIG.adminEmail
 export default class Comments extends BaseDal {
   async create(obj) {
     const comment = { ...obj, mod: false }
-    if (fromMod) {
+    if (fromMod(comment)) {
       comment.mod = true
     }
     await super.create(comment)
