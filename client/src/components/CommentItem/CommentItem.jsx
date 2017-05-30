@@ -7,8 +7,11 @@ const CommentItem = ({ comment }) => (
   <div className={ styles.YoYoCommentItemContainer }>
     <div className={ styles.YoYoCommentItemUserAndDate }>
       <div className={ styles.YoYoCommentItemUser }>
-        { comment.name }
-        <span className={ styles.YoYoCommentItemDate }> - { moment(comment.date).format('YYYY-MM-DD HH:MM') } </span>
+        <p>
+          { comment.name }
+          { comment.mod ? <span className={ styles.YoYoCommentItemMod }> MOD </span> : null }
+          <span className={ styles.YoYoCommentItemDate }> - { moment(comment.date).format('YYYY-MM-DD HH:MM') } </span>
+        </p>
       </div>
     </div>
     <div className={ styles.YoYoCommentItemText }>

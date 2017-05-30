@@ -38,3 +38,11 @@
 	word-wrap: break-word;
   margin-bottom: 0px;
 }
+
+.YoYoCommentItemMod {
+  background-color: lightgrey;
+  color: white;
+  border-radius: 2px;
+  font-size: 0.8em;
+  margin-left: 10px;
+}
