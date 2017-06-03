@@ -16,5 +16,6 @@ start:
 	npm install && \
 	npm start
 
-deploy:
-	docker-compose -f devops/compose.yml build && docker-compose -f devops/compose.yml up
+test:
+	cd backend && npm test
+	cd client && npm test
