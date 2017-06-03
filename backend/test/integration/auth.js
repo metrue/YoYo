@@ -2,10 +2,11 @@ import { expect } from 'chai'
 import fetch from 'isomorphic-fetch'
 import Server from '../../src/server'
 import CONFIG from '../config'
+import { cookie } from '../helpers/cookie'
 
 const API_URL = `http://${CONFIG.host}:${CONFIG.port}/v1/api`
 
-describe.skip('Auth', () => {
+describe('Auth', () => {
   let server
   before(async () => {
     server = new Server(CONFIG)
@@ -33,17 +34,26 @@ describe.skip('Auth', () => {
       }),
     }
     let error = null
-    let token = null
+    let header = null
     try {
       const resp = await fetch(url, opts)
-      const data = await resp.json()
-      token = data.token
+      header = resp.headers
     } catch (e) {
-      console.warn(e)
       error = e
     }
+    const rawCookies = header.get('set-cookie')
+    const { token, path, expires } = cookie(rawCookies)
+    const keys = Object.keys(token)
     expect(error).to.equal(null)
-    expect(token).to.not.equal(null)
+    expect(keys.length).to.equal(1)
+    expect(keys[0]).to.equal('YOYO_ADMIN_TOKEN')
+    expect(token[keys[0]]).to.not.equal(undefined)
+    expect(path).to.equal('/')
+
+    const now = new Date()
+    const expiresDate = new Date(expires)
+    const deltaDays = Math.round((expiresDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24))
+    expect(deltaDays).to.equal(30)
 
     const commentsUrl = `${API_URL}/admin/comments`
     let res
@@ -54,21 +64,5 @@ describe.skip('Auth', () => {
     }
     expect(res.status).to.equal(401)
     expect(res.statusText).to.equal('invalid token')
-
-    const options = {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    }
-    try {
-      res = await fetch(commentsUrl, options)
-    } catch (e) {
-      error = e
-    }
-    expect(res.status).to.equal(200)
-    const data = await res.json()
-    expect(Array.isArray(data)).to.equal(true)
   })
 })
