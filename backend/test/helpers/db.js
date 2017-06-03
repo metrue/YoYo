@@ -1,27 +1,22 @@
 const MongoClient = require('mongodb').MongoClient
 
-const DB = {
-  db: null,
-}
-
-const getDatabase = async (options) => {
-  const { host, port, db } = options
-  if (DB.db === null) {
-    DB.db = await MongoClient.connect(`mongodb://${host}:${port}/${db}`)
+class Database {
+  constructor() {
+    this.db = null
+    this.collection = null
   }
-  return DB.db
-}
 
-const getCollection = async (options) => {
-  const { host, port, db, collection } = options
-  if (DB.db === null) {
-    DB.db = await MongoClient.connect(`mongodb://${host}:${port}/${db}`)
+  async init(options) {
+    if (this.db === null) {
+      const { host, port, db } = options
+      this.db = await MongoClient.connect(`mongodb://${host}:${port}/${db}`)
+    }
+
+    const { collection } = options
+    if (this.collection === null) {
+      this.collection = await this.db.collection(collection)
+    }
   }
-  const col = await DB.db.collection(collection)
-  return col
 }
 
-module.exports = {
-  collection: (options) => getCollection(options),
-  db: (options) => getDatabase(options),
-}
+export default Database

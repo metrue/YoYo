@@ -1,12 +1,12 @@
 import Dal from '../../lib/server/dal'
 import { expect } from 'chai'
-import { mockAComment } from '../utils'
-import database from '../helpers/db'
+import { mockComment } from '../helpers/mock'
+import Database from '../helpers/db'
 
-describe.only('Dal', () => {
+describe('Dal', () => {
   describe('Comments', () => {
     let dal = null
-    let commentsCol = null
+    let database = null
 
     const config = {
       host: 'localhost',
@@ -16,36 +16,38 @@ describe.only('Dal', () => {
 
     before(async () => {
       dal = (new Dal(config)).comments
-      commentsCol = await database.collection({
+      database = new Database()
+      await database.init({
         ...config,
         collection: 'Comments',
       })
     })
 
     it('create', async () => {
-      const obj = mockAComment()
+      const obj = mockComment()
       await dal.create({ ...obj })
 
-      const ret = await commentsCol.find(obj).toArray()
+      const ret = await database.collection.find(obj).toArray()
       // eslint-disable-next-line
       const { _id, ...createdComment } = ret[0]
       expect(createdComment).to.eql(obj)
     })
 
-    it('create with preProcess', async () => {
-      const comment = mockAComment()
-      const preProcess = (obj) => ({ ...obj, mod: true })
-      await dal.create(comment, preProcess)
+    it('create with hooks', async () => {
+      const comment = mockComment()
+      const appendModFlag = (obj) => ({ ...obj, mod: true })
+      const hooks = { preCreate: [appendModFlag] }
+      await dal.create(comment, hooks)
 
-      const ret = await commentsCol.find(comment).toArray()
+      const ret = await database.collection.find(comment).toArray()
       // eslint-disable-next-line
       const { _id, ...createdComment } = ret[0]
       expect(createdComment).to.eql({ ...comment, mod: true })
     })
 
     it('find', async () => {
-      const obj = mockAComment()
-      await commentsCol.insert(obj)
+      const obj = mockComment()
+      await database.collection.insert(obj)
       const ret = await dal.find(obj)
       expect(ret).to.be.an.instanceof(Array)
       expect(ret.length === 1).to.equal(true)
@@ -53,9 +55,8 @@ describe.only('Dal', () => {
     })
 
     after(async () => {
-      const db = await database.db(config)
-      await commentsCol.remove()
-      await db.close()
+      await database.collection.remove()
+      await database.db.close()
     })
   })
 })

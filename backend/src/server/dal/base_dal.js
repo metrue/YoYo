@@ -33,6 +33,7 @@ export default class BaseDal {
 
   async create(obj) {
     const col = await this.collection()
+    // TODO figure out why create insert operation modifies the origin obj
     return await col.insert(obj)
   }
 
@@ -40,6 +41,15 @@ export default class BaseDal {
     const col = await this.collection()
     // eslint-disable-next-line
     return await col.deleteOne({ _id: ObjectID(id) })
+  }
+
+  async deleteMany(filter) {
+    const col = await this.collection()
+    return await col.deleteMany(filter)
+  }
+
+  async deleteAll() {
+    return await this.deleteMany({})
   }
 
   async findOne(query) {

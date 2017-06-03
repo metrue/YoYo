@@ -34,21 +34,32 @@ export default [
   {
     path: '/comments',
     method: 'POST',
-    handler: async (ctx, dal) => {
+    handler: async (ctx, dal, hooks) => {
       const { user, uri, text, parents } = ctx.request.body
 
       let error = null
       if (parents && parents.length > 0) {
         for (const parent of parents) {
           try {
-            await dal.create({ user, uri, text, parent, date: (new Date()).toISOString() })
+            await dal.create({
+              user,
+              uri,
+              text,
+              parent,
+              date: (new Date()).toISOString(),
+            }, hooks)
           } catch (e) {
             error = e
           }
         }
       } else {
         try {
-          await dal.create({ user, uri, text, date: (new Date()).toISOString() })
+          await dal.create({
+            user,
+            uri,
+            text,
+            date: (new Date()).toISOString(),
+          }, hooks)
         } catch (e) {
           error = e
         }

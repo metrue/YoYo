@@ -8,10 +8,9 @@ import serve from 'koa-static'
 
 import routes from './routes'
 import auth from './auth'
+import hooks from './hooks'
 import Dal from './dal'
 import { getToken } from './token'
-
-import CONFIG from '../../config.json'
 
 const authMiddleware = async (ctx, next) => {
   const req = ctx.request
@@ -31,11 +30,14 @@ const authMiddleware = async (ctx, next) => {
 }
 
 export default class {
-  constructor(opts = CONFIG) {
-    this.host = opts.host || 'localhost'
-    this.port = opts.port || 5000
+  constructor(config) {
+    this.config = config
 
-    this.dals = new Dal(opts.mongo)
+    this.host = config.host || 'localhost'
+    this.port = config.port || 5000
+
+    this.dals = new Dal(config.mongo)
+    this.hooks = hooks(config)
 
     this.app = new Koa()
     this.enableCORS()
@@ -44,7 +46,7 @@ export default class {
     this.app.use(logger())
     this.app.use(bodyParser())
 
-    this.setupHandlers(opts)
+    this.setupHandlers(config)
 
     const staticRoot = `${__dirname}/../../public`
     this.app.use(serve(staticRoot))
@@ -56,7 +58,7 @@ export default class {
     routes.forEach((route) => {
       const handler = async (ctx) => {
         if (route.path && route.path.startsWith('/comments')) {
-          await route.handler(ctx, this.dals.comments)
+          await route.handler(ctx, this.dals.comments, this.hooks)
         } else if (route.path && route.path.startsWith('/admin')) {
           await route.handler(ctx, this.dals.comments)
         }
@@ -91,7 +93,7 @@ export default class {
         // if request with credentials, origin cannot be '*',
         // origin should be exactly the request origin
         //
-        if (CONFIG.origins.indexOf(origin) > -1) {
+        if (this.config.origins.indexOf(origin) > -1) {
           return origin
         }
         return '*'
