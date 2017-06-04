@@ -1,4 +1,4 @@
-import Dal from '../../lib/server/dal'
+import Dal from '../../src/server/dal'
 import { expect } from 'chai'
 import { mockComment } from '../helpers/mock'
 import Database from '../helpers/db'
