@@ -1,4 +1,4 @@
-import { MongoClient } from 'mongodb'
+const { MongoClient } = require('mongodb')
 
 class Mongo {
   constructor() {
@@ -36,4 +36,4 @@ class Mongo {
   }
 }
 
-export default new Mongo()
+module.exports = new Mongo()

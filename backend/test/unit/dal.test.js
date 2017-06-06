@@ -1,6 +1,6 @@
 // TODO
 // this is a serious issue between /lib and /src (need to figrure out)
-import Dal from '../../lib/server/dal'
+import Dal from '../../src/server/dal'
 import { mockComment } from '../helpers/mock'
 import Database from '../helpers/db'
 

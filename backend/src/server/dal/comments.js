@@ -1,7 +1,7 @@
-import { ObjectID } from 'mongodb'
-import BaseDal from './base_dal'
+const { ObjectID } = require('mongodb')
+const BaseDal = require('./base_dal')
 
-export default class Comments extends BaseDal {
+class Comments extends BaseDal {
   async create(obj, hooks = {}) {
     const preCreate = hooks.preCreate || []
     const postCreated = hooks.postCreated || []
@@ -37,3 +37,5 @@ export default class Comments extends BaseDal {
               .toArray()
   }
 }
+
+module.exports = Comments

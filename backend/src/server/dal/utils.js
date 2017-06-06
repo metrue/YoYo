@@ -1,9 +1,11 @@
-import Mailer from '../mailer'
+const Mailer = require('../mailer')
 
-export function withMailer(service) {
+function withMailer(service) {
   const mailer = new Mailer(service)
 
   return (target) => {
     target.prototype.mailer = mailer
   }
 }
+
+module.exports = withMailer

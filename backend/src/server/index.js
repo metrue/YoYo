@@ -1,16 +1,16 @@
-import Koa from 'koa'
-import compress from 'koa-compress'
-import bodyParser from 'koa-bodyparser'
-import Router from 'koa-router'
-import logger from 'koa-logger'
-import cors from 'koa-cors'
-import serve from 'koa-static'
+const Koa = require('koa')
+const compress = require('koa-compress')
+const bodyParser = require('koa-bodyparser')
+const Router = require('koa-router')
+const logger = require('koa-logger')
+const cors = require('koa-cors')
+const serve = require('koa-static')
 
-import routes from './routes'
-import auth from './auth'
-import hooks from './hooks'
-import Dal from './dal'
-import { getToken } from './token'
+const routes = require('./routes')
+const auth = require('./auth')
+const hooks = require('./hooks')
+const Dal = require('./dal')
+const { getToken } = require('./token')
 
 const authMiddleware = async (ctx, next) => {
   const req = ctx.request
@@ -29,7 +29,7 @@ const authMiddleware = async (ctx, next) => {
   await next()
 }
 
-export default class {
+class Server {
   constructor(config) {
     this.config = config
 
@@ -115,3 +115,5 @@ export default class {
     await this._server.close()
   }
 }
+
+module.exports = Server

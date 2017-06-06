@@ -1,4 +1,7 @@
-#!/usr/bin/env node
+#!/usr/bin/env node --harmony_object_rest_spread
 
-require('babel-polyfill')
-require('../lib/app')
+const Server = require('../src/server')
+const CONFIG = require('../config.json')
+
+const server = new Server(CONFIG)
+server.start()

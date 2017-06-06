@@ -1,5 +1,5 @@
-import mongo from './db'
-import { ObjectID } from 'mongodb'
+const mongo = require('./db')
+const { ObjectID } = require('mongodb')
 
 function buidQuery(query = {}) {
   const allowedFields = ['_id', 'user', 'uri', 'text', 'date', 'parent']
@@ -12,7 +12,7 @@ function buidQuery(query = {}) {
   return newQuery
 }
 
-export default class BaseDal {
+class BaseDal {
   constructor(config) {
     const { host, port, db, collectionName } = config
     const goodToGo = host && port && db && collectionName
@@ -68,3 +68,5 @@ export default class BaseDal {
               .toArray()
   }
 }
+
+module.exports = BaseDal

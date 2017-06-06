@@ -1,4 +1,4 @@
-export const uniqueNames = (emails) => {
+const uniqueNames = (emails) => {
   const names = []
   emails.forEach((email) => {
     let [name] = email.split('@')
@@ -12,7 +12,7 @@ export const uniqueNames = (emails) => {
   return names
 }
 
-export const appendUniqueName = (comments) => {
+const appendUniqueName = (comments) => {
   const ret = []
   const isUnique = (name, domain) => {
     for (const comment of ret) {
@@ -34,3 +34,5 @@ export const appendUniqueName = (comments) => {
   }
   return ret
 }
+
+module.exports = { uniqueNames, appendUniqueName }

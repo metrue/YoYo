@@ -4,11 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "transpile": "rm -rf lib && [ -d src ] && babel src --out-dir lib || true",
-    "prepublish": "npm run transpile",
-    "prestart": "npm run transpile",
     "start": "./bin/server",
-    "pretest": "npm run transpile",
     "test": "YOYO_JWT_SECRET=YOYO_JWT_SECRET YOYO_JWT_EXPIRES_IN=1d YOYO_ADMIN_USERNAME=admin YOYO_ADMIN_PASSWORD=admin NODE_ENV=test jest",
     "precoverage": "npm run transpile",
     "coverage": "YOYO_JWT_SECRET=YOYO_JWT_SECRET YOYO_JWT_EXPIRES_IN=1d YOYO_ADMIN_USERNAME=admin YOYO_ADMIN_PASSWORD=admin NODE_ENV=test  ./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha -- --ui bdd --compilers js:babel-core/register --require babel-polyfill --recursive --reporter spec --check-leaks test -t 10000 | codecov -t d46b64da-89d9-43ed-8ea7-54f98b1b9586",

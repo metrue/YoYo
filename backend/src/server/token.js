@@ -1,10 +1,10 @@
 const TOKEN_NAME = 'YOYO_ADMIN_TOKEN'
 
-export const getToken = (ctx) => {
+const getToken = (ctx) => {
   return ctx.cookies.get(TOKEN_NAME)
 }
 
-export const setToken = (ctx, value) => {
+const setToken = (ctx, value) => {
   const expiresDate = new Date()
   expiresDate.setDate(expiresDate.getDate() + 30)
 
@@ -12,4 +12,9 @@ export const setToken = (ctx, value) => {
     httpOnly: false,
     expires: expiresDate,
   })
+}
+
+module.exports = {
+  getToken,
+  setToken,
 }

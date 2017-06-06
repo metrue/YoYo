@@ -1,4 +1,4 @@
-import Mailer from './mailer'
+const Mailer = require('./mailer')
 
 const appendModFlag = (adminEmail) => {
   return (comment) => {
@@ -30,7 +30,7 @@ const notifyCommentor = (mailer) => {
   }
 }
 
-export default (config) => {
+module.exports = (config) => {
   const { adminEmail, mail } = config
   const mailer = new Mailer(mail)
 

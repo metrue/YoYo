@@ -1,5 +1,7 @@
-import Comments from './comments'
+const Comments = require('./comments')
 
-export default function Dal(config) {
+function Dal(config) {
   this.comments = new Comments({ ...config, collectionName: 'Comments' })
 }
+
+module.exports = Dal

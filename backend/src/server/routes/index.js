@@ -1,7 +1,7 @@
-import auth from '../auth'
-import { setToken } from '../token'
-import { appendUniqueName } from '../../utils'
-import CONFIG from '../../../config.json'
+const auth = require('../auth')
+const { setToken } = require('../token')
+const { appendUniqueName } = require('../../utils')
+const CONFIG = require('../../../config.json')
 
 const YOYO_ADMIN_USERNAME = process.env.YOYO_ADMIN_USERNAME || CONFIG.env.YOYO_ADMIN_USERNAME
 const YOYO_ADMIN_PASSWORD = process.env.YOYO_ADMIN_PASSWORD || CONFIG.env.YOYO_ADMIN_PASSWORD
@@ -14,7 +14,7 @@ const appendModFlag = (comment) => {
   return { ...comment, mod: false }
 }
 
-export default [
+module.exports = [
   {
     path: '/health',
     method: 'GET',

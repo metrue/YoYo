@@ -1,6 +1,6 @@
-import jwt from 'jsonwebtoken'
-import crypto from 'crypto'
-import CONFIG from '../../config.json'
+const jwt = require('jsonwebtoken')
+const crypto = require('crypto')
+const CONFIG = require('../../config.json')
 
 const YOYO_JWT_SECRET = process.env.YOYO_JWT_SECRET || CONFIG.env.YOYO_JWT_SECRET
 const YOYO_JWT_EXPIRES_IN = process.env.YOYO_JWT_EXPIRES_IN || CONFIG.env.YOYO_JWT_EXPIRES_IN
@@ -20,7 +20,7 @@ const decrypt = (text) => {
   return dec
 }
 
-export function sign(username, password) {
+function sign(username, password) {
   const payload = {
     username,
     info: encrypt(password),
@@ -28,11 +28,11 @@ export function sign(username, password) {
   return jwt.sign(payload, YOYO_JWT_SECRET, { expiresIn: YOYO_JWT_EXPIRES_IN })
 }
 
-export function verify(token) {
+function verify(token) {
   jwt.verify(token, YOYO_JWT_SECRET)
 }
 
-export default {
+module.exports = {
   sign,
   verify,
 }
