@@ -1,4 +1,3 @@
-import { expect } from 'chai'
 import { uniqueNames, appendUniqueName } from '../../src/utils'
 
 describe('utils', () => {
@@ -9,7 +8,7 @@ describe('utils', () => {
       'a@b.com',
     ]
     const names = uniqueNames(emails)
-    expect(names).to.eql(['a', 'b', 'a1'])
+    expect(names).toEqual(['a', 'b', 'a1'])
   })
 
   it('should generate unique name from a array of comments', () => {
@@ -35,7 +34,7 @@ describe('utils', () => {
       text: 'text-1',
     }]
     const nameAppendedComments = appendUniqueName(comments)
-    expect(nameAppendedComments).to.eql([{
+    expect(nameAppendedComments).toEqual([{
       user: 'a@a.com',
       name: 'a',
       uri: 'https://a.com/1',

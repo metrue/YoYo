@@ -1,6 +1,7 @@
 {
   "extends": "airbnb/base",
   "env": {
+    "jest/globals": true,
     "mocha": "true"
   },
   "rules": {
@@ -9,7 +10,14 @@
     "no-param-reassign": 0,
     "no-underscore-dangle": 0,
     "strict": 0,
-    "semi": ["error", "never"]
+    "semi": ["error", "never"],
+    "jest/no-disabled-tests": "warn",
+    "jest/no-focused-tests": "error",
+    "jest/no-identical-title": "error",
+    "jest/valid-expect": "error"
   },
-  "parser": "babel-eslint"
+  "parser": "babel-eslint",
+  "plugins": [
+    "jest"
+  ]
 }

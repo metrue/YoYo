@@ -1,7 +1,6 @@
 // TODO
 // this is a serious issue between /lib and /src (need to figrure out)
 import Dal from '../../lib/server/dal'
-import { expect } from 'chai'
 import { mockComment } from '../helpers/mock'
 import Database from '../helpers/db'
 
@@ -16,7 +15,7 @@ describe('Dal', () => {
       db: 'YoYo-test',
     }
 
-    before(async () => {
+    beforeAll(async () => {
       dal = (new Dal(config)).comments
       database = new Database()
       await database.init({
@@ -32,7 +31,7 @@ describe('Dal', () => {
       const ret = await database.collection.find(obj).toArray()
       // eslint-disable-next-line
       const { _id, ...createdComment } = ret[0]
-      expect(createdComment).to.eql(obj)
+      expect(createdComment).toEqual(obj)
     })
 
     it('create with hooks', async () => {
@@ -44,19 +43,19 @@ describe('Dal', () => {
       const ret = await database.collection.find(comment).toArray()
       // eslint-disable-next-line
       const { _id, ...createdComment } = ret[0]
-      expect(createdComment).to.eql({ ...comment, mod: true })
+      expect(createdComment).toEqual({ ...comment, mod: true })
     })
 
     it('find', async () => {
       const obj = mockComment()
       await database.collection.insert(obj)
       const ret = await dal.find(obj)
-      expect(ret).to.be.an.instanceof(Array)
-      expect(ret.length === 1).to.equal(true)
-      expect(ret[0]).to.eql(obj)
+      expect(ret).toBeInstanceOf(Array)
+      expect(ret.length === 1).toBe(true)
+      expect(ret[0]).toEqual(obj)
     })
 
-    after(async () => {
+    afterAll(async () => {
       await database.collection.remove()
       await database.db.close()
     })
