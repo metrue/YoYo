@@ -6,7 +6,6 @@
   "scripts": {
     "start": "./bin/server",
     "test": "YOYO_JWT_SECRET=YOYO_JWT_SECRET YOYO_JWT_EXPIRES_IN=1d YOYO_ADMIN_USERNAME=admin YOYO_ADMIN_PASSWORD=admin NODE_ENV=test jest",
-    "precoverage": "npm run transpile",
     "coverage": "YOYO_JWT_SECRET=YOYO_JWT_SECRET YOYO_JWT_EXPIRES_IN=1d YOYO_ADMIN_USERNAME=admin YOYO_ADMIN_PASSWORD=admin NODE_ENV=test  ./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha -- --ui bdd --compilers js:babel-core/register --require babel-polyfill --recursive --reporter spec --check-leaks test -t 10000 | codecov -t d46b64da-89d9-43ed-8ea7-54f98b1b9586",
     "coverage:local": "YOYO_JWT_SECRET=YOYO_JWT_SECRET YOYO_JWT_EXPIRES_IN=1d YOYO_ADMIN_USERNAME=admin YOYO_ADMIN_PASSWORD=admin NODE_ENV=test jest --coverage",
     "eslint": "./node_modules/.bin/eslint src || exit 0"
@@ -15,10 +14,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "artifactory-api": "0.0.3",
-    "atob": "^2.0.3",
-    "cheerio": "^0.22.0",
-    "dooing": "~0.0.4",
     "es6-promise": "^4.0.5",
     "isomorphic-fetch": "^2.2.1",
     "jsonwebtoken": "^7.4.1",
@@ -32,35 +27,16 @@
     "koa-static": "^3.0.0",
     "koa-unless": "1.0.0",
     "mongodb": "^2.2.19",
-    "nodemailer": "^4.0.1",
-    "redis": "^2.6.3",
-    "request": "^2.79.0",
-    "whatwg-fetch": "^2.0.1"
+    "nodemailer": "^4.0.1"
   },
   "devDependencies": {
-    "babel-cli": "^6.7.5",
-    "babel-core": "^6.7.6",
-    "babel-eslint": "^6.0.4",
-    "babel-plugin-transform-decorators-legacy": "^1.3.4",
-    "babel-plugin-transform-regenerator": "^6.21.0",
-    "babel-polyfill": "^6.20.0",
-    "babel-preset-es2015": "^6.18.0",
-    "babel-preset-es2015-node4": "^2.1.0",
-    "babel-preset-stage-0": "^6.5.0",
-    "chai": "^3.5.0",
-    "db-migrate": "^0.10.0-beta.11",
-    "db-migrate-pg": "^0.1.9",
     "eslint": "^2.10.2",
     "eslint-config-airbnb": "^9.0.1",
     "eslint-plugin-import": "^1.8.0",
     "eslint-plugin-jest": "^20.0.3",
     "eslint-plugin-jsx-a11y": "^1.2.2",
     "eslint-plugin-react": "^5.1.1",
-    "istanbul": "^1.0.0-alpha.2",
-    "jest": "^20.0.4",
-    "mocha": "^2.4.5",
-    "npm-watch": "^0.1.3",
-    "progress": "^1.1.8"
+    "jest": "^20.0.4"
   },
   "babel": {
     "presets": [
