@@ -1,7 +1,7 @@
 const auth = require('../auth')
 const { setToken } = require('../token')
-const { appendUniqueName } = require('../../utils')
-const CONFIG = require('../../../config.json')
+const { appendUniqueName } = require('../utils')
+const CONFIG = require('../../config.json')
 
 const YOYO_ADMIN_USERNAME = process.env.YOYO_ADMIN_USERNAME || CONFIG.env.YOYO_ADMIN_USERNAME
 const YOYO_ADMIN_PASSWORD = process.env.YOYO_ADMIN_PASSWORD || CONFIG.env.YOYO_ADMIN_PASSWORD

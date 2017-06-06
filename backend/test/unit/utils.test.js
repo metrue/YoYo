@@ -1,4 +1,4 @@
-import { uniqueNames, appendUniqueName } from '../../src/utils'
+const { uniqueNames, appendUniqueName } = require('../../src/utils')
 
 describe('utils', () => {
   it('should generate unique name from a array of emails', () => {

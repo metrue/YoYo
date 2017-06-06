@@ -1,8 +1,8 @@
-import CONFIG from '../config'
-import fetch from 'isomorphic-fetch'
-import Server from '../../src/server'
-import { mockComment } from '../helpers/mock'
-import Database from '../helpers/db'
+const CONFIG = require('../config')
+const fetch = require('isomorphic-fetch')
+const Server = require('../../src')
+const { mockComment } = require('../helpers/mock')
+const Database = require('../helpers/db')
 
 const API_URL = `http://${CONFIG.host}:${CONFIG.port}/v1/api`
 

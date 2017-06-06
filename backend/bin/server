@@ -1,6 +1,6 @@
-#!/usr/bin/env node --harmony_object_rest_spread
+#!/usr/bin/env node --harmony
 
-const Server = require('../src/server')
+const Server = require('../src')
 const CONFIG = require('../config.json')
 
 const server = new Server(CONFIG)

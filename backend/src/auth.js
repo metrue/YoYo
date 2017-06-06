@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 const crypto = require('crypto')
-const CONFIG = require('../../config.json')
+const CONFIG = require('../config.json')
 
 const YOYO_JWT_SECRET = process.env.YOYO_JWT_SECRET || CONFIG.env.YOYO_JWT_SECRET
 const YOYO_JWT_EXPIRES_IN = process.env.YOYO_JWT_EXPIRES_IN || CONFIG.env.YOYO_JWT_EXPIRES_IN

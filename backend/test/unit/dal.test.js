@@ -1,8 +1,8 @@
 // TODO
 // this is a serious issue between /lib and /src (need to figrure out)
-import Dal from '../../src/server/dal'
-import { mockComment } from '../helpers/mock'
-import Database from '../helpers/db'
+const Dal = require('../../src/dal')
+const { mockComment } = require('../helpers/mock')
+const Database = require('../helpers/db')
 
 describe('Dal', () => {
   describe('Comments', () => {

@@ -13,7 +13,8 @@ class Comments extends BaseDal {
       }
     }
 
-    await super.create(comment)
+    const col = await this.collection()
+    await col.insert(comment)
 
     for (const posthook of postCreated) {
       if (typeof postCreated === 'function') {

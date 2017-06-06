@@ -1,19 +1,19 @@
-import fetch from 'isomorphic-fetch'
-import Server from '../../src/server'
-import CONFIG from '../config'
-import { cookie } from '../helpers/cookie'
+const fetch = require('isomorphic-fetch')
+const Server = require('../../src')
+const CONFIG = require('../config')
+const cookie = require('../helpers/cookie')
 
 const API_URL = `http://${CONFIG.host}:${CONFIG.port}/v1/api`
 
-describe('Auth', () => {
+describe.skip('Auth', () => {
   let server
   beforeAll(async () => {
     server = new Server(CONFIG)
     await server.start()
   })
 
-  afterAll(() => {
-    server.stop()
+  afterAll(async () => {
+    await server.stop()
   })
 
   it('auth flow', async () => {

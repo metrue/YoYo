@@ -1,4 +1,4 @@
-export function cookie(rawString) {
+module.exports = function cookie(rawString) {
   const [tokenString, path, expires] = rawString.split('; ')
   const [key, value] = tokenString.split('=')
 
