@@ -5,3 +5,10 @@ const CONFIG = require('../config.json')
 
 const server = new Server(CONFIG)
 server.start()
+  .then(() => {
+    console.log('YoYo api server is on')
+  })
+  .catch((e) => {
+    console.log(e)
+  })
+
