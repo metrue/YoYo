@@ -48,7 +48,8 @@ class Server {
 
     this.setupHandlers(config)
 
-    const staticRoot = `${__dirname}/../../public`
+    // TODO testing on this
+    const staticRoot = `${__dirname}/../public`
     this.app.use(serve(staticRoot))
   }
 
