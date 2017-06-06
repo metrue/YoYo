@@ -1,6 +1,6 @@
 machine:
   node:
-    version: 7.9.0
+    version: 8.0.0
   environment:
     YOYO_JWT_SECRET: 'YOYO_JWT_SECRET'
     YOYO_JWT_EXPIRES_IN: '1d'
