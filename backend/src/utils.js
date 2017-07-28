@@ -30,7 +30,7 @@ const appendUniqueName = (comments) => {
       newName = `${name}${suffix}`
       suffix += 1
     }
-    ret.push({ ...comment, name: newName })
+    ret.push(Object.assign(comment, { name: newName }))
   }
   return ret
 }

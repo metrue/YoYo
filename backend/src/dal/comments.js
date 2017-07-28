@@ -6,7 +6,7 @@ class Comments extends BaseDal {
     const preCreate = hooks.preCreate || []
     const postCreated = hooks.postCreated || []
 
-    let comment = { ...obj }
+    let comment = Object.assign({}, obj)
     for (const prehook of preCreate) {
       if (typeof prehook === 'function') {
         comment = await prehook(comment)

@@ -3,9 +3,9 @@ const Mailer = require('./mailer')
 const appendModFlag = (adminEmail) => {
   return (comment) => {
     if (comment.user === adminEmail) {
-      return { ...comment, mod: true }
+      return Object.assign(comment, { mod: true })
     }
-    return { ...comment, mod: false }
+    return Object.assign(comment, { mod: false })
   }
 }
 

@@ -8,10 +8,10 @@ const YOYO_ADMIN_PASSWORD = process.env.YOYO_ADMIN_PASSWORD || CONFIG.env.YOYO_A
 
 const appendModFlag = (comment) => {
   if (comment.user === CONFIG.adminEmail) {
-    return { ...comment, mod: true }
+    return Object.assign(omment, { mod: true })
   }
 
-  return { ...comment, mod: false }
+  return Object.assign(comment, { mod: false })
 }
 
 module.exports = [
