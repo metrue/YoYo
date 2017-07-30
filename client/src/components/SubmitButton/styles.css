@@ -30,12 +30,25 @@
   min-width: 200px;
 }
 
-@media (max-width: 600px) {
+@media (max-width:800px) {
+  /* smartphones, portrait iPhone, portrait 480x320 phones (Android) */
+ /* smartphones, Android phones, landscape iPhone */
+ /* portrait tablets, portrait iPad, e-readers (Nook/Kindle), landscape 800x480 phones (Android) */
   .YoYoEmailInput {
     composes: YoYoEmailInputBase;
 
     font-size: 3.2vmin;
     min-width: 60%;
+  }
+}
+@media (min-width:801px) and (min-width:1025px) and  (min-width:1281px) {
+/* tablet, landscape iPad, lo-res laptops ands desktops */
+ /* big landscape tablets, laptops, and desktops */
+ /* hi-res laptops and desktops */
+  .YoYoEmailInput {
+    composes: YoYoEmailInputBase;
+
+    font-size: 2vmin !important;
   }
 }
 
@@ -68,10 +81,33 @@
 	font-size: 1vmin;
 }
 
-@media (max-width: 600px) {
+@media (min-width: 1025px) {
+  .YoYoCommentPublishButton {
+    composes: YoYoButtonBase;
+
+    font-size: 2vmin !important;
+  }
+}
+
+@media (max-width:800px) {
+  /* smartphones, portrait iPhone, portrait 480x320 phones (Android) */
+ /* smartphones, Android phones, landscape iPhone */
+ /* portrait tablets, portrait iPad, e-readers (Nook/Kindle), landscape 800x480 phones (Android) */
   .YoYoCommentPublishButton {
     composes: YoYoButtonBase;
 
     font-size: 3.2vmin !important;
   }
 }
+
+@media (min-width:801px) and (min-width:1025px) and  (min-width:1281px) {
+/* tablet, landscape iPad, lo-res laptops ands desktops */
+ /* big landscape tablets, laptops, and desktops */
+ /* hi-res laptops and desktops */
+  .YoYoCommentPublishButton {
+    composes: YoYoButtonBase;
+
+    font-size: 2vmin !important;
+  }
+}
+
