@@ -30,7 +30,7 @@ const authMiddleware = async (ctx, next) => {
 }
 
 class Server {
-  constructor(config) {
+  constructor (config) {
     this.config = config
 
     this.host = config.host || 'localhost'
@@ -53,7 +53,7 @@ class Server {
     this.app.use(serve(staticRoot))
   }
 
-  setupHandlers() {
+  setupHandlers () {
     const router = new Router({ prefix: '/v1/api' })
 
     routes.forEach((route) => {
@@ -86,7 +86,7 @@ class Server {
       .use(router.allowedMethods())
   }
 
-  enableCORS() {
+  enableCORS () {
     const options = {
       origin: (ctx) => {
         const origin = ctx.headers.origin
@@ -99,12 +99,12 @@ class Server {
         }
         return '*'
       },
-      credentials: true,
+      credentials: true
     }
     this.app.use(cors(options))
   }
 
-  async start() {
+  async start () {
     try {
       this._server = await this.app.listen(this.port)
     } catch (e) {
@@ -112,7 +112,7 @@ class Server {
     }
   }
 
-  async stop() {
+  async stop () {
     await this._server.close()
   }
 }

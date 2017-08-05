@@ -10,11 +10,11 @@ const setToken = (ctx, value) => {
 
   ctx.cookies.set(TOKEN_NAME, value, {
     httpOnly: false,
-    expires: expiresDate,
+    expires: expiresDate
   })
 }
 
 module.exports = {
   getToken,
-  setToken,
+  setToken
 }

@@ -36,11 +36,11 @@ module.exports = (config) => {
 
   return {
     preCreate: [
-      appendModFlag(adminEmail),
+      appendModFlag(adminEmail)
     ],
     postCreate: [
       notifyAdmin(mailer, adminEmail),
-      notifyCommentor(mailer, adminEmail),
-    ],
+      notifyCommentor(mailer, adminEmail)
+    ]
   }
 }

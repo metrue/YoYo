@@ -1,7 +1,7 @@
 const nodemailer = require('nodemailer')
 
 class Mailer {
-  constructor(config) {
+  constructor (config) {
     const { service, user, pass } = config
     this.service = service
     this.user = user
@@ -11,13 +11,13 @@ class Mailer {
     this.transporter = nodemailer.createTransport({ service, auth })
   }
 
-  async send(to, text) {
+  async send (to, text) {
     const options = {
       from: `YoYo <${this.user}>`,
       to,
       subject: 'Reply notification - YoYo',
       text,
-      html: text,
+      html: text
     }
     return new Promise((resolve, reject) => {
       this.transporter.sendMail(options, (error, info) => {

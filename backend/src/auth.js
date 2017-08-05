@@ -20,19 +20,19 @@ const decrypt = (text) => {
   return dec
 }
 
-function sign(username, password) {
+function sign (username, password) {
   const payload = {
     username,
-    info: encrypt(password),
+    info: encrypt(password)
   }
   return jwt.sign(payload, YOYO_JWT_SECRET, { expiresIn: YOYO_JWT_EXPIRES_IN })
 }
 
-function verify(token) {
+function verify (token) {
   jwt.verify(token, YOYO_JWT_SECRET)
 }
 
 module.exports = {
   sign,
-  verify,
+  verify
 }
