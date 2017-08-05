@@ -10,24 +10,36 @@ import CommentItem from './components/CommentItem'
 import SubmitButton from './components/SubmitButton'
 import {
   maybeEmailAddress,
-  validateComment,
+  validateComment
 } from './utils'
 
+const CommentList = ({ list }) => (
+  <div className={styles.YoYoCommentListContainer} >
+    {
+      list.map(c => <CommentItem comment={c} />)
+    }
+  </div>
+)
+
 class App extends React.Component {
-  state = {
-    email: '',
-    publishing: false,
-    list: [],
-    parents: [],
-    suggestions: [],
-    editorState: EditorState.createEmpty(),
+  constructor () {
+    super()
+
+    this.state = {
+      email: '',
+      publishing: false,
+      list: [],
+      parents: [],
+      suggestions: [],
+      editorState: EditorState.createEmpty()
+    }
   }
 
-  componentDidMount = () => {
+  componentDidMount () {
     this.fetchCommentList()
   }
 
-  fetchCommentList = () => {
+  fetchCommentList () {
     api.query(window.location.href)
       .then((res) => {
         if (res.status === 200) {
@@ -39,7 +51,7 @@ class App extends React.Component {
         const commentToMention = (c) => ({ name: c.name, avatar: '', _id: c._id })
         this.setState({
           list: data,
-          suggestions: data.map(commentToMention).filter((c) => c !== null),
+          suggestions: data.map(commentToMention).filter((c) => c !== null)
         })
       })
       .catch((e) => {
@@ -47,18 +59,18 @@ class App extends React.Component {
       })
   }
 
-  commentEmailChange = (e) => {
+  commentEmailChange (e) {
     const value = e.target.value
     this.setState({
-      email: value,
+      email: value
     })
   }
 
-  submit = () => {
+  submit () {
     const {
       email,
       parents,
-      editorState,
+      editorState
     } = this.state
 
     const text = editorState.getCurrentContent().getPlainText()
@@ -68,7 +80,7 @@ class App extends React.Component {
       date: (new Date()).toISOString(),
       uri: window.location.href,
       parents,
-      text,
+      text
     })
       .then((res) => {
         if (res.status === 201) {
@@ -84,24 +96,24 @@ class App extends React.Component {
       })
   }
 
-  reset = () => {
+  reset () {
     const editorState = EditorState.push(this.state.editorState, ContentState.createFromText(''))
     this.setState({ editorState, publishing: false })
   }
 
-  publish = () => {
+  publish () {
     const {
       email,
       editorState,
-      publishing,
+      publishing
     } = this.state
 
     if (!publishing) {
       const text = editorState.getCurrentContent().getPlainText()
       if (!maybeEmailAddress(email)) {
-        alert(`'${email}' is not a valid email`)
+        window.alert(`'${email}' is not a valid email`)
       } else if (!validateComment(text)) {
-        alert(`'${text}' is not a valid comment`)
+        window.alert(`'${text}' is not a valid comment`)
       } else {
         this.setState({ publishing: true }, () => {
           this.submit()
@@ -110,7 +122,7 @@ class App extends React.Component {
     }
   }
 
-  mention = (id) => {
+  mention (id) {
     const { parents } = this.state
 
     if (parents.indexOf(id) === -1) {
@@ -118,41 +130,38 @@ class App extends React.Component {
     }
   }
 
-  editorStateChange = (editorState) => {
+  editorStateChange (editorState) {
     this.setState({ editorState })
   }
 
-  render() {
+  render () {
     const {
       list,
       email,
       suggestions,
-      editorState,
+      editorState
     } = this.state
 
     const immutabaleSuggestions = fromJS(suggestions)
 
     return (
-      <div className={ styles.YoYoContainer }>
-        <div className={ styles.YoYoBoxContainer }>
+      <div className={styles.YoYoContainer}>
+        <div className={styles.YoYoBoxContainer}>
           <CommentBox
-            editorState={ editorState }
-            onEditorStateChange={ this.editorStateChange }
-            suggestions={ immutabaleSuggestions }
-            onAddMention={ this.mention }
+            editorState={editorState}
+            onEditorStateChange={this.editorStateChange.bind(this)}
+            suggestions={immutabaleSuggestions}
+            onAddMention={this.mention.bind(this)}
           />
           <SubmitButton
-            email={ email }
-            onEmailChange={ this.commentEmailChange }
-            onPublish={ this.publish }
+            email={email}
+            onEmailChange={this.commentEmailChange.bind(this)}
+            onPublish={this.publish.bind(this)}
           />
         </div>
-
-        <div className={ styles.YoYoCommentListContainer }>
-          {
-            list.map(c => <CommentItem comment={ c } />)
-          }
-        </div>
+        {
+          list.length > 0 ? <CommentList list={list} /> : null
+        }
       </div>
     )
   }

@@ -18,5 +18,5 @@ switch (LANG) {
 
 export default {
   emailPlaceholderText,
-  publlishButtonTitleText,
+  publlishButtonTitleText
 }

@@ -31,7 +31,7 @@ const Entry = (props) => {
     mention,
     theme,
     searchValue, // eslint-disable-line no-unused-vars
-    ...parentProps,
+    ...parentProps
   } = props
 
   return (
