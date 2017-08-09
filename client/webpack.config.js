@@ -1,6 +1,7 @@
 const webpack = require('webpack')
 const path = require('path')
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 const APP_ROOT = path.join(__dirname, '.')
 
@@ -119,6 +120,7 @@ module.exports = {
     new webpack.optimize.UglifyJsPlugin({
       sourceMap: true,
     }),
+    new BundleAnalyzerPlugin(),
     new BrowserSyncPlugin({
       host: 'localhost',
       port: 3000,

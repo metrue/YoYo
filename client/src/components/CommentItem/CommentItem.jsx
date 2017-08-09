@@ -1,7 +1,25 @@
 import React from 'react'
-import moment from 'moment'
 
 import styles from './styles.css'
+
+const formatDate = (dateString) => {
+  const date = new Date(dateString)
+  const year = date.getFullYear()
+
+  const leftPadZero = (val) => {
+    if (val < 10) {
+      return `0${val}`
+    }
+    return `${val}`
+  }
+
+  const month = leftPadZero(date.getMonth())
+  const day = leftPadZero(date.getDate())
+  const hours = leftPadZero(date.getHours())
+  const minutes = leftPadZero(date.getMinutes())
+
+  return `${year}-${month}-${day} ${hours}:${minutes}`
+}
 
 const CommentItem = ({ comment }) => (
   <div className={styles.YoYoCommentItemContainer}>
@@ -10,7 +28,7 @@ const CommentItem = ({ comment }) => (
         <p>
           { comment.name }
           { comment.mod ? <span className={styles.YoYoCommentItemMod}> MOD </span> : null }
-          <span className={styles.YoYoCommentItemDate}> - { moment(comment.date).format('YYYY-MM-DD HH:MM') } </span>
+          <span className={styles.YoYoCommentItemDate}> - { formatDate(comment.date) } </span>
         </p>
       </div>
     </div>
