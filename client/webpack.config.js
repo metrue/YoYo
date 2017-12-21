@@ -120,13 +120,5 @@ module.exports = {
     new webpack.optimize.UglifyJsPlugin({
       sourceMap: true,
     }),
-    new BundleAnalyzerPlugin(),
-    new BrowserSyncPlugin({
-      host: 'localhost',
-      port: 3000,
-      proxy: 'http://localhost:8080/',
-    }, {
-      reload: false,
-    }),
   ],
 }
