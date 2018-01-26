@@ -22,7 +22,7 @@ Place the following code where you'd like YoYo to load:
 
 ```
 <div id="YoYo"></div>
-<script src="https://yiqie.me/client/dist/index.js"></script>
+<script src="https://c.minghe.me/client/dist/index.js"></script>
 ```
 
 ### How to
