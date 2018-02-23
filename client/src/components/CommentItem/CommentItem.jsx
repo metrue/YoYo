@@ -13,7 +13,7 @@ const formatDate = (dateString) => {
     return `${val}`
   }
 
-  const month = leftPadZero(date.getMonth())
+  const month = leftPadZero(date.getMonth() + 1)
   const day = leftPadZero(date.getDate())
   const hours = leftPadZero(date.getHours())
   const minutes = leftPadZero(date.getMinutes())
