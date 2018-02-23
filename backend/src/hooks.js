@@ -35,10 +35,10 @@ module.exports = (config) => {
   const mailer = new Mailer(mail)
 
   return {
-    preCreate: [
+    preCreated: [
       appendModFlag(adminEmail)
     ],
-    postCreate: [
+    postCreated: [
       notifyAdmin(mailer, adminEmail),
       notifyCommentor(mailer, adminEmail)
     ]
