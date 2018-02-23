@@ -3,11 +3,11 @@ const BaseDal = require('./base_dal')
 
 class Comments extends BaseDal {
   async create(obj, hooks = {}) {
-    const preCreate = hooks.preCreate || []
+    const preCreated = hooks.preCreated || []
     const postCreated = hooks.postCreated || []
 
     let comment = Object.assign({}, obj)
-    for (const prehook of preCreate) {
+    for (const prehook of preCreated) {
       if (typeof prehook === 'function') {
         comment = await prehook(comment)
       }
@@ -17,7 +17,7 @@ class Comments extends BaseDal {
     await col.insert(comment)
 
     for (const posthook of postCreated) {
-      if (typeof postCreated === 'function') {
+      if (typeof posthook === 'function') {
         const { parent } = comment
         // eslint-disable-next-line
         const item = await this.findOne({ _id: ObjectID(parent) })
