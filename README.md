@@ -48,6 +48,7 @@ For more details you can check out the documents of backend, client and admin da
 
 * [https://minghe.me](https://minghe.me)
 * [https://asmalltalk.com](https://asmalltalk.com)
+* [https://singular.fm](https://singular.fm/)
 
 ### LICENSE
 
