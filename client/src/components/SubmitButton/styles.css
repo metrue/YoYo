@@ -5,6 +5,7 @@
 }
 
 .YoYoEmailInputBase {
+  outline: none;
 	display: inline-block;
 	padding: 6px 12px;
 	margin-bottom: 0;
@@ -53,6 +54,7 @@
 }
 
 .YoYoButtonBase {
+  outline: none;
 	display: inline-block;
 	margin-bottom: 0;
 	font-weight: 400;
