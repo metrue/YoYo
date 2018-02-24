@@ -70,19 +70,22 @@ class App extends React.Component {
     const {
       email,
       parents,
+      list,
       editorState
     } = this.state
 
     const text = editorState.getCurrentContent().getPlainText()
-
-    api.submit({
+    const item = {
       user: email,
       date: (new Date()).toISOString(),
       uri: window.location.href,
       parents,
       text
+    }
+    this.setState({
+      list: [...list, item],
     })
-      .then((res) => {
+    api.submit(item).then((res) => {
         if (res.status === 201) {
           setTimeout(() => {
             this.fetchCommentList()
@@ -117,6 +120,7 @@ class App extends React.Component {
       } else {
         this.setState({ publishing: true }, () => {
           this.submit()
+          console.log('submited');
         })
       }
     }
