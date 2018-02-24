@@ -120,7 +120,6 @@ class App extends React.Component {
       } else {
         this.setState({ publishing: true }, () => {
           this.submit()
-          console.log('submited');
         })
       }
     }
