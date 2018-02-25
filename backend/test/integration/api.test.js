@@ -55,7 +55,7 @@ describe('API - Comments', async () => {
     // eslint-disable-next-line
     const { _id, date, ...createdComment } = ret[0]
     expect(createdComment).toEqual({ ...comment, mod: false })
-  })
+  }, 10000)
 
   it('create a mod comment', async () => {
     const comment = mockComment()
@@ -84,7 +84,7 @@ describe('API - Comments', async () => {
     // eslint-disable-next-line
     const { _id, date, ...createdComment } = ret[0]
     expect(createdComment).toEqual({ ...modComment, mod: true })
-  })
+  }, 10000)
 
   it('list all comments', async () => {
     const url = `${API_URL}/comments`
@@ -99,7 +99,7 @@ describe('API - Comments', async () => {
     expect(error).toBe(null)
     expect(data).toBeInstanceOf(Array)
     expect(data.length > 0).toBe(true)
-  })
+  }, 10000)
 
   it('list by page', async () => {
     const url = `${API_URL}/comments?page=0&limit=2`
@@ -114,5 +114,5 @@ describe('API - Comments', async () => {
     expect(error).toBe(null)
     expect(data).toBeInstanceOf(Array)
     expect(data.length).toBe(2)
-  })
+  }, 10000)
 })
