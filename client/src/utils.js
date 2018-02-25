@@ -7,3 +7,8 @@ export function validateComment (text) {
   // TODO sanitize check, -- too weak now
   return text && text.length > 0
 }
+
+export function appendUniqueName (comment) {
+  const [name] = comment.user.split('@')
+  return Object.assign(comment, { name })
+}
