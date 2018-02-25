@@ -37,7 +37,7 @@ describe('Dal', () => {
     it('create with hooks', async () => {
       const comment = mockComment()
       const appendModFlag = (obj) => ({ ...obj, mod: true })
-      const hooks = { preCreate: [appendModFlag] }
+      const hooks = { preCreated: [appendModFlag] }
       await dal.create(comment, hooks)
 
       const ret = await database.collection.find(comment).toArray()
