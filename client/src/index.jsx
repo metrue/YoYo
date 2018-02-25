@@ -10,7 +10,8 @@ import CommentItem from './components/CommentItem'
 import SubmitButton from './components/SubmitButton'
 import {
   maybeEmailAddress,
-  validateComment
+  validateComment,
+  appendUniqueName
 } from './utils'
 
 const CommentList = ({ list }) => (
@@ -83,7 +84,7 @@ class App extends React.Component {
       text
     }
     this.setState({
-      list: [...list, item],
+      list: [...list, appendUniqueName(item)],
     })
     api.submit(item).then((res) => {
         if (res.status === 201) {
