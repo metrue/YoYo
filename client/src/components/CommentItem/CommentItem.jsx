@@ -26,9 +26,9 @@ const CommentItem = ({ comment }) => (
     <div className={styles.YoYoCommentItemUserAndDate}>
       <div className={styles.YoYoCommentItemUser}>
         <p>
-          { comment.name }
+          { comment.user.split('@')[0] }
           { comment.mod ? <span className={styles.YoYoCommentItemMod}> MOD </span> : null }
-          <span className={styles.YoYoCommentItemDate}> - { formatDate(comment.date) } </span>
+          <span className={styles.YoYoCommentItemDate}> - { formatDate(comment.updatedAt) } </span>
         </p>
       </div>
     </div>
