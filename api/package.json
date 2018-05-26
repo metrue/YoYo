@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "deploy:testing": "sls deploy -v --stage testing --DYNAMODB_TABLE YoYo-testing",
-    "deploy:staging": "sls deploy -v --stage staging --DYNAMODB_TABLE YoYo-staging",
-    "deploy:production": "sls deploy -v --stage production --DYNAMODB_TABLE YoYo-production",
+    "deploy:testing": "sls deploy -v --stage testing --DYNAMODB_TABLE YoYo-testing --SENDGRID_API_KEY ${SENDGRID_API_KEY}",
+    "deploy:staging": "sls deploy -v --stage staging --DYNAMODB_TABLE YoYo-staging --SENDGRID_API_KEY ${SENDGRID_API_KEY}",
+    "deploy:production": "sls deploy -v --stage production --DYNAMODB_TABLE YoYo-production --SENDGRID_API_KEY ${SENDGRID_API_KEY}",
     "eslint": "./node_modules/.bin/eslint src || exit 0",
     "test": "DYNAMODB_TABLE=YoYo-testing jest test/users.test.js"
   },
