@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import styles from './styles.css'
 
@@ -41,7 +42,7 @@ const CommentItem = ({ comment }) => (
 )
 
 CommentItem.propTypes = {
-  comment: React.PropTypes.object
+  comment: PropTypes.object
 }
 
 export default CommentItem
