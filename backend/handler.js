@@ -9,12 +9,20 @@ const uuid = require('uuid')
 
 const TableName = process.env.DYNAMODB_TABLE
 
-function sendWelcomeEmail (to) {
+function notify (to, uri) {
+  const text = `
+Hi Friend,
+New reply recieved from ${uri}
+`
+  const html = `
+Hi Friend,
+New reply recieved from ${uri}
+`
   const payload = {
-    to: to.email,
-    from: process.env.ASMALLTALK_EMAIL, // TODO our platform email here
-    replyTo: process.env.ASMALLTALK_EMAIL,
-    subject: `欢迎来到小对话`,
+    to,
+    from: process.env.YOYO_EMAIL,
+    replyTo: process.env.YOYO_EMAIL,
+    subject: `New reply recieved`,
     text,
     html
   }
@@ -36,9 +44,6 @@ const response = (err, data = {}, cb) => {
 const create = function (event, ctx, cb) {
   const data = JSON.parse(event.body)
   const { user, uri, text, parents } = data
-  for (const parent of (parents || [])) {
-    //TODO notification to user
-  }
   const id = uuid.v1()
   const updatedAt = (new Date()).toISOString()
   const params = {
@@ -53,6 +58,11 @@ const create = function (event, ctx, cb) {
   }
 
   return dynamoDb.put(params, (error, data) => {
+    if (!error) {
+      for (const parent of (parents || [])) {
+        notify(parent, uri)
+      }
+    }
     response(error, params.Item, cb)
   })
 }
@@ -129,7 +139,6 @@ const update = function (event, ctx, cb) {
         UpdateExpression: 'SET #user = :user, #updatedAt = :updatedAt, #uri = :uri, #text = :text',
         ReturnValues: 'ALL_NEW'
       }
-      console.log(params)
       return dynamoDb.update(params, (error, data) => {
         if (error) {
           cb(error)

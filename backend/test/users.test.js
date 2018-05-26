@@ -5,7 +5,8 @@ describe('users', () => {
   const user = {
     user: 'a@a.com',
     uri: 'http://a.com',
-    text: 'hello world'
+    text: 'hello world',
+    parents: [ 'h.minghe@gmail.com' ],
   }
   test('create', (done) => {
     handler.create({ body: JSON.stringify(user) }, null, (err, resp) => {
