@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Editor from 'draft-js-plugins-editor'
 import createMentionPlugin from 'draft-js-mention-plugin'
 
@@ -48,9 +49,9 @@ const Entry = (props) => {
 }
 
 Entry.propTypes = {
-  mention: React.PropTypes.object,
-  theme: React.PropTypes.object,
-  searchValue: React.PropTypes.string,
+  mention: PropTypes.object,
+  theme: PropTypes.object,
+  searchValue: PropTypes.string,
 }
 
 export default class CommentBox extends React.Component {
@@ -98,9 +99,9 @@ export default class CommentBox extends React.Component {
 }
 
 CommentBox.propTypes = {
-  editorState: React.PropTypes.object,
-  onEditorStateChange: React.PropTypes.func,
-  suggestions: React.PropTypes.array,
-  onAddMention: React.PropTypes.func,
-  onContentChange: React.PropTypes.func,
+  editorState: PropTypes.object,
+  onEditorStateChange: PropTypes.func,
+  suggestions: PropTypes.array,
+  onAddMention: PropTypes.func,
+  onContentChange: PropTypes.func,
 }
