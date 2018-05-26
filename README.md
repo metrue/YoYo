@@ -31,7 +31,7 @@ YoYo is build on top of AWS, so you have to have a [AWS Account](https://console
 
 [YoYo APIs](https://github.com/metrue/YoYo/tree/master/api) is runing on [AWS Lambda](https://console.aws.amazon.com/lambda/home?region=us-east-1), [AWS API Gateway](https://console.aws.amazon.com/apigateway/home?region=us-east-1), and [AWS Dynamodb](https://console.aws.amazon.com/dynamodb/home?region=us-east-1).
 
-[YoYo client](https://github.com/metrue/YoYo/tree/master/client) is build on top React, then depoyed on [AWS S3](https://s3.console.aws.amazon.com/s3/home?region=us-east-1) with [AWS CloudFront](https://console.aws.amazon.com/cloudfront/home?region=us-east-1).
+[YoYo client](https://github.com/metrue/YoYo/tree/master/client) is build on top React, then deployed on [AWS S3](https://s3.console.aws.amazon.com/s3/home?region=us-east-1) with [AWS CloudFront](https://console.aws.amazon.com/cloudfront/home?region=us-east-1).
 
 * Deploy API
 
