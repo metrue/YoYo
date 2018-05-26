@@ -8,7 +8,8 @@
     "deploy:staging": "sls deploy -v --stage staging --DYNAMODB_TABLE YoYo-staging --SENDGRID_API_KEY ${SENDGRID_API_KEY}",
     "deploy:production": "sls deploy -v --stage production --DYNAMODB_TABLE YoYo-production --SENDGRID_API_KEY ${SENDGRID_API_KEY}",
     "eslint": "./node_modules/.bin/eslint src || exit 0",
-    "test": "DYNAMODB_TABLE=YoYo-testing jest --runInBand --verbose test/users.test.js"
+    "test": "DYNAMODB_TABLE=YoYo-testing jest --verbose",
+    "coverage": "DYNAMODB_TABLE=YoYo-testing jest --coverage --verbose --ci --testResultsProcessor='jest-junit'"
   },
   "keywords": [],
   "author": "",
@@ -40,6 +41,7 @@
     "eslint-plugin-jsx-a11y": "^1.2.2",
     "eslint-plugin-react": "^5.1.1",
     "jest": "^20.0.4",
+    "jest-junit": "^4.0.0",
     "serverless": "^1.27.3"
   },
   "babel": {
@@ -49,5 +51,5 @@
   },
   "jest": {
     "verbose": true
-	}
+  }
 }
