@@ -1,0 +1,189 @@
+workspace: &workspace
+  ~/circleci-YoYo-workflows
+
+defaults: &defaults
+    docker:
+      - image: circleci/node:9.11
+    working_directory: *workspace
+
+steps: &setup
+  - checkout
+  - run:
+      name: install client deps
+      command: |
+        cd client
+        npm install
+  - run:
+      name: install api deps
+      command: |
+        cd api
+        npm install
+  - persist_to_workspace:
+      root: .
+      paths:
+        - '*'
+
+steps: &build-client-staging
+  - setup_remote_docker:
+      docker_layer_caching: true
+  - attach_workspace:
+      at: *workspace
+  - run:
+      name: build
+      command: |
+        cd client
+        npm run build-prod
+  - persist_to_workspace:
+      root: .
+      paths:
+        - '*'
+
+steps: &build-client-production
+  - setup_remote_docker:
+      docker_layer_caching: true
+  - attach_workspace:
+      at: *workspace
+  - run:
+      name: build
+      command: |
+        cd client
+        cp prod.config.js config.js
+        NODE_ENV=production npm run build
+  - persist_to_workspace:
+      root: .
+      paths:
+        - '*'
+
+steps: &deploy-client-production
+  - setup_remote_docker:
+      docker_layer_caching: true
+  - attach_workspace:
+      at: *workspace
+  - run: sudo apt-get update && sudo apt-get install -qq -y python-pip libpython-dev
+  - run: curl -O https://bootstrap.pypa.io/get-pip.py && sudo python get-pip.py
+  - run: sudo pip install -q awscli --upgrade
+  - run:
+      name: deploy
+      command: |
+        ls -al client/public
+        aws s3 sync client/public s3://yoyo-client-production/ --delete --acl public-read
+
+steps: &deploy-client-staging
+  - setup_remote_docker:
+      docker_layer_caching: true
+  - attach_workspace:
+      at: *workspace
+  - run: sudo apt-get update && sudo apt-get install -qq -y python-pip libpython-dev
+  - run: curl -O https://bootstrap.pypa.io/get-pip.py && sudo python get-pip.py
+  - run: sudo pip install -q awscli --upgrade
+  - run:
+      name: deploy
+      command: |
+        ls -al client/public
+        aws s3 sync client/public s3://yoyo-client-staging/ --delete --acl public-read
+
+steps: &test-api
+  - setup_remote_docker:
+      docker_layer_caching: true
+  - attach_workspace:
+      at: *workspace
+  - run:
+      name: test-api
+      command: |
+        cd api
+        npm run deploy:testing
+        npm test
+
+steps: &deploy-api-staging
+  - setup_remote_docker:
+      docker_layer_caching: true
+  - attach_workspace:
+      at: *workspace
+  - run:
+      name: deploy
+      command: |
+        cd api
+        npm run deploy:staging
+
+steps: &deploy-api-production
+  - setup_remote_docker:
+      docker_layer_caching: true
+  - attach_workspace:
+      at: *workspace
+  - run:
+      name: deploy
+      command: |
+        cd api
+        npm run deploy:production
+
+version: 2
+jobs:
+  setup:
+    <<: *defaults
+    steps: *setup
+  build-client-production:
+    <<: *defaults
+    steps: *build-client-production
+  deploy-client-staging:
+    <<: *defaults
+    steps: *deploy-client-staging
+  deploy-client-production:
+    <<: *defaults
+    steps: *deploy-client-production
+  build-client-staging:
+    <<: *defaults
+    steps: *build-client-staging
+  test-api:
+    <<: *defaults
+    steps: *test-api
+  deploy-api-staging:
+    <<: *defaults
+    steps: *deploy-api-staging
+  deploy-api-production:
+    <<: *defaults
+    steps: *deploy-api-production
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - setup
+      - build-client-production:
+          requires:
+            - setup
+          filters:
+            branches:
+              only: production
+      - build-client-staging:
+          requires:
+            - setup
+          filters:
+            branches:
+              only: /(^master$|(^fix))/
+      - deploy-client-staging:
+          requires:
+            - build-client-staging
+          filters:
+            branches:
+              only: /(^master$|(^fix))/
+      - deploy-client-production:
+          requires:
+            - build-client-production
+          filters:
+            branches:
+              only: production
+      - test-api:
+          requires:
+            - setup
+      - deploy-api-staging:
+          requires:
+            - test-api
+          filters:
+            branches:
+              only: /(^master$|(^fix))/
+      - deploy-api-production:
+          requires:
+            - test-api
+          filters:
+            branches:
+              only: production
