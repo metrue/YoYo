@@ -84,24 +84,6 @@ const get = function (event, ctx, cb) {
   })
 }
 
-const list = function (event, ctx, cb) {
-  const params = {
-    TableName: TableName,
-    ExpressionAttributeValues: {
-      ':updatedAt': (new Date('1988-11-14')).toISOString(),
-    },
-    FilterExpression: 'updatedAt > :updatedAt'
-  }
-
-  return dynamoDb.scan(params, (err, data) => {
-    if (err) {
-      cb(err)
-    } else {
-      response(err, data.Items, cb)
-    }
-  })
-}
-
 const update = function (event, ctx, cb) {
   const { id } = event.pathParameters
   const body = JSON.parse(event.body)
@@ -151,9 +133,28 @@ const update = function (event, ctx, cb) {
   })
 }
 
+const query = (event, ctx, cb) => {
+  const { uri } = event.queryStringParameters
+  const params = {
+    TableName: TableName,
+    FilterExpression: 'uri = :uri',
+    ExpressionAttributeValues: {
+      ':uri': uri
+    }
+  }
+
+  return dynamoDb.scan(params, (error, data) => {
+    if (error) {
+      cb(error)
+    } else {
+      response(error, data.Items, cb)
+    }
+  })
+}
+
 module.exports = {
-  create: create,
-  get: get,
-  update: update,
-  list: list
+  create,
+  get,
+  update,
+  query,
 }

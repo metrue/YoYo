@@ -31,8 +31,8 @@ functions:
           path: /comments
           method: post
           cors: true
-  list:
-    handler: handler.list
+  query:
+    handler: handler.query
     events:
       - http:
           path: /comments
