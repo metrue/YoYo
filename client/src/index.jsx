@@ -49,7 +49,7 @@ class App extends React.Component {
         return new Error(`${res.statusText}`)
       })
       .then((data) => {
-        const commentToMention = (c) => ({ name: c.name, avatar: '', _id: c._id })
+        const commentToMention = (c) => ({ name: c.user, avatar: '', _id: c.id })
         this.setState({
           list: data,
           suggestions: data.map(commentToMention).filter((c) => c !== null)
