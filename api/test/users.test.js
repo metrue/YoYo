@@ -19,15 +19,6 @@ describe('users', () => {
     })
   })
 
-  test('list', (done) => {
-    handler.list(null, null, (err, resp) => {
-      expect(err).toBeNull()
-      const data = JSON.parse(resp.body)
-      expect(data.length >= 1).toBeTruthy()
-      done()
-    })
-  })
-
   test('get', (done) => {
     handler.get({
       pathParameters: {
@@ -63,6 +54,19 @@ describe('users', () => {
         expect(data.text).toEqual(body.text)
         done()
       })
+    })
+  })
+
+  test('query', (done) => {
+    handler.query({
+      queryStringParameters: {
+        uri: 'http://a.com',
+      },
+    }, null, (err, resp) => {
+      expect(err).toBeNull()
+      const data = JSON.parse(resp.body)
+      expect(data[0].uri).toEqual(user.uri)
+      done()
     })
   })
 })
