@@ -1,0 +1,73 @@
+service: YoYo
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  stage: ${opt:stage}
+  region: us-east-1
+  environment:
+    DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}
+    SENDGRID_API_KEY: ${opt:SENDGRID_API_KEY}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
+
+package:
+  include:
+    - handler.js
+
+functions:
+  create:
+    handler: handler.create
+    events:
+      - http:
+          path: /comments
+          method: post
+          cors: true
+  list:
+    handler: handler.list
+    events:
+      - http:
+          path: /comments
+          method: get
+          cors: true
+  get:
+    handler: handler.get
+    events:
+      - http:
+          path: /comments/{id}
+          method: get
+          cors: true
+  update:
+    handler: handler.update
+    events:
+      - http:
+          path: /comments/{id}
+          method: put
+          cors: true
+
+resources:
+  Resources:
+    TodosDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: id
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
+        TableName: ${self:provider.environment.DYNAMODB_TABLE}
