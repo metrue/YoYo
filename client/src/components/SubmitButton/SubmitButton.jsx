@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import styles from './styles.css'
 import INTL_TEXT from '../../intl_text'
@@ -22,9 +23,9 @@ const SubmitButton = ({ email, onEmailChange, onPublish }) => (
 )
 
 SubmitButton.propTypes = {
-  email: React.PropTypes.string,
-  onEmailChange: React.PropTypes.func,
-  onPublish: React.PropTypes.func
+  email: PropTypes.string,
+  onEmailChange: PropTypes.func,
+  onPublish: PropTypes.func
 }
 
 export default SubmitButton
