@@ -22,32 +22,35 @@ Place the following code where you'd like YoYo to load:
 
 ```
 <div id="YoYo"></div>
-<script src="https://c.minghe.me/client/dist/index.js"></script>
+<script src="https://yoyo-client-production.s3.amazonaws.com/dist/index.js"></script>
 ```
 
-### How to
+### Deploy On You Own
 
-Make sure you have a MongoDB running on your host, then
+YoYo is build on top of AWS, so you have to have a AWS account and setup your [AWS Credentials](https://docs.aws.amazon.com/cli/latest/userguide/cli-config-files.html) ready.
+
+[YoYo APIs](https://github.com/metrue/YoYo/tree/master/api) is runing on [AWS Lambda](https://console.aws.amazon.com/lambda/home?region=us-east-1), [AWS API Gateway](https://console.aws.amazon.com/apigateway/home?region=us-east-1), and [AWS Dynamodb](https://console.aws.amazon.com/dynamodb/home?region=us-east-1)
+[YoYo client](https://github.com/metrue/YoYo/tree/master/client) is build on top React, then depoyed on [AWS S3](https://s3.console.aws.amazon.com/s3/home?region=us-east-1) with [AWS CloudFront](https://console.aws.amazon.com/cloudfront/home?region=us-east-1).
+
+* Deploy API
 
 ```
-make start
+$ cd api
+$ npm install
+$ npm run deploy:production # or npm run deploy:staging, npm run deploy:testing
 ```
-one command and all set.
 
-* [http://localhost:5002/client](http://localhost:5002/client) is the comment box of YoYo
-* [http://localhost:5002/admin](http://localhost:5002/admin) is the comment management dashbord of YoYo
-* [http://localhost:5002/v1/api](http://localhost:5002/v1/api) is the backend api service
+* Build Clinet
 
-For more details you can check out the documents of backend, client and admin dashboard
-
-* [docs](https://github.com/metrue/YoYo/blob/master/backend/README.md) of YoYo backend
-* [docs](https://github.com/metrue/YoYo/blob/master/client/README.md) of YoYo client
-* [docs](https://github.com/metrue/YoYo/blob/master/admin/README.md) of YoYo admin dashboard
+```
+# cd client
+# npm install
+# npm run build-prod # or 'npm run develop' to do development on local
+```
 
 ### Showcases
 
 * [https://minghe.me](https://minghe.me)
-* [https://asmalltalk.com](https://asmalltalk.com)
 * [https://singular.fm](https://singular.fm/)
 
 ### LICENSE
