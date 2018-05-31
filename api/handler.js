@@ -62,6 +62,11 @@ const create = function (event, ctx, cb) {
       for (const parent of (parents || [])) {
         notify(parent, uri)
       }
+
+      const siteOwnerEmail = process.env.SITE_OWNER_EMAIL
+      if (siteOwnerEmail) {
+        notify(siteOwnerEmail, uri)
+      }
     }
     response(error, params.Item, cb)
   })

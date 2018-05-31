@@ -8,6 +8,7 @@ provider:
   environment:
     DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}
     SENDGRID_API_KEY: ${opt:SENDGRID_API_KEY}
+    SITE_OWNER_EMAIL: ${opt:SITE_OWNER_EMAIL}
   iamRoleStatements:
     - Effect: Allow
       Action:
