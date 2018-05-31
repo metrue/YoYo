@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "deploy:testing": "./bin/deploy.sh testing",
-    "deploy:staging": "./bin/deploy staging",
-    "deploy:production": "./bin/deploy production",
+    "deploy:staging": "./bin/deploy.sh staging",
+    "deploy:production": "./bin/deploy.sh production",
     "eslint": "./node_modules/.bin/eslint src || exit 0",
     "test": "DYNAMODB_TABLE=YoYo-testing jest --verbose",
     "coverage": "DYNAMODB_TABLE=YoYo-testing jest --coverage --verbose --ci --testResultsProcessor='jest-junit'"
