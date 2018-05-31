@@ -40,24 +40,15 @@ class App extends React.Component {
     this.fetchCommentList()
   }
 
-  fetchCommentList () {
-    api.query(window.location.href)
-      .then((res) => {
-        if (res.status === 200) {
-          return res.json()
-        }
-        return new Error(`${res.statusText}`)
-      })
-      .then((data) => {
-        const commentToMention = (c) => ({ name: c.user, avatar: '', _id: c.id })
-        this.setState({
-          list: data,
-          suggestions: data.map(commentToMention).filter((c) => c !== null)
-        })
-      })
-      .catch((e) => {
-        console.warn(e)
-      })
+  async fetchCommentList () {
+    const resp = await api.query(window.location.href)
+    if (resp.status !== 200) {
+      throw new Error(`${resp.status}: ${resp.statusText}`)
+    }
+    const comments = await resp.json()
+    const commentToMention = (c) => ({ name: c.user, avatar: '', _id: c.id })
+    const suggestions = comments.map(c => commentToMention(c)).filter(c => c !== null)
+    this.setState({ list: comments, suggestions })
   }
 
   commentEmailChange (e) {
