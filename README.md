@@ -41,6 +41,14 @@ $ npm install
 $ npm run deploy:production # or npm run deploy:staging, npm run deploy:testing
 ```
 
+Run test on API:
+```
+$ YOYO_EMAIL=h.minghe+YoYo@gmail.com \
+    SENDGRID_API_KEY=<your sendgrid api key> \
+    SITE_OWNER_EMAIL=<your email> \
+    npm test
+```
+
 * Build Clinet
 
 ```

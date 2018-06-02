@@ -3,8 +3,9 @@
 set -e
 
 stage=$1
-./node_modules/.bin/sls deploy -v \
+SLS_DEBUG=* ./node_modules/.bin/sls deploy -v \
   --stage ${stage} \
-  --DYNAMODB_TABLE YoYo-${stage} \
+  --YOYO_DB_TABLE YoYo-${stage} \
+  --YOYO_EMAIL ${YOYO_EMAIL} \
   --SENDGRID_API_KEY ${SENDGRID_API_KEY} \
   --SITE_OWNER_EMAIL ${SITE_OWNER_EMAIL}
