@@ -1,5 +1,6 @@
 const sgMail = require('@sendgrid/mail')
 const AWS = require('aws-sdk')
+const uuid = require('uuid')
 const Config = require('./config')
 
 const {
@@ -9,12 +10,10 @@ const {
   SENDGRID_API_KEY
 } = Config
 
-console.log(SENDGRID_API_KEY)
 AWS.config.update({ region: 'us-east-1' })
 sgMail.setApiKey(SENDGRID_API_KEY)
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient({ convertEmptyValues: true })
-const uuid = require('uuid')
 
 function notify (to, uri) {
   const text = `
@@ -29,7 +28,7 @@ New reply recieved from ${uri}
     to,
     from: YOYO_EMAIL,
     replyTo: YOYO_EMAIL,
-    subject: `New reply recieved`,
+    subject: `YoYo: New reply recieved`,
     text,
     html
   }
@@ -53,6 +52,8 @@ const response = (err, data = {}, cb) => {
   cb(err, resp)
 }
 
+const isModerator = (email) => email === SITE_OWNER_EMAIL
+
 const create = function (event, ctx, cb) {
   const data = JSON.parse(event.body)
   const { email, uri, text, parents } = data
@@ -65,6 +66,7 @@ const create = function (event, ctx, cb) {
       uri,
       text,
       id,
+      mod: isModerator(email),
       updatedAt: updatedAt
     }
   }

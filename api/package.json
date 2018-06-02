@@ -9,6 +9,7 @@
     "deploy:production": "./bin/deploy.sh production",
     "eslint": "./node_modules/.bin/eslint src || exit 0",
     "test": "YOYO_DB_TABLE=YoYo-testing jest --verbose",
+    "pretest": "cp test.config.js config.js",
     "coverage": "YOYO_DB_TABLE=YoYo-testing jest --coverage --verbose --ci --testResultsProcessor='jest-junit'"
   },
   "keywords": [],
