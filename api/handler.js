@@ -1,5 +1,6 @@
 const sgMail = require('@sendgrid/mail')
 const AWS = require('aws-sdk')
+const Config = require('./config')
 
 AWS.config.update({ region: 'us-east-1' })
 sgMail.setApiKey(process.env.SENDGRID_API_KEY)
@@ -7,7 +8,7 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 const dynamoDb = new AWS.DynamoDB.DocumentClient({ convertEmptyValues: true })
 const uuid = require('uuid')
 
-const TableName = process.env.DYNAMODB_TABLE
+const { YOYO_EMAIL, YOYO_DB_TABLE } = Config
 
 function notify (to, uri) {
   const text = `
@@ -20,8 +21,8 @@ New reply recieved from ${uri}
 `
   const payload = {
     to,
-    from: process.env.YOYO_EMAIL,
-    replyTo: process.env.YOYO_EMAIL,
+    from: YOYO_EMAIL,
+    replyTo: YOYO_EMAIL,
     subject: `New reply recieved`,
     text,
     html
@@ -47,7 +48,7 @@ const create = function (event, ctx, cb) {
   const id = uuid.v1()
   const updatedAt = (new Date()).toISOString()
   const params = {
-    TableName: TableName,
+    TableName: YOYO_DB_TABLE,
     Item: {
       email,
       uri,
@@ -75,7 +76,7 @@ const create = function (event, ctx, cb) {
 const get = function (event, ctx, cb) {
   const { id } = event.pathParameters
   const params = {
-    TableName: TableName,
+    TableName: YOYO_DB_TABLE,
     Key: {
       id: id
     }
@@ -93,7 +94,7 @@ const update = function (event, ctx, cb) {
   const { id } = event.pathParameters
   const body = JSON.parse(event.body)
   const params = {
-    TableName: TableName,
+    TableName: YOYO_DB_TABLE,
     FilterExpression: 'id = :id',
     ExpressionAttributeValues: {
       ':id': id
@@ -107,7 +108,7 @@ const update = function (event, ctx, cb) {
       const item = data.Items[0]
       const { uri, text, email } = body
       const params = {
-        TableName: TableName,
+        TableName: YOYO_DB_TABLE,
         Key: {
           id: id
         },
@@ -141,7 +142,7 @@ const update = function (event, ctx, cb) {
 const query = (event, ctx, cb) => {
   const { uri } = event.queryStringParameters
   const params = {
-    TableName: TableName,
+    TableName: YOYO_DB_TABLE,
     FilterExpression: 'uri = :uri',
     ExpressionAttributeValues: {
       ':uri': uri

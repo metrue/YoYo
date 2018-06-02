@@ -23,6 +23,7 @@ provider:
 package:
   include:
     - handler.js
+    - config.js
 
 functions:
   create:
