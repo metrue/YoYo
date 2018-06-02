@@ -8,8 +8,8 @@
     "deploy:staging": "./bin/deploy.sh staging",
     "deploy:production": "./bin/deploy.sh production",
     "eslint": "./node_modules/.bin/eslint src || exit 0",
-    "test": "DYNAMODB_TABLE=YoYo-testing jest --verbose",
-    "coverage": "DYNAMODB_TABLE=YoYo-testing jest --coverage --verbose --ci --testResultsProcessor='jest-junit'"
+    "test": "YOYO_DB_TABLE=YoYo-testing jest --verbose",
+    "coverage": "YOYO_DB_TABLE=YoYo-testing jest --coverage --verbose --ci --testResultsProcessor='jest-junit'"
   },
   "keywords": [],
   "author": "",

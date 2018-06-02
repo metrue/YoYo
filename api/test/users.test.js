@@ -3,7 +3,7 @@ const handler = require('../handler')
 describe('users', () => {
   let createdComment
   const user = {
-    email: 'a@a.com',
+    email: 'h.minghe+yoyo@a.com',
     uri: 'http://a.com',
     text: 'hello world',
     parents: [ 'h.minghe@gmail.com' ],

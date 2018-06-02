@@ -2,13 +2,19 @@ const sgMail = require('@sendgrid/mail')
 const AWS = require('aws-sdk')
 const Config = require('./config')
 
+const {
+  YOYO_EMAIL,
+  YOYO_DB_TABLE,
+  SITE_OWNER_EMAIL,
+  SENDGRID_API_KEY
+} = Config
+
+console.log(SENDGRID_API_KEY)
 AWS.config.update({ region: 'us-east-1' })
-sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+sgMail.setApiKey(SENDGRID_API_KEY)
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient({ convertEmptyValues: true })
 const uuid = require('uuid')
-
-const { YOYO_EMAIL, YOYO_DB_TABLE } = Config
 
 function notify (to, uri) {
   const text = `
@@ -27,7 +33,12 @@ New reply recieved from ${uri}
     text,
     html
   }
-  sgMail.send(payload)
+  sgMail.send(payload).then((data) => {
+    console.log(`SEND OK`)
+  }).catch((e) => {
+    // TODO handle a exception
+    console.error(e)
+  })
 }
 
 const response = (err, data = {}, cb) => {
@@ -64,9 +75,8 @@ const create = function (event, ctx, cb) {
         notify(parent, uri)
       }
 
-      const siteOwnerEmail = process.env.SITE_OWNER_EMAIL
-      if (siteOwnerEmail) {
-        notify(siteOwnerEmail, uri)
+      if (SITE_OWNER_EMAIL) {
+        notify(SITE_OWNER_EMAIL, uri)
       }
     }
     response(error, params.Item, cb)

@@ -6,9 +6,11 @@ provider:
   stage: ${opt:stage}
   region: us-east-1
   environment:
-    DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}
-    SENDGRID_API_KEY: ${opt:SENDGRID_API_KEY}
+    YOYO_EMAIL: ${opt:YOYO_EMAIL}
+    YOYO_DB_TABLE: ${self:service}-${opt:stage, self:provider.stage}
     SITE_OWNER_EMAIL: ${opt:SITE_OWNER_EMAIL}
+    SENDGRID_API_KEY: ${opt:SENDGRID_API_KEY}
+
   iamRoleStatements:
     - Effect: Allow
       Action:
