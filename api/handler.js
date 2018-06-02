@@ -1,13 +1,19 @@
 const sgMail = require('@sendgrid/mail')
 const AWS = require('aws-sdk')
+const uuid = require('uuid')
+const Config = require('./config')
+
+const {
+  YOYO_EMAIL,
+  YOYO_DB_TABLE,
+  SITE_OWNER_EMAIL,
+  SENDGRID_API_KEY
+} = Config
 
 AWS.config.update({ region: 'us-east-1' })
-sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+sgMail.setApiKey(SENDGRID_API_KEY)
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient({ convertEmptyValues: true })
-const uuid = require('uuid')
-
-const TableName = process.env.DYNAMODB_TABLE
 
 function notify (to, uri) {
   const text = `
@@ -20,13 +26,18 @@ New reply recieved from ${uri}
 `
   const payload = {
     to,
-    from: process.env.YOYO_EMAIL,
-    replyTo: process.env.YOYO_EMAIL,
-    subject: `New reply recieved`,
+    from: YOYO_EMAIL,
+    replyTo: YOYO_EMAIL,
+    subject: `YoYo: New reply recieved`,
     text,
     html
   }
-  sgMail.send(payload)
+  sgMail.send(payload).then((data) => {
+    console.log(`SEND OK`)
+  }).catch((e) => {
+    // TODO handle a exception
+    console.error(e)
+  })
 }
 
 const response = (err, data = {}, cb) => {
@@ -41,18 +52,21 @@ const response = (err, data = {}, cb) => {
   cb(err, resp)
 }
 
+const isModerator = (email) => email === SITE_OWNER_EMAIL
+
 const create = function (event, ctx, cb) {
   const data = JSON.parse(event.body)
-  const { user, uri, text, parents } = data
+  const { email, uri, text, parents } = data
   const id = uuid.v1()
   const updatedAt = (new Date()).toISOString()
   const params = {
-    TableName: TableName,
+    TableName: YOYO_DB_TABLE,
     Item: {
-      user,
+      email,
       uri,
       text,
       id,
+      mod: isModerator(email),
       updatedAt: updatedAt
     }
   }
@@ -63,9 +77,8 @@ const create = function (event, ctx, cb) {
         notify(parent, uri)
       }
 
-      const siteOwnerEmail = process.env.SITE_OWNER_EMAIL
-      if (siteOwnerEmail) {
-        notify(siteOwnerEmail, uri)
+      if (SITE_OWNER_EMAIL) {
+        notify(SITE_OWNER_EMAIL, uri)
       }
     }
     response(error, params.Item, cb)
@@ -75,7 +88,7 @@ const create = function (event, ctx, cb) {
 const get = function (event, ctx, cb) {
   const { id } = event.pathParameters
   const params = {
-    TableName: TableName,
+    TableName: YOYO_DB_TABLE,
     Key: {
       id: id
     }
@@ -93,7 +106,7 @@ const update = function (event, ctx, cb) {
   const { id } = event.pathParameters
   const body = JSON.parse(event.body)
   const params = {
-    TableName: TableName,
+    TableName: YOYO_DB_TABLE,
     FilterExpression: 'id = :id',
     ExpressionAttributeValues: {
       ':id': id
@@ -105,25 +118,25 @@ const update = function (event, ctx, cb) {
       cb(error)
     } else if (data.Items.length > 0) {
       const item = data.Items[0]
-      const { uri, text, user } = body
+      const { uri, text, email } = body
       const params = {
-        TableName: TableName,
+        TableName: YOYO_DB_TABLE,
         Key: {
           id: id
         },
         ExpressionAttributeNames: {
-          '#user': 'user',
+          '#email': 'email',
           '#text': 'text',
           '#uri': 'uri',
           '#updatedAt': 'updatedAt',
         },
         ExpressionAttributeValues: {
-          ':user': user || item.user,
+          ':email': email || item.email,
           ':uri': uri || item.uri,
           ':text': text || item.text,
           ':updatedAt': (new Date()).toISOString(),
         },
-        UpdateExpression: 'SET #user = :user, #updatedAt = :updatedAt, #uri = :uri, #text = :text',
+        UpdateExpression: 'SET #email = :email, #updatedAt = :updatedAt, #uri = :uri, #text = :text',
         ReturnValues: 'ALL_NEW'
       }
       return dynamoDb.update(params, (error, data) => {
@@ -141,7 +154,7 @@ const update = function (event, ctx, cb) {
 const query = (event, ctx, cb) => {
   const { uri } = event.queryStringParameters
   const params = {
-    TableName: TableName,
+    TableName: YOYO_DB_TABLE,
     FilterExpression: 'uri = :uri',
     ExpressionAttributeValues: {
       ':uri': uri

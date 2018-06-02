@@ -8,32 +8,21 @@
     "deploy:staging": "./bin/deploy.sh staging",
     "deploy:production": "./bin/deploy.sh production",
     "eslint": "./node_modules/.bin/eslint src || exit 0",
-    "test": "DYNAMODB_TABLE=YoYo-testing jest --verbose",
-    "coverage": "DYNAMODB_TABLE=YoYo-testing jest --coverage --verbose --ci --testResultsProcessor='jest-junit'"
+    "test": "YOYO_DB_TABLE=YoYo-testing jest --verbose",
+    "pretest": "cp test.config.js config.js",
+    "coverage": "YOYO_DB_TABLE=YoYo-testing jest --coverage --verbose --ci --testResultsProcessor='jest-junit'"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "engines": {
+    "node": "8.10.0"
+  },
   "dependencies": {
-    "@sendgrid/mail": "^6.2.1",
-    "codecov": "^2.2.0",
-    "es6-promise": "^4.0.5",
-    "isomorphic-fetch": "^2.2.1",
-    "jsonwebtoken": "^7.4.1",
-    "koa": "^2.0.0",
-    "koa-bodyparser": "^3.2.0",
-    "koa-compress": "^1.0.9",
-    "koa-cors": "0.0.16",
-    "koa-jwt": "^2.2.3",
-    "koa-logger": "^1.3.0",
-    "koa-router": "^7.0.1",
-    "koa-static": "^3.0.0",
-    "koa-unless": "1.0.0",
-    "mongodb": "^2.2.19",
-    "nodemailer": "^4.0.1"
+    "@sendgrid/mail": "^6.2.1"
   },
   "devDependencies": {
-    "babel-preset-stage-2": "^6.24.1",
+    "codecov": "^3.0.2",
     "eslint": "^2.10.2",
     "eslint-config-airbnb": "^9.0.1",
     "eslint-plugin-import": "^1.8.0",
@@ -43,11 +32,6 @@
     "jest": "^20.0.4",
     "jest-junit": "^4.0.0",
     "serverless": "^1.27.3"
-  },
-  "babel": {
-    "presets": [
-      "stage-2"
-    ]
   },
   "jest": {
     "verbose": true
