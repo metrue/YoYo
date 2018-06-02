@@ -3,7 +3,7 @@ const handler = require('../handler')
 describe('users', () => {
   let createdComment
   const user = {
-    user: 'a@a.com',
+    email: 'a@a.com',
     uri: 'http://a.com',
     text: 'hello world',
     parents: [ 'h.minghe@gmail.com' ],
@@ -12,7 +12,7 @@ describe('users', () => {
     handler.create({ body: JSON.stringify(user) }, null, (err, resp) => {
       expect(err).toBeNull()
       createdComment = JSON.parse(resp.body)
-      expect(createdComment.user).toEqual(user.user)
+      expect(createdComment.email).toEqual(user.email)
       expect(createdComment.uri).toEqual(user.uri)
       expect(createdComment.text).toEqual(user.text)
       done()
@@ -27,7 +27,7 @@ describe('users', () => {
     }, null, (err, resp) => {
       expect(err).toBeNull()
       const data = JSON.parse(resp.body)
-      expect(data.user).toEqual(user.user)
+      expect(data.email).toEqual(user.email)
       expect(data.text).toEqual(user.text)
       expect(data.uri).toEqual(user.uri)
       done()

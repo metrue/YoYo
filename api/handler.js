@@ -43,13 +43,13 @@ const response = (err, data = {}, cb) => {
 
 const create = function (event, ctx, cb) {
   const data = JSON.parse(event.body)
-  const { user, uri, text, parents } = data
+  const { email, uri, text, parents } = data
   const id = uuid.v1()
   const updatedAt = (new Date()).toISOString()
   const params = {
     TableName: TableName,
     Item: {
-      user,
+      email,
       uri,
       text,
       id,
@@ -105,25 +105,25 @@ const update = function (event, ctx, cb) {
       cb(error)
     } else if (data.Items.length > 0) {
       const item = data.Items[0]
-      const { uri, text, user } = body
+      const { uri, text, email } = body
       const params = {
         TableName: TableName,
         Key: {
           id: id
         },
         ExpressionAttributeNames: {
-          '#user': 'user',
+          '#email': 'email',
           '#text': 'text',
           '#uri': 'uri',
           '#updatedAt': 'updatedAt',
         },
         ExpressionAttributeValues: {
-          ':user': user || item.user,
+          ':email': email || item.email,
           ':uri': uri || item.uri,
           ':text': text || item.text,
           ':updatedAt': (new Date()).toISOString(),
         },
-        UpdateExpression: 'SET #user = :user, #updatedAt = :updatedAt, #uri = :uri, #text = :text',
+        UpdateExpression: 'SET #email = :email, #updatedAt = :updatedAt, #uri = :uri, #text = :text',
         ReturnValues: 'ALL_NEW'
       }
       return dynamoDb.update(params, (error, data) => {
