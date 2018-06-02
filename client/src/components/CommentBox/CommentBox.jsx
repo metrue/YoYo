@@ -87,6 +87,7 @@ export default class CommentBox extends React.Component {
           plugins={ plugins }
           ref={ (element) => { this.editor = element } }
         />
+        <div className="g-recaptcha" data-sitekey="6LemM1IUAAAAANskJbEVhYII6xNxL-yrPAjNwdFn"></div>
         <MentionSuggestions
           onSearchChange={ this.onSearchChange }
           suggestions={ this.state.suggestions }
