@@ -67,13 +67,13 @@ class App extends React.Component {
     const text = editorState.getCurrentContent().getPlainText()
     const item = {
       email,
-      date: (new Date()).toISOString(),
+      updatedAt: (new Date()).toISOString(),
       uri: window.location.href,
       parents,
       text,
     }
     this.setState({
-      list: [...list, appendUniqueName(item)],
+      list: [...list, item],
     })
     api.submit(item).then((res) => {
       if (res.status === 200) {
