@@ -28,7 +28,7 @@ describe('users', () => {
       // is from moderator
       const modComment = {
         email: 'mod@mod.com',
-        uri: 'http://a.com',
+        uri: 'http://b.com',
         text: 'hello world',
         parents: [ 'h.minghe@gmail.com' ],
       }
@@ -85,7 +85,7 @@ describe('users', () => {
   test('query', (done) => {
     handler.query({
       queryStringParameters: {
-        uri: 'http://a.com',
+        uri: createdComment.uri
       },
     }, null, (err, resp) => {
       expect(err).toBeNull()
