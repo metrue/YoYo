@@ -2,7 +2,7 @@
   <img src="https://github.com/metrue/YoYo/raw/master/YoYo.png"/>
 </p>
 
-A dead simple comment engine alternative to Disqus.
+A dead simple comment engine alternative to Disqus. [blog](https://minghe.me/2017-04-18-YoYo:%E8%87%AA%E5%B7%B1%E6%89%93%E9%80%A0%E4%B8%80%E4%B8%AA%E8%AF%84%E8%AE%BA%E6%9C%8D%E5%8A%A1.html)
 
 ---
 
