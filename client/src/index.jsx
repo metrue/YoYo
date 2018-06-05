@@ -41,7 +41,9 @@ class App extends React.Component {
   }
 
   async fetchCommentList() {
-    const resp = await api.query(window.location.href)
+    const { origin, pathname } = window.location
+    const uri = `${origin}${pathname}`
+    const resp = await api.query(uri)
     if (resp.status !== 200) {
       throw new Error(`${resp.status}: ${resp.statusText}`)
     }
@@ -65,10 +67,11 @@ class App extends React.Component {
     } = this.state
 
     const text = editorState.getCurrentContent().getPlainText()
+    const { origin, pathname } = window.location
     const item = {
       email,
       updatedAt: (new Date()).toISOString(),
-      uri: window.location.href,
+      uri: `${origin}${pathname}`,
       parents,
       text,
     }
