@@ -165,7 +165,18 @@ const query = (event, ctx, cb) => {
     if (error) {
       cb(error)
     } else {
-      response(error, data.Items, cb)
+      const items = data.Items.sort((a, b) => {
+        const au = a.updatedAt
+        const bu = b.updatedAt
+        if (au > bu) {
+          return -1
+        } else if (au < bu) {
+          return 1
+        } else {
+          return 0
+        }
+      })
+      response(error, items, cb)
     }
   })
 }
