@@ -18,7 +18,7 @@ const dynamoDb = new AWS.DynamoDB.DocumentClient({ convertEmptyValues: true })
 function notify (to, options = {}) {
   const { uri, text } = options
 
-  const text = `
+  const textContent = `
 Hi Friend, \r\n
 New reply recieved from ${uri} \r\n
 \r\n\r\n
@@ -29,7 +29,7 @@ New reply recieved from ${uri} \r\n
 
 - YoYo
 `
-  const html = `
+  const htmlContent = `
 Hi Friend, <br>
 New reply recieved from ${uri} <br>
 <br><br>
@@ -45,8 +45,8 @@ New reply recieved from ${uri} <br>
     from: YOYO_EMAIL,
     replyTo: YOYO_EMAIL,
     subject: `YoYo: New reply recieved`,
-    text,
-    html
+    textContent,
+    htmlContent
   }
   sgMail.send(payload).then((data) => {
     console.log(`SEND OK`)
