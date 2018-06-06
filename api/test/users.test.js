@@ -81,18 +81,4 @@ describe('users', () => {
       })
     })
   })
-
-  test('query', (done) => {
-    handler.query({
-      queryStringParameters: {
-        uri: createdComment.uri
-      },
-    }, null, (err, resp) => {
-      expect(err).toBeNull()
-      const data = JSON.parse(resp.body)
-      expect(data[0].uri).toEqual(user.uri)
-      expect(data[0].mod).toEqual(false)
-      done()
-    })
-  })
 })
