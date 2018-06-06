@@ -15,14 +15,30 @@ sgMail.setApiKey(SENDGRID_API_KEY)
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient({ convertEmptyValues: true })
 
-function notify (to, uri) {
+function notify (to, options = {}) {
+  const { uri, text } = options
+
   const text = `
-Hi Friend,
-New reply recieved from ${uri}
+Hi Friend, \r\n
+New reply recieved from ${uri} \r\n
+\r\n\r\n
+-----\r\n
+ ${text}
+-----\r\n
+\r\n \r\n
+
+- YoYo
 `
   const html = `
-Hi Friend,
-New reply recieved from ${uri}
+Hi Friend, <br>
+New reply recieved from ${uri} <br>
+<br><br>
+-----<br>
+ ${text}
+-----<br>
+<br><br>
+
+- YoYo
 `
   const payload = {
     to,
@@ -74,11 +90,11 @@ const create = function (event, ctx, cb) {
   return dynamoDb.put(params, (error, data) => {
     if (!error) {
       for (const parent of (parents || [])) {
-        notify(parent, uri)
+        notify(parent, { uri, text })
       }
 
       if (SITE_OWNER_EMAIL) {
-        notify(SITE_OWNER_EMAIL, uri)
+        notify(SITE_OWNER_EMAIL, { uri, text })
       }
     }
     response(error, params.Item, cb)
