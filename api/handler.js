@@ -20,22 +20,20 @@ function notify (to, options = {}) {
 
   const textContent = `
 Hi Friend, \r\n
-New reply recieved from ${uri} \r\n
-\r\n\r\n
+New reply recieved from ${uri} \r\n\r\n
 -----\r\n
  ${text}
------\r\n
+\r\n-----\r\n
 \r\n \r\n
 
 - YoYo
 `
   const htmlContent = `
 Hi Friend, <br>
-New reply recieved from ${uri} <br>
-<br><br>
+New reply recieved from ${uri} <br><br>
 -----<br>
  ${text}
------<br>
+<br>-----
 <br><br>
 
 - YoYo
@@ -45,8 +43,8 @@ New reply recieved from ${uri} <br>
     from: YOYO_EMAIL,
     replyTo: YOYO_EMAIL,
     subject: `YoYo: New reply recieved`,
-    textContent,
-    htmlContent
+    text: textContent,
+    html: htmlContent
   }
   sgMail.send(payload).then((data) => {
     console.log(`SEND OK`)
