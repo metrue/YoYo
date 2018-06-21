@@ -79,6 +79,7 @@
     "qs": "^6.5.2",
     "randomcolor": "^0.5.3",
     "react-cookie": "^2.1.6",
+    "react-markdown-renderer": "^1.4.0",
     "react-router": "^4.2.0",
     "react-router-redux": "^4.0.8",
     "react-syntax-highlighter": "^7.0.4",
