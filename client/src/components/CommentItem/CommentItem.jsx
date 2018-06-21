@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import MarkdownRenderer from 'react-markdown-renderer'
 
 import styles from './styles.css'
 
@@ -34,9 +35,7 @@ const CommentItem = ({ comment }) => (
       </div>
     </div>
     <div className={styles.YoYoCommentItemText}>
-      <p>
-        { comment.text }
-      </p>
+      <MarkdownRenderer markdown={comment.text} />
     </div>
   </div>
 )
