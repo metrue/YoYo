@@ -84,14 +84,6 @@
   font-size: 1vmin;
 }
 
-@media (min-width: 1025px) {
-  .YoYoCommentPublishButton {
-    composes: YoYoButtonBase;
-
-    font-size: 2vmin !important;
-  }
-}
-
 @media (max-width:800px) {
   /* smartphones, portrait iPhone, portrait 480x320 phones (Android) */
  /* smartphones, Android phones, landscape iPhone */
