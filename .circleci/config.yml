@@ -62,10 +62,11 @@ steps: &deploy-client-production
   - run:
       name: fix source
       command: |
-        sudo echo "deb http://archive.debian.org/debian/ jessie main" | sudo tee -a /etc/apt/sources.list
-        sudo echo "deb-src http://archive.debian.org/debian/ jessie main" | sudo tee -a /etc/apt/sources.list
-        sudo echo "deb http://security.debian.org jessie/updates main" | sudo tee -a /etc/apt/sources.list
-        sudo echo "deb-src http://security.debian.org jessie/updates main" | sudo tee -a /etc/apt/sources.list
+        sudo rm -f /etc/apt/sources.list
+        echo "deb http://archive.debian.org/debian/ jessie-backports main" | sudo tee -a /etc/apt/sources.list
+        echo "deb-src http://archive.debian.org/debian/ jessie-backports main" | sudo tee -a /etc/apt/sources.list
+        echo "Acquire::Check-Valid-Until false;" | sudo tee -a /etc/apt/apt.conf.d/10-nocheckvalid
+        echo 'Package: *\nPin: origin "archive.debian.org"\nPin-Priority: 500' | sudo tee -a /etc/apt/preferences.d/10-archive-pin
   - run: sudo apt-get update && sudo apt-get install -qq -y python-pip libpython-dev
   - run: curl -O https://bootstrap.pypa.io/get-pip.py && sudo python get-pip.py
   - run: sudo pip install -q awscli --upgrade
@@ -83,10 +84,11 @@ steps: &deploy-client-staging
   - run:
       name: fix source
       command: |
-        sudo echo "deb http://archive.debian.org/debian/ jessie main" | sudo tee -a /etc/apt/sources.list
-        sudo echo "deb-src http://archive.debian.org/debian/ jessie main" | sudo tee -a /etc/apt/sources.list
-        sudo echo "deb http://security.debian.org jessie/updates main" | sudo tee -a /etc/apt/sources.list
-        sudo echo "deb-src http://security.debian.org jessie/updates main" | sudo tee -a /etc/apt/sources.list
+        sudo rm -f /etc/apt/sources.list
+        echo "deb http://archive.debian.org/debian/ jessie-backports main" | sudo tee -a /etc/apt/sources.list
+        echo "deb-src http://archive.debian.org/debian/ jessie-backports main" | sudo tee -a /etc/apt/sources.list
+        echo "Acquire::Check-Valid-Until false;" | sudo tee -a /etc/apt/apt.conf.d/10-nocheckvalid
+        echo 'Package: *\nPin: origin "archive.debian.org"\nPin-Priority: 500' | sudo tee -a /etc/apt/preferences.d/10-archive-pin
   - run: sudo apt-get update && sudo apt-get install -qq -y python-pip libpython-dev
   - run: curl -O https://bootstrap.pypa.io/get-pip.py && sudo python get-pip.py
   - run: sudo pip install -q awscli --upgrade
