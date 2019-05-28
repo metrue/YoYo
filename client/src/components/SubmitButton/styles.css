@@ -50,7 +50,7 @@
   .YoYoEmailInput {
     composes: YoYoEmailInputBase;
 
-    font-size: 2vmin !important;
+    font-size: 3vmin !important;
   }
 }
 
@@ -102,7 +102,7 @@
   .YoYoCommentPublishButton {
     composes: YoYoButtonBase;
 
-    font-size: 2vmin !important;
+    font-size: 3vmin !important;
   }
 }
 
