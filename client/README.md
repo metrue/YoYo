@@ -1,6 +1,6 @@
 ## YoYo Client
 
-YoYo Client is a single page application built on top of [React]().
+YoYo Client is a single page application built on top of React.
 
 ### How to
 
