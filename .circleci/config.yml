@@ -59,6 +59,9 @@ steps: &deploy-client-production
       docker_layer_caching: true
   - attach_workspace:
       at: *workspace
+  - run: |
+      sudo sed -i '/jessie-backports/d' /etc/apt/sources.list
+      sudo sed -i '/jessie-updates/d' /etc/apt/sources.list
   - run: sudo apt-get update && sudo apt-get install -qq -y python-pip libpython-dev
   - run: curl -O https://bootstrap.pypa.io/get-pip.py && sudo python get-pip.py
   - run: sudo pip install -q awscli --upgrade
@@ -73,6 +76,9 @@ steps: &deploy-client-staging
       docker_layer_caching: true
   - attach_workspace:
       at: *workspace
+  - run: |
+      sudo sed -i '/jessie-backports/d' /etc/apt/sources.list
+      sudo sed -i '/jessie-updates/d' /etc/apt/sources.list
   - run: sudo apt-get update && sudo apt-get install -qq -y python-pip libpython-dev
   - run: curl -O https://bootstrap.pypa.io/get-pip.py && sudo python get-pip.py
   - run: sudo pip install -q awscli --upgrade
