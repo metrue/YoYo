@@ -1,7 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { EditorState, ContentState } from 'draft-js'
-import { fromJS } from 'immutable'
 
 import api from './api'
 import styles from './styles.css'
@@ -48,8 +47,7 @@ class App extends React.Component {
       throw new Error(`${resp.status}: ${resp.statusText}`)
     }
     const comments = await resp.json()
-    const commentToMention = (c) => ({ name: c.email, avatar: '', _id: c.id })
-    const suggestions = comments.map(c => commentToMention(c)).filter(c => c !== null)
+    const suggestions = comments.map(c => appendUniqueName(c)).filter(c => c !== null)
     this.setState({ list: comments, suggestions })
   }
 
@@ -125,7 +123,7 @@ class App extends React.Component {
     }
   }
 
-  editorStateChange(editorState) {
+  editorStateChange = editorState => {
     this.setState({ editorState })
   }
 
@@ -137,15 +135,13 @@ class App extends React.Component {
       editorState,
     } = this.state
 
-    const immutabaleSuggestions = fromJS(suggestions)
-
     return (
       <div className={ styles.YoYoContainer }>
         <div className={ styles.YoYoBoxContainer }>
           <CommentBox
             editorState={ editorState }
-            onEditorStateChange={ this.editorStateChange.bind(this) }
-            suggestions={ immutabaleSuggestions }
+            onEditorStateChange={ this.editorStateChange }
+            suggestions={ suggestions }
             onAddMention={ this.mention.bind(this) }
           />
           <SubmitButton
