@@ -59,8 +59,7 @@ $ YOYO_EMAIL=h.minghe+YoYo@gmail.com \
 
 ### Showcases
 
-* [https://minghe.me](https://minghe.me)
-* [https://singular.fm](https://singular.fm/)
+* [https://blog.minghe.me](https://minghe.me)
 
 ### LICENSE
 
