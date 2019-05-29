@@ -27,7 +27,7 @@ describe('query', () => {
       const data = JSON.parse(resp.body)
       // TODO clean up first
       expect(data.length >= 4).toEqual(true)
-      expect(data.every(d => d.uri === uri)).toEqual(true)
+      expect(data.every(d => d.uri === uri.replace('http://', ''))).toEqual(true)
       let dec = true
       for (let i = 1; i < data.length; i++) {
         pre = data[i - 1]
