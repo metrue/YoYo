@@ -2,6 +2,7 @@ const sgMail = require('@sendgrid/mail')
 const AWS = require('aws-sdk')
 const uuid = require('uuid')
 const Config = require('./config')
+const { trimHTTPOrHTTPS } = require('./utils')
 
 const {
   YOYO_EMAIL,
@@ -77,7 +78,7 @@ const create = function (event, ctx, cb) {
     TableName: YOYO_DB_TABLE,
     Item: {
       email,
-      uri,
+      uri: trimHTTPOrHTTPS(uri),
       text,
       id,
       mod: isModerator(email),
@@ -146,7 +147,7 @@ const update = function (event, ctx, cb) {
         },
         ExpressionAttributeValues: {
           ':email': email || item.email,
-          ':uri': uri || item.uri,
+          ':uri': trimHTTPOrHTTPS(uri || item.uri),
           ':text': text || item.text,
           ':updatedAt': (new Date()).toISOString(),
         },
@@ -171,7 +172,7 @@ const query = (event, ctx, cb) => {
     TableName: YOYO_DB_TABLE,
     FilterExpression: 'uri = :uri',
     ExpressionAttributeValues: {
-      ':uri': uri
+      ':uri': trimHTTPOrHTTPS(uri)
     }
   }
 
