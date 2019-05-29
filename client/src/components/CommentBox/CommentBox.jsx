@@ -1,28 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Editor from 'draft-js-plugins-editor'
-import createMentionPlugin from 'draft-js-mention-plugin'
+import createMentionPlugin, {
+  defaultSuggestionsFilter,
+} from 'draft-js-mention-plugin'
 
 import editorStyles from './styles.css'
 import mentionsStyles from './mentionsStyles.css'
+import 'draft-js-mention-plugin/lib/plugin.css'
 
 const mentionPlugin = createMentionPlugin({
   entityMutability: 'IMMUTABLE',
   theme: mentionsStyles,
   mentionPrefix: '@',
 })
-
-const suggestionsFilter = (searchValue, suggestions) => {
-  const value = searchValue.toLowerCase()
-  const filteredSuggestions = suggestions.filter((suggestion) => (
-    !value || suggestion.get('name').toLowerCase().indexOf(value) > -1
-  ))
-
-  if (filteredSuggestions.size < 5) {
-    return filteredSuggestions
-  }
-  return filteredSuggestions.setSize(5)
-}
 
 const { MentionSuggestions } = mentionPlugin
 const plugins = [mentionPlugin]
@@ -32,7 +23,7 @@ const Entry = (props) => {
     mention,
     theme,
     searchValue, // eslint-disable-line no-unused-vars
-    ...parentProps
+    ...parentProps,
   } = props
 
   return (
@@ -40,7 +31,7 @@ const Entry = (props) => {
       <div className={ theme.mentionSuggestionsEntryContainer }>
         <div className={ theme.mentionSuggestionsEntryContainerRight }>
           <div className={ theme.mentionSuggestionsEntryText }>
-            { mention.get('name') }
+            { mention.name }
           </div>
         </div>
       </div>
@@ -58,20 +49,21 @@ export default class CommentBox extends React.Component {
   constructor(props) {
     super(props)
 
+    const { suggestions } = props
     this.state = {
-      suggestions: props.suggestions,
+      suggestions,
     }
   }
 
   onSearchChange = ({ value }) => {
     const { suggestions } = this.props
     this.setState({
-      suggestions: suggestionsFilter(value, suggestions),
+      suggestions: defaultSuggestionsFilter(value, suggestions),
     })
   };
 
   onAddMention = (e) => {
-    this.props.onAddMention(e.get('_id'))
+    this.props.onAddMention(e.id)
   }
 
   focus = () => {
