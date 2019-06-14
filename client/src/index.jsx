@@ -153,6 +153,9 @@ class App extends React.Component {
         {
           list.length > 0 ? <CommentList list={ list } /> : null
         }
+        <div className={ styles.YoYoPowerByTag }>
+          <a href="https://github.com/metrue/YoYo">Power by YoYo</a>
+        </div>
       </div>
     )
   }
