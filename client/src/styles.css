@@ -39,3 +39,12 @@
 .YoYoReplyButtonContainer {
   text-align: right;
 }
+
+.YoYoPowerByTag {
+  text-align: center;
+  font-size: 10px;
+}
+
+.YoYoPowerByTag a {
+  text-decoration: none;
+}
