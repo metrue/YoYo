@@ -7,7 +7,7 @@ A dead simple comment engine alternative to Disqus.
 Features:
 * [x] Markdown supported
 * [x] Mention to reply
-* [ ] Image in comment
+* [x] Image in comment
 
 ---
 
