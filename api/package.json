@@ -19,7 +19,8 @@
     "node": "8.10.0"
   },
   "dependencies": {
-    "@sendgrid/mail": "^6.2.1"
+    "@sendgrid/mail": "^6.2.1",
+    "cloudkv": "0.0.7"
   },
   "devDependencies": {
     "codecov": "^3.0.2",
