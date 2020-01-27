@@ -2,21 +2,27 @@ const sgMail = require('@sendgrid/mail')
 const AWS = require('aws-sdk')
 const uuid = require('uuid')
 const Config = require('./config')
+const KV = require('cloudkv').default
 const { trimHTTPOrHTTPS } = require('./utils')
 
 const {
   YOYO_EMAIL,
-  YOYO_DB_TABLE,
   SITE_OWNER_EMAIL,
-  SENDGRID_API_KEY
+  SENDGRID_API_KEY,
+  DROPBOX_ACCESS_TOKEN,
 } = Config
 
 AWS.config.update({ region: 'us-east-1' })
 sgMail.setApiKey(SENDGRID_API_KEY)
 
-const dynamoDb = new AWS.DynamoDB.DocumentClient({ convertEmptyValues: true })
+console.log('===>', KV, DROPBOX_ACCESS_TOKEN)
+const kv = new KV({
+  dbFile: '/YoYo.json',
+  service: 'dropbox',
+  token: DROPBOX_ACCESS_TOKEN,
+})
 
-function notify (to, options = {}) {
+function notify(to, options = {}) {
   const { uri, text } = options
 
   const textContent = `
@@ -43,12 +49,12 @@ New reply recieved from ${uri} <br><br>
     to,
     from: YOYO_EMAIL,
     replyTo: YOYO_EMAIL,
-    subject: `YoYo: New reply recieved`,
+    subject: 'YoYo: New reply recieved',
     text: textContent,
-    html: htmlContent
+    html: htmlContent,
   }
   sgMail.send(payload).then((data) => {
-    console.log(`SEND OK`)
+    console.log(`SEND OK: ${data}`)
   }).catch((e) => {
     // TODO handle a exception
     console.error(e)
@@ -60,140 +66,103 @@ const response = (err, data = {}, cb) => {
     statusCode: 200,
     headers: {
       'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*'
+      'Access-Control-Allow-Origin': '*',
     },
-    body: JSON.stringify(data)
+    body: JSON.stringify(data),
   }
   cb(err, resp)
 }
 
 const isModerator = (email) => email === SITE_OWNER_EMAIL
 
-const create = function (event, ctx, cb) {
+const create = async (event, ctx, cb) => {
   const data = JSON.parse(event.body)
   const { email, uri, text, parents } = data
   const id = uuid.v1()
   const updatedAt = (new Date()).toISOString()
-  const params = {
-    TableName: YOYO_DB_TABLE,
-    Item: {
-      email,
-      uri: trimHTTPOrHTTPS(uri),
-      text,
-      id,
-      mod: isModerator(email),
-      updatedAt: updatedAt
-    }
+
+  const item = {
+    email,
+    uri: trimHTTPOrHTTPS(uri),
+    text,
+    id,
+    mod: isModerator(email),
+    updatedAt,
   }
 
-  return dynamoDb.put(params, (error, data) => {
-    if (!error) {
-      for (const parent of (parents || [])) {
-        notify(parent, { uri, text })
-      }
+  try {
+    await kv.set(id, item);
+    (parents || []).forEach(parent => {
+      notify(parent, { uri, text })
+    })
 
-      if (SITE_OWNER_EMAIL) {
-        notify(SITE_OWNER_EMAIL, { uri, text })
-      }
+    if (SITE_OWNER_EMAIL) {
+      notify(SITE_OWNER_EMAIL, { uri, text })
     }
-    response(error, params.Item, cb)
-  })
+    response(null, item, cb)
+  } catch (e) {
+    response(e, item, cb)
+  }
 }
 
-const get = function (event, ctx, cb) {
+const get = async (event, ctx, cb) => {
   const { id } = event.pathParameters
-  const params = {
-    TableName: YOYO_DB_TABLE,
-    Key: {
-      id: id
-    }
+  try {
+    const item = await kv.get(id)
+    response(null, item, cb)
+  } catch (e) {
+    response(e, null, cb)
   }
-
-  return dynamoDb.get(params, (error, data) => {
-    if (error) {
-      cb(error)
-    }
-    response(error, data.Item, cb)
-  })
 }
 
-const update = function (event, ctx, cb) {
+const update = async (event, ctx, cb) => {
   const { id } = event.pathParameters
   const body = JSON.parse(event.body)
-  const params = {
-    TableName: YOYO_DB_TABLE,
-    FilterExpression: 'id = :id',
-    ExpressionAttributeValues: {
-      ':id': id
-    }
+  const { uri, text, email } = body
+  const updatedAt = (new Date()).toISOString()
+  const item = {
+    email,
+    uri: trimHTTPOrHTTPS(uri),
+    text,
+    id,
+    mod: isModerator(email),
+    updatedAt,
   }
 
-  return dynamoDb.scan(params, (error, data) => {
-    if (error) {
-      cb(error)
-    } else if (data.Items.length > 0) {
-      const item = data.Items[0]
-      const { uri, text, email } = body
-      const params = {
-        TableName: YOYO_DB_TABLE,
-        Key: {
-          id: id
-        },
-        ExpressionAttributeNames: {
-          '#email': 'email',
-          '#text': 'text',
-          '#uri': 'uri',
-          '#updatedAt': 'updatedAt',
-        },
-        ExpressionAttributeValues: {
-          ':email': email || item.email,
-          ':uri': trimHTTPOrHTTPS(uri || item.uri),
-          ':text': text || item.text,
-          ':updatedAt': (new Date()).toISOString(),
-        },
-        UpdateExpression: 'SET #email = :email, #updatedAt = :updatedAt, #uri = :uri, #text = :text',
-        ReturnValues: 'ALL_NEW'
-      }
-      return dynamoDb.update(params, (error, data) => {
-        if (error) {
-          cb(error)
-        }
-        response(error, data.Attributes, cb)
-      })
-    } else {
-      response(error, { message: 'no such item with ' + id })
-    }
-  })
+  try {
+    await kv.set(id, item)
+    response(null, item, cb)
+  } catch (e) {
+    response(e, item, cb)
+  }
 }
 
-const query = (event, ctx, cb) => {
+const query = async (event, ctx, cb) => {
   const { uri } = event.queryStringParameters
-  const params = {
-    TableName: YOYO_DB_TABLE,
-    FilterExpression: 'uri = :uri',
-    ExpressionAttributeValues: {
-      ':uri': trimHTTPOrHTTPS(uri)
-    }
+  const list = []
+  let err
+  try {
+    const data = await kv.all()
+    Object.keys(data).forEach((k) => {
+      const item = data[k]
+      if (item.uri === trimHTTPOrHTTPS(uri)) {
+        list.push(item)
+      }
+    })
+  } catch (e) {
+    err = e
   }
-
-  return dynamoDb.scan(params, (error, data) => {
-    if (error) {
-      cb(error)
-    } else {
-      const items = data.Items.sort((a, b) => {
-        const au = a.updatedAt
-        const bu = b.updatedAt
-        if (au > bu) {
-          return -1
-        } else if (au < bu) {
-          return 1
-        } else {
-          return 0
-        }
-      })
-      response(error, items, cb)
+  const items = list.sort((a, b) => {
+    const au = a.updatedAt
+    const bu = b.updatedAt
+    if (au > bu) {
+      return -1
+    } else if (au < bu) {
+      return 1
     }
+    return 0
   })
+  response(err, items, cb)
 }
 
 module.exports = {
