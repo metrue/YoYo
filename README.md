@@ -54,17 +54,13 @@ $ YOYO_EMAIL=h.minghe+YoYo@gmail.com \
     npm test
 ```
 
-* Build Clinet
+* Build Client
 
 ```
 # cd client
 # npm install
 # npm run build-prod # or 'npm run develop' to do development on local
 ```
-
-### Showcases
-
-* [https://blog.minghe.me](https://minghe.me)
 
 ### LICENSE
 
