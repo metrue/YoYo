@@ -75,7 +75,7 @@
     "draft-js-mention-plugin": "^3.0.4",
     "draft-js-plugins-editor": "^2.0.8",
     "enzyme": "^2.8.0",
-    "jsdom": "^11.11.0",
+    "jsdom": "^16.5.0",
     "qs": "^6.5.2",
     "randomcolor": "^0.5.3",
     "react-cookie": "^2.1.6",
